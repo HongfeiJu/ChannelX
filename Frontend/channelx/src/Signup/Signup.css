@@ -83,7 +83,7 @@ input.error {
 .firstName,
 .lastName,
 .email,
-.phone,
+.tel,
 .userName,
 .password,
 .passwordConfirm{
@@ -98,7 +98,7 @@ input.error {
 }
 
 .email,
-.phone,
+.tel,
 .userName,
 .password {
     width: 100%;

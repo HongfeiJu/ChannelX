@@ -20,7 +20,7 @@ class Signup extends Component{
                 <div className="FormTitle">
                     <h1>create an account</h1>
                 </div>
-                <form onSubmit={this.onSubmit} noValidate>
+                <form onSubmit={this.onSubmit}>
                     <div className="firstName">
                         <input
                             type="text"
@@ -51,13 +51,13 @@ class Signup extends Component{
                         >
                         </input>
                     </div>
-                    <div className="phone">
+                    <div className="tel">
                         <input
-                            type="phone"
-                            id="phone"
+                            type="tel"
+                            id="tel"
                             className="FormField__input"
-                            placeholder="phone"
-                            name="phone"
+                            placeholder="tel"
+                            name="tel"
                             required
                         >
                         </input>
