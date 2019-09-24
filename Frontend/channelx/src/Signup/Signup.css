@@ -139,6 +139,10 @@ input.error {
     background-color: goldenrod;
 }
 
+.loginButton {
+    background-color: mediumseagreen;
+}
+
 .submitButton {
     float: right;
     background-color: rebeccapurple;
