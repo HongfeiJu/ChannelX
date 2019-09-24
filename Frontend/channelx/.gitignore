@@ -23,6 +23,10 @@ package-lock.json
 # ide
 /.idea
 
+#firebase
+/src/config/
+.firebaserc
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
