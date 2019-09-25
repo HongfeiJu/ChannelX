@@ -1,5 +1,5 @@
 /*
-Description: Landing page
+Description: Home page
 Authors: Darshan Prakash, Sami
 Date: 9/24/2019
 */
