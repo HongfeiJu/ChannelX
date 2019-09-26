@@ -197,7 +197,6 @@ class Signup extends Component{
                     <div className="createAccount">
                         <button
                             type="button"
-                            id="cancelButton"
                             className="cancelButton"
                             onClick={() => this.routeTo('/')}
                         >cancel</button>
