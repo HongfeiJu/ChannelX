@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+<<<<<<< HEAD
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
+=======
+>>>>>>> 760cc552a00128acd122421924cabc5a98804e61
     "firebase": "^6.6.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
