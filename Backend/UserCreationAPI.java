@@ -35,13 +35,22 @@ public class UserCreationAPI {
         Map<String, Object> roomData = new HashMap<String, Object>();
         roomData.put("name", roomName);
 
-
+        //String userId = "HonffeuSer";
+        String joinRoom = "b068c465-9a6f-4727-afb4-dcd68486d1c1";
+        Map<String, Object> joinUsers = new HashMap<String, Object>();
+        List<String> userIds = new ArrayList<String>();
+        userIds.add("HongKong");
+        userIds.add("Hongfei");
+        userIds.add("Sami");
+        joinUsers.put("user_ids", userIds);
 
         try{
             ApiResponse apiResponse = chatKit.createUser(userId, userData);//chatKit.getUser(userId); //check user already created
             System.out.println(apiResponse);
             ApiResponse apiResponseRoom = chatKit.createRoom(userId, roomData);//chatKit.getUser(userId); //check user already created
             System.out.println(apiResponseRoom);
+            ApiResponse apiResponseJoin = chatKit.userJoinRooms(joinRoom, joinUsers);//chatKit.getUser(userId); //check user already created
+            System.out.println(apiResponseJoin);
 
 
         }catch(Exception e){

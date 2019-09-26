@@ -2,7 +2,7 @@
 /**
  * Code taken from Github repo riteshjha/pusher-chatkit-server-java
  * Url: https://github.com/riteshjha/pusher-chatkit-server-java
- *
+ * Added functions: userJoinRooms | Added by Subhradeep Biswas
  */
 
 
@@ -539,5 +539,20 @@ public class ChatKit {
         return apiRequest("messages/"+ messageId, "delete");
     }
 
+    /**
+     * Chatkit user joining a rooms
+     * @param //roomId chatkit room id and User Ids joining the room
+     * @return ApiResponse
+     * Written By Subhradeep Biswas
+     */
+    public ApiResponse userJoinRooms(String roomId, Map<String, Object> usersData) throws Exception {
 
+        if (roomId == null ) {
+            throw new Exception("You must provide the id of the user that you wish to fetch the room list");
+        }
+
+        token = serverToken(roomId);
+        System.out.println(usersData);
+        return apiRequest("rooms/"+roomId+"/users/add", "put", usersData);
+    }
 }
