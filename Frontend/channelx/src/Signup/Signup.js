@@ -197,16 +197,19 @@ class Signup extends Component{
                     <div className="createAccount">
                         <button
                             type="button"
+                            id="cancelButton"
                             className="cancelButton"
                             onClick={() => this.routeTo('/')}
                         >cancel</button>
                         <button
                             type="submit"
+                            id="loginButton"
                             className="loginButton"
                             onClick={this.login}
                         >login</button>
                         <button
                             type="submit"
+                            id="submitButton"
                             className="submitButton"
                             onClick={this.signup}
                         >submit</button>
