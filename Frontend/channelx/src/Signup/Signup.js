@@ -6,10 +6,14 @@ Date: 9/20/2019
 
 import React, {Component} from 'react';
 import './Signup.css'
+import fire from "../config/Fire";
 
 class Signup extends Component{
     constructor(props){
         super(props);
+        this.login = this.login.bind(this);
+        this.signup = this.signup.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.state = {
             firstName: null,
             lastName: null,
@@ -73,6 +77,24 @@ class Signup extends Component{
         }
         this.setState({ formErrors, [name]: value }, () => console.log(this.state));
     };
+
+    login(e) {
+        e.preventDefault();
+        fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u) => {
+        }).catch((error) => {
+            console.log(error);
+        } );
+    }
+
+    signup(e){
+        e.preventDefault();
+        fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
+        }).then((u)=>{console.log(u)})
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
 
     render(){
         return <div className="wrapper">
@@ -180,7 +202,13 @@ class Signup extends Component{
                         >cancel</button>
                         <button
                             type="submit"
+                            className="loginButton"
+                            onClick={this.login}
+                        >login</button>
+                        <button
+                            type="submit"
                             className="submitButton"
+                            onClick={this.signup}
                         >submit</button>
                     </div>
                 </form>
