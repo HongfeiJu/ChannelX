@@ -12,14 +12,6 @@ function App() {
     <div className="App">
       <Route path="/" exact component={Landing}/>
       <Route path="/signup" exact component={Signup}/>
-        <a
-          className="App-link"
-          href="https://www.google.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Register
-          </a>
     </div>
     </Router>
   );

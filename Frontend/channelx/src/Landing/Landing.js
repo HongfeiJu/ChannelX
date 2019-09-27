@@ -12,6 +12,8 @@ import { Link } from 'react-router';
 /*import Button from 'react-bootstrap-button-loader';*/
 class Landing extends React.Component {
 
+routeTo = (path) => this.props.history.push(path);
+
 render(){
     return (
         <div>
@@ -23,7 +25,7 @@ render(){
                             type="button"
                             style={{ marginLeft: "auto" }}
                             className="Register"
-                            onClick={() => this.routeTo('./SignUp/SignUp')}
+                            onClick={() => this.routeTo('/signup')}
                             
                         >Register</button>
         </div>
@@ -33,7 +35,6 @@ render(){
                             type="button"
                             style={{ marginLeft: "auto" }}
                             className="Login"
-                            //onClick={() => this.routeTo('https://github.com/')}
                         >Login</button>
         </div>
         <div>
