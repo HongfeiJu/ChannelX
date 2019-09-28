@@ -88,10 +88,12 @@ class Signup extends Component{
 
     signup(e){
         e.preventDefault();
-        this.routeTo('/home')
+
         fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
-        }).then((u)=>{console.log(u)})
-            .catch((error) => {
+        }).then((u)=>{
+            console.log(u);
+            this.routeTo('/home');
+        }).catch((error) => {
                 console.log(error);
             })
     }
@@ -103,7 +105,7 @@ class Signup extends Component{
                 <div className="FormTitle">
                     <h1>create an account</h1>
                 </div>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.signup}>
                     <div className="firstName">
                         <input
                             type="text"
@@ -207,8 +209,6 @@ class Signup extends Component{
                             type="submit"
                             id="submitButton"
                             className="submitButton"
-                            /*onClick={() => this.routeTo('/home')}*/
-                            onClick={this.signup}
                         >submit</button>
                     </div>
                 </form>
