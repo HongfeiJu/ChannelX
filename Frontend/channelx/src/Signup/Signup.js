@@ -87,8 +87,6 @@ class Signup extends Component{
     }
 
     signup(e){
-        e.preventDefault();
-
         fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
         }).then((u)=>{
             console.log(u);
@@ -204,7 +202,6 @@ class Signup extends Component{
                             className="cancelButton"
                             onClick={() => this.routeTo('/')}
                         >cancel</button>
-                        
                         <button
                             type="submit"
                             id="submitButton"
