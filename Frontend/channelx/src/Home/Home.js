@@ -12,19 +12,22 @@ class Home extends Component{
         super(props);
         this.logout = this.logout.bind(this);
     }
-    
+    routeTo = (path) => this.props.history.push(path);
+
     logout(){
         fire.auth().signOut();
     }
     
     render() {
         return (
-            <div className={"Home"}>
-                <h1>
-                You are in Home!
-                </h1>
-                <button onClick={this.logout}> Sign out
-                </button>
+            <div className="Register">
+                <button
+                    type="button"
+                    style={{ marginLeft: "auto" }}
+                    className="Logout"
+                    onClick={() => this.routeTo('/')}
+
+                >Logout</button>
             </div>
         );
     }
