@@ -7,8 +7,7 @@ Date: 9/20/2019
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './Landing.css'
-import { Button, ButtonGroup, ButtonToolbar } from 'reactstrap';
-import { Link } from 'react-router';
+import { Button} from 'reactstrap';
 
 /*import Button from 'react-bootstrap-button-loader';*/
 class Landing extends React.Component {
@@ -26,8 +25,7 @@ render(){
                             type="button"
                             style={{ marginLeft: "auto" }}
                             className="Register"
-                            onClick={() => this.routeTo('/signup')}
-                            
+                            onClick={() => this.routeTo('/signup')}    
                         >Register</button>
         </div>
    
