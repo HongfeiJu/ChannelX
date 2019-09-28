@@ -6,6 +6,7 @@ Date: 9/20/2019
 
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import './Landing.css'
 import { Button, ButtonGroup, ButtonToolbar } from 'reactstrap';
 import { Link } from 'react-router';
 
@@ -16,7 +17,7 @@ routeTo = (path) => this.props.history.push(path);
 
 render(){
     return (
-        <div>
+        <div className="wrapper">
         <header>
            <h1> Welcome to ChannelX </h1>
         </header>
@@ -39,7 +40,9 @@ render(){
         </div>
         <div>
 
-           <p> ChannelX will make it possible to create, share, and destroy transient communication channels. These channels should be tied to users existing communication streams (e.g., SMS, e-mail, etc.) without exposing the users actual phone number or e-mail address.</p>        </div>
+           <p> ChannelX will make it possible to create, share, and destroy transient communication channels. </p>
+          <p> These channels should be tied to users existing communication streams (e.g., SMS, e-mail, etc.) without exposing the users actual phone number or e-mail address.</p>     
+              </div>
 
 </div>
     );
