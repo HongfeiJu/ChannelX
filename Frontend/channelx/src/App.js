@@ -1,6 +1,6 @@
 /*
 Description: Basic routing for landing page and register page
-Author: Hongfei Ju, Darshan Prakash
+Author: Hongfei Ju, Darshan Prakash, Manisha
 Date: 9/20/2019
 */
 

@@ -1,3 +1,9 @@
+/*
+Description: Landing page which is displayed when user starts running the application
+Authors: Manisha Miriyala
+Date: 9/17/2019
+*/
+
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './Landing.css'
