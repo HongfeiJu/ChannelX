@@ -88,7 +88,12 @@ class Signup extends Component{
 
     signup(e){
         e.preventDefault();
-        fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
+        fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then( cred =>{
+            fire.firestore().collection('users').doc(cred.user.uid).set({
+                email : this.state.email,
+                firstName : this.state.firstName,
+                lastName : this.state.lastName
+            });
         }).then((u)=>{
             console.log(u);
             this.routeTo('/home');
