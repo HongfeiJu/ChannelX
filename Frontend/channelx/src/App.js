@@ -7,6 +7,7 @@ Date: 9/20/2019
 import React,{Component} from 'react';
 import './App.css';
 import Signup from './Signup/Signup';
+import Login from './Login/Login';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Landing from './Landing/Landing';
 import fire from "./config/Fire";
@@ -44,6 +45,7 @@ class App extends Component {
                     <div className="App">
                         <Route path="/" exact component={Landing}/>
                         <Route path="/signup" exact component={Signup}/>
+                        <Route path="/login" exact component={Login}/>
                         <Route path="/home" exact component={Home}/>
                     </div>
                 </Router>

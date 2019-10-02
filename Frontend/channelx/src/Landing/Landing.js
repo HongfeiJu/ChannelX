@@ -32,6 +32,7 @@ class Landing extends React.Component {
                             type="button"
                             style={{ marginLeft: "auto" }}
                             className="Login"
+                            onClick={() => this.routeTo('/login')}
                         >Login</button>
                     </div>
                     <div>
