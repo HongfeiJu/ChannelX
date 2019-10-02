@@ -1,16 +1,18 @@
 /*
 Description: Basic routing for landing page and register page
-Author: Hongfei Ju, Darshan Prakash, Manisha
-Date: 9/20/2019
+Author: Hongfei Ju, Darshan Prakash, Manisha, Sami
+Date: 10/02/2019
 */
 
 import React,{Component} from 'react';
 import './App.css';
-import Signup from './components/Signup/Signup';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+
+import Signup from './components/Signup/Signup';
 import Landing from './components/Landing/Landing';
 import fire from "./config/Fire";
 import Home from "./components/Home/Home";
+
 import * as ROUTES from './constants/routes';
 
 class App extends Component {
