@@ -6,11 +6,12 @@ Date: 9/20/2019
 
 import React,{Component} from 'react';
 import './App.css';
-import Signup from './Signup/Signup';
+import Signup from './components/Signup/Signup';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import Landing from './Landing/Landing';
+import Landing from './components/Landing/Landing';
 import fire from "./config/Fire";
-import Home from "./Home/Home";
+import Home from "./components/Home/Home";
+import * as ROUTES from './constants/routes';
 
 class App extends Component {
     constructor(props){
@@ -42,9 +43,9 @@ class App extends Component {
             <div className={"App"}>
                 <Router>
                     <div className="App">
-                        <Route path="/" exact component={Landing}/>
-                        <Route path="/signup" exact component={Signup}/>
-                        <Route path="/home" exact component={Home}/>
+                        <Route path={ROUTES.LANDING} exact component={Landing}/>
+                        <Route path={ROUTES.SIGN_UP}  exact component={Signup}/>
+                        <Route path={ROUTES.HOME}  exact component={Home}/>
                     </div>
                 </Router>
                 {/*{this.state.user ?(<Home />):(<Signup />)}*/}
