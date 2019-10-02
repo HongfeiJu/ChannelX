@@ -1,7 +1,7 @@
 /*
-Description: Signup page
-Authors: Hongfei Ju
-Date: 9/20/2019
+Description: Login page
+Authors: Subhradeep Biswas
+Date: 10/01/2019
 */
 
 import React, {Component} from 'react';
