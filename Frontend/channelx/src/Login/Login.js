@@ -8,6 +8,7 @@ import React, {Component} from 'react';
 import './Login.css'
 import fire from "../config/Fire";
 
+
 class Login extends Component{
     constructor(props){
         super(props);
@@ -57,7 +58,13 @@ class Login extends Component{
             console.log(u);
             this.routeTo('/home');
         }).catch((error) => {
-            console.log(error);
+          //alert(error.code);
+          switch(error.code) {
+          case 'auth/user-not-found':
+                alert('Login failed: Incorrect username or password!')
+                break;
+          }
+          console.log(error);
         })
     }
 
