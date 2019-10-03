@@ -90,19 +90,10 @@ class Signup extends Component{
                 // Email sent.
               })
             console.log(u);
-            this.routeTo(ROUTES.HOME);
+            this.routeTo(ROUTES.EMAIL_SENT);
         }).catch((error) => {
             console.log(error);
         })
-
-
-        // fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
-        // }).then((u)=>{
-        //     console.log(u);
-        //     this.routeTo(ROUTES.HOME);
-        // }).catch((error) => {
-        //     console.log(error);
-        // })
     }
 
 

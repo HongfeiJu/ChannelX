@@ -7,9 +7,9 @@ Date: 10/02/2019
 import React,{Component} from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-
 import Signup from './components/Signup/Signup';
 import Landing from './components/Landing/Landing';
+import EmailSent from './components/VerificationEmailPage/EmailSent';
 import Fire from "./config/Fire";
 import Home from "./components/Home/Home";
 
@@ -46,6 +46,7 @@ class App extends Component {
                         <Route path={ROUTES.LANDING} exact component={Landing}/>
                         <Route path={ROUTES.SIGN_UP}  exact component={Signup}/>
                         <Route path={ROUTES.HOME}  exact component={Home}/>
+                        <Route path={ROUTES.EMAIL_SENT}  exact component={EmailSent}/>
                     </div>
                 </Router>
                 {/*{this.state.user ?(<Home />):(<Signup />)}*/}
