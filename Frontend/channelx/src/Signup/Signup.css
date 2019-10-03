@@ -11,16 +11,28 @@ light green: #A3C4BC
     height: 100vh;
     width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     background-color: #7678ED;
 }
 
-.form-wrapper {
+.form-wrapper-create {
     width: 400px;
     display: flex;
     flex-direction: column;
+    float: left;
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 50px #555;
+    background-color: #ffffff;
+}
+
+.form-wrapper-login {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    float: right;
     padding: 20px 40px;
     border-radius: 10px;
     box-shadow: 0px 10px 50px #555;
@@ -104,6 +116,7 @@ input.error {
     width: 100%;
 }
 
+
 .createAccount {
     width: 100%;
     flex-direction: column;
@@ -140,6 +153,7 @@ input.error {
 }
 
 .loginButton {
+    float: right;
     background-color: mediumseagreen;
 }
 

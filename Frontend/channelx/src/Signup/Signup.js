@@ -7,8 +7,10 @@ Date: 9/20/2019
 import React, {Component} from 'react';
 import './Signup.css'
 import fire from "../config/Fire";
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 class Signup extends Component{
+
     constructor(props){
         super(props);
         this.login = this.login.bind(this);
@@ -22,6 +24,8 @@ class Signup extends Component{
             userName: null,
             password: null,
             passwordConfirm: null,
+            fireLoginErrors:'',
+            fireSignupErrors:'',
             errors: {
                 firstName: "",
                 lastName: "",
@@ -81,14 +85,19 @@ class Signup extends Component{
     login(e) {
         e.preventDefault();
         fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u) => {
+        }).then((u)=>{
+            console.log(u);
+            this.routeTo('/home');
         }).catch((error) => {
-            console.log(error);
+            this.setState({fireLoginErrors : error.message})
         } );
     }
 
     signup(e){
         e.preventDefault();
         fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then( cred =>{
+            fire.auth().currentUser.sendEmailVerification();
+
             fire.firestore().collection('users').doc(cred.user.uid).set({
                 email : this.state.email,
                 firstName : this.state.firstName,
@@ -96,18 +105,27 @@ class Signup extends Component{
             });
         }).then((u)=>{
             console.log(u);
-            this.routeTo('/home');
+            this.routeTo('/');
         }).catch((error) => {
-            console.log(error);
+            this.setState({fireSignupErrors : error.message})
         })
     }
 
 
     render(){
+        let signupErrorNotification = this.state.fireSignupErrors ?
+            (<div> { this.state.fireSignupErrors}</div>): null;
+
+        let loginErrorNotification = this.state.fireLoginErrors ?
+            (<div> { this.state.fireLoginErrors}</div>): null;
+
         return <div className="wrapper">
-            <div className="form-wrapper">
+            <div className="form-wrapper-create">
                 <div className="FormTitle">
                     <h1>create an account</h1>
+                </div>
+                <div className="errorMessage">
+                    {signupErrorNotification}
                 </div>
                 <form onSubmit={this.signup}>
                     <div className="firstName">
@@ -212,7 +230,57 @@ class Signup extends Component{
                             type="submit"
                             id="submitButton"
                             className="submitButton"
-                        >submit</button>
+                        >sign up</button>
+                    </div>
+                </form>
+            </div>
+            <div className="form-wrapper-login">
+                <div className="FormTitle">
+                    <h1>Account login</h1>
+                </div>
+                <div className="errorMessage">
+                    {loginErrorNotification}
+                </div>
+                <form onSubmit={this.login}>
+                    <div className="email">
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="email"
+                            name="email"
+                            required
+                            onChange={this.handleChange}
+                        >
+                        </input>
+                    </div>
+                    <hr/>
+                    <div className="password">
+                        <input
+                            type="password"
+                            id="password"
+                            className="FormField__input"
+                            placeholder="password"
+                            name="password"
+                            required
+                            onChange={this.handleChange}
+                        >
+                        </input>
+                        {this.state.errors.password.length > 0 && (
+                            <span className="errorMessage">{this.state.errors.password}</span>
+                        )}
+                    </div>
+                    <div className="createAccount">
+                        <button
+                            type="button"
+                            id="cancelButton"
+                            className="cancelButton"
+                            onClick={() => this.routeTo('/')}
+                        >cancel</button>
+                        <button
+                            type="login"
+                            id="loginButton"
+                            className="loginButton"
+                        >login</button>
                     </div>
                 </form>
             </div>
