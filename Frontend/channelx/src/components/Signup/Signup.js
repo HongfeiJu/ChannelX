@@ -83,13 +83,26 @@ class Signup extends Component{
 
     signup(e){
         e.preventDefault();
+
         fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
-        }).then((u)=>{
+         }).then((u)=>{
+            fire.auth().currentUser.sendEmailVerification().then(function() {
+                // Email sent.
+              })
             console.log(u);
             this.routeTo(ROUTES.HOME);
         }).catch((error) => {
             console.log(error);
         })
+
+
+        // fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
+        // }).then((u)=>{
+        //     console.log(u);
+        //     this.routeTo(ROUTES.HOME);
+        // }).catch((error) => {
+        //     console.log(error);
+        // })
     }
 
 
