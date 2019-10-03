@@ -1,12 +1,7 @@
-/*
-Description: Signup page
-Authors: Hongfei Ju
-Date: 9/20/2019
-*/
-
 import React, {Component} from 'react';
 import './Signup.css'
 import fire from "../../config/Fire";
+import * as ROUTES from '../../constants/routes';
 
 class Signup extends Component{
     constructor(props){
@@ -91,7 +86,7 @@ class Signup extends Component{
         fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
         }).then((u)=>{
             console.log(u);
-            this.routeTo('/home');
+            this.routeTo(ROUTES.HOME);
         }).catch((error) => {
             console.log(error);
         })

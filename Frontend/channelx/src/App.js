@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Signup from './components/Signup/Signup';
 import Landing from './components/Landing/Landing';
-import fire from "./config/Fire";
+import Fire from "./config/Fire";
 import Home from "./components/Home/Home";
 
 import * as ROUTES from './constants/routes';
@@ -23,14 +23,12 @@ class App extends Component {
         };
     }
 
-
-
     componentDidMount() {
         this.authlistener();
     }
 
     authlistener() {
-        fire.auth().onAuthStateChanged((user) => {
+        Fire.auth().onAuthStateChanged((user) => {
             console.log(user);
             if(user) {
                 this.setState({user});

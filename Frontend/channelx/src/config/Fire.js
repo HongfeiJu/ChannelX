@@ -6,6 +6,8 @@ Date: 10/02/2019
 
 import firebase from "firebase";
 import * as KEYS from '../constants/keys/keys';
+// import 'firebase/auth';
+
 
 const firebaseConfig = {
     apiKey: KEYS.API_KEY,
@@ -17,6 +19,27 @@ const firebaseConfig = {
     appId: KEYS.APP_ID,
     measurementId: KEYS.MEASUREMENTS_ID
   };
+   
 
-const fire = firebase.initializeApp(firebaseConfig);
-export default fire;
+  // class fire {
+  //   constructor() {
+  //     firebase.initializeApp(firebaseConfig);
+  //     this.auth = firebase.auth();
+  //   }
+
+  //   doCreateUserWithEmailAndPassword = (email, password) =>
+  //   this.auth.createUserWithEmailAndPassword(email, password);
+
+  //   doSignInWithEmailAndPassword = (email, password) =>
+  //   this.auth.signInWithEmailAndPassword(email, password);
+
+  //   doSignOut = () => this.auth.signOut();
+
+  //   doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
+
+  //   doPasswordUpdate = password =>
+  //   this.auth.currentUser.updatePassword(password);
+  // }
+
+  const fire = firebase.initializeApp(firebaseConfig);
+  export default fire;
