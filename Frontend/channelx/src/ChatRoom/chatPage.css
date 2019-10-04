@@ -1,9 +1,8 @@
 /*
-Description: styling code for landing page
-Authors: Manisha Miriyala
-Date: 9/20/2019
+Description: Basic ChatRoom page styling
+Authors: Manisha
+Date: 10/1/2019
 */
-
 .wrapper {
     height: 100vh;
     width: 100%;
@@ -14,13 +13,13 @@ Date: 9/20/2019
     background-color: #FFFFFF;
 }
 
-.Register {
+.ChatPage {
     width: 100%;
     flex-direction: column;
     align-items: center;
 }
 
-.Register button {
+.ChatPage button {
     color: #000000;
     border: 2px solid #fff;
     width: 30%;
@@ -33,13 +32,13 @@ Date: 9/20/2019
     border-radius: 15px;
 }
 
-.Register button:hover {
+.ChatPage button:hover {
     color: #519e8a;
     background-color: #fff;
     border: 2px solid #519e8a;
 }
 
-.Register small {
+.ChatPage small {
     color: #999;
     font-weight: lighter;
 }

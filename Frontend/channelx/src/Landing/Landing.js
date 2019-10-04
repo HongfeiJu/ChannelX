@@ -6,7 +6,7 @@ Date: 9/17/2019
 
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import './Landing.css'
+import './Landing.css';
 
 class Landing extends React.Component {
 

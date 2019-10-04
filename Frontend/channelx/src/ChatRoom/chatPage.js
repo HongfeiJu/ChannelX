@@ -1,14 +1,14 @@
 /*
-Description: Home page
-Authors: Darshan Prakash, Sami, Manisha
-Date: 9/24/2019
+Description: Basic ChatRoom page redirected when user clicks join chatRoom button is clicked on home page.
+Authors: Manisha
+Date: 9/30/2019
 */
 
 import React, {Component} from 'react';
 import fire from "../config/Fire";
-import chatPage from "../ChatRoom/chatPage";
+import './chatPage.css';
 
-class Home extends Component{
+class chatPage extends Component{
     constructor(props){
         super(props);
         this.logout = this.logout.bind(this);
@@ -21,28 +21,19 @@ class Home extends Component{
     
     render() {
         return (
-            <div className="Register">
-
-            <button
-                    type="button"
-                    style={{ marginLeft: "auto" }}
-                    className="Join Channel"
-                    onClick={() => this.routeTo('/chatPage')}
-
-                >Join Channel</button>
-
-                <button
+            <div className="ChatPage">
+            <h1> Welcome to Chat room of the users </h1>  
+             <button
                     type="button"
                     style={{ marginLeft: "auto" }}
                     className="Logout"
                     onClick={() => this.routeTo('/')}
 
-                >Logout</button>
-
+                >Logout</button>          
             </div>
         );
     }
 
 }
 
-export default Home;
+export default chatPage;

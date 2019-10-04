@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Landing from './Landing/Landing';
 import fire from "./config/Fire";
 import Home from "./Home/Home";
+import chatPage from "./ChatRoom/chatPage";
 
 class App extends Component {
     constructor(props){
@@ -45,6 +46,7 @@ class App extends Component {
                         <Route path="/" exact component={Landing}/>
                         <Route path="/signup" exact component={Signup}/>
                         <Route path="/home" exact component={Home}/>
+                        <Route path="/chatPage" exact component={chatPage}/>
                     </div>
                 </Router>
                 {/*{this.state.user ?(<Home />):(<Signup />)}*/}
