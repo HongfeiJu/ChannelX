@@ -1,0 +1,9 @@
+export const LANDING = '/';
+export const SIGN_UP = '/signup';
+export const SIGN_IN = '/signin';
+export const HOME = '/home';
+export const EMAIL_SENT = '/emailsent'
+export const ACCOUNT = '/account';
+export const ADMIN = '/admin';
+export const PASSWORD_FORGET = '/pw-forget';
+export const REACT_APP_CONFIRMATION_EMAIL_REDIRECT='http://localhost:3000'
