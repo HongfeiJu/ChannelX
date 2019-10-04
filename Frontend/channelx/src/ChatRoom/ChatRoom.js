@@ -22,7 +22,7 @@ class ChatRoom extends Component{
     }
 
     componentDidMount() {
-        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+        this.scrollToBottom();
         firebase.database().ref('message/').on('value', (snapshot)=>{
             const currentMessages = snapshot.val();
             if(currentMessages!=null){
@@ -34,7 +34,7 @@ class ChatRoom extends Component{
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+        this.scrollToBottom();
     }
 
     updateMessage(e){
@@ -56,10 +56,16 @@ class ChatRoom extends Component{
         };
         firebase.database().ref('message/' + newMessage.id).set(newMessage)
             .then(r  =>{
-                console.log(r)
+                console.log(r);
+                this.setState({message:''});
             }).catch(e=>{
                 console.log(e)
             });
+    }
+
+    scrollToBottom(){
+        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+        this.messagesEnd.scrollTo(0, this.messagesEnd.scrollHeight);
     }
 
     render() {
@@ -81,7 +87,8 @@ class ChatRoom extends Component{
                     <input
                         type="text"
                         className="newMessage"
-                        placeholder="newMessage"
+                        placeholder="input new message"
+                        value={this.state.message}
                         onChange={this.updateMessage}
                     />
                     <button
