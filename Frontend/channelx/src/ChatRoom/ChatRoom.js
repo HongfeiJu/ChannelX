@@ -1,11 +1,13 @@
 /*
 Description: Home page
 Authors: Hongfei Ju
-Date: 9/28/2019
+Date: 9/3/2019
 */
 
 import React, {Component} from 'react';
 import firebase from "firebase";
+import './ChatRoom.css';
+import ChatMessage from "./ChatMessage/ChatMessage";
 
 class ChatRoom extends Component{
     constructor(props, context) {
@@ -20,6 +22,7 @@ class ChatRoom extends Component{
     }
 
     componentDidMount() {
+        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
         firebase.database().ref('message/').on('value', (snapshot)=>{
             const currentMessages = snapshot.val();
             if(currentMessages!=null){
@@ -28,6 +31,10 @@ class ChatRoom extends Component{
                 });
             }
         })
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
     }
 
     updateMessage(e){
@@ -58,29 +65,22 @@ class ChatRoom extends Component{
     render() {
         const currentMessage = this.state.messages.map((message, i)=>{
            return (
-               <li className="message" key={message.id}>
-                   <p>{message.from+"says:"}</p>
-                   <p>{message.text}</p>
-                   <p>{message.timeStamp}</p>
-               </li>
+               <ChatMessage key={i} user={message.from} text={message.text} time={message.timeStamp}/>
            )
         });
-        const today = new Date();
         return (
-            <div className="Register">
-                <p>{today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
-                +" "+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()}</p>
-                <div className="channelTitle">
+            <div className="chatRoom">
+                <div className="roomTitle">
                     <h3>sample channel</h3>
                 </div>
-                <div className="messagePanel">
-                    <ol>
-                        {currentMessage}
-                    </ol>
+                <div className="messagePanel"
+                     ref={(el) => { this.messagesEnd = el; }}>
+                    {currentMessage}
                 </div>
                 <div className="messageSending">
                     <input
                         type="text"
+                        className="newMessage"
                         placeholder="newMessage"
                         onChange={this.updateMessage}
                     />
@@ -89,8 +89,6 @@ class ChatRoom extends Component{
                         onClick={this.submitMessage}
                     >send</button>
                 </div>
-
-
             </div>
         );
     }

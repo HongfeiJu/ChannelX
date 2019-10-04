@@ -1,0 +1,46 @@
+.chatRoom{
+    background-color: lightgrey;
+    align-items: center;
+    width:80%;
+    height:100vh;
+    margin:auto;
+    display: flex;
+    flex-direction: row;
+}
+
+.roomTitle{
+    width:80%;
+    height:10%;
+    position: absolute;
+    top:0;
+    background-color: rebeccapurple;
+    text-align: center;
+}
+
+.messagePanel{
+    width:100%;
+    height: 80%;
+    background-color: floralwhite;
+    border: 3px solid purple;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.messageSending{
+    width: 80%;
+    height:10%;
+    position: absolute;
+    bottom:0;
+    padding: 10px;
+}
+
+.newMessage{
+    width: 90%;
+}
+
+.sendButton{
+    width: 10%;
+    height: 100%;
+    border-radius: 10px;
+}
