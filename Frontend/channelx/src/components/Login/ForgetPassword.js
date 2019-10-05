@@ -13,15 +13,13 @@ import * as ROUTES from '../../constants/routes';
 class Login extends Component{
     constructor(props){
         super(props);
-        this.login = this.login.bind(this);
+        this.forgetpass = this.forgetpass.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.state = {
             email: null,
-            password: null,
 
             errors: {
-                email: "",
-                password: ""
+                email: ""
             }
         }
     }
@@ -43,28 +41,19 @@ class Login extends Component{
         switch(name){
             case 'email':
                 break;
-            case 'password':
-                formErrors.password = value.length<8 ? 'password should be no less than 8 characters': '';
-                break;
-
+          
             default: break;
         }
         this.setState({ formErrors, [name]: value }, () => console.log(this.state));
     };
 
-    login(e) {
+    forgetpass(e) {
         e.preventDefault();
-        fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u) => {
-        }).then((u)=>{
-            console.log(u);
-            this.routeTo(ROUTES.HOME);
+        fire.auth().sendPasswordResetEmail(this.state.email).then((u) => {
+            alert('Please check your email...')
+            this.routeTo(ROUTES.SIGN_IN);
         }).catch((error) => {
           //alert(error.code);
-          switch(error.code) {
-          case 'auth/user-not-found':
-                alert('Login failed: Incorrect username or password!')
-                break;
-          }
           console.log(error);
         })
     }
@@ -73,9 +62,9 @@ class Login extends Component{
         return <div className="wrapper">
             <div className="form-wrapper">
                 <div className="FormTitle">
-                    <h1>Sign in</h1>
+                    <h1>Reset your password</h1>
                 </div>
-                <form onSubmit={this.login}>
+                <form onSubmit={this.forgetpass}>
                     <div className="email">
                         <input
                             type="email"
@@ -88,32 +77,14 @@ class Login extends Component{
                         </input>
                     </div>
 
-                    <div className="password">
-                        <input
-                            type="password"
-                            id="password"
-                            className="FormField__input"
-                            placeholder="password"
-                            name="password"
-                            required
-                            onChange={this.handleChange}
-                        >
-                        </input>
-                        {this.state.errors.password.length > 0 && (
-                            <span className="errorMessage">{this.state.errors.password}</span>
-                        )}
-                    </div>
                     
-                    <div className="forgetPass">
-                        <a href="#" onClick={() => this.routeTo('/forget-password')} style={{cursor: 'pointer'}}>Forgot password?</a>
-                    </div>
 
-                    <div className="login">
+                    <div className="Reset">
                         <button
                             type="button"
                             id="cancelButton"
                             className="cancelButton"
-                            onClick={() => this.routeTo(ROUTES.LANDING)}
+                            onClick={() => this.routeTo(ROUTES.SIGN_IN)}
                         >cancel</button>
                         <button
                             type="submit"
@@ -121,7 +92,6 @@ class Login extends Component{
                             className="submitButton"
                         >submit</button>
                     </div>
-                    
                 </form>
             </div>
         </div>;
