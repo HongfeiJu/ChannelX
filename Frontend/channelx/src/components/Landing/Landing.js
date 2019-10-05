@@ -8,6 +8,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './Landing.css'
 
+
 class Landing extends React.Component {
 
     routeTo = (path) => this.props.history.push(path);
@@ -32,6 +33,7 @@ class Landing extends React.Component {
                             type="button"
                             style={{ marginLeft: "auto" }}
                             className="Login"
+                            onClick={() => this.routeTo('/login')}
                         >Login</button>
                     </div>
                     <div>
