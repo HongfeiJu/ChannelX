@@ -8,6 +8,7 @@ Date: 10/03/2019
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../VerificationEmailPage/EmailSent.css'
+import * as ROUTES from '../../constants/routes';
 
 class EmailSent extends React.Component {
 
@@ -29,7 +30,7 @@ class EmailSent extends React.Component {
                             type="button"
                             style={{ marginLeft: "auto" }}
                             className="Register"
-                            onClick={() => this.routeTo('/signup')}
+                            onClick={() => this.routeTo(ROUTES.SIGN_IN)}
                         >Login</button>
                     </div>
                     
