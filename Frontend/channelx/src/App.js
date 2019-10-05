@@ -9,6 +9,7 @@ import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Signup from './components/Signup/Signup';
 import Login from './components/Login/Login';
+import ForgetPassword from './components/Login/ForgetPassword';
 import Landing from './components/Landing/Landing';
 import EmailSent from './components/VerificationEmailPage/EmailSent';
 import Fire from "./config/Fire";
@@ -47,6 +48,7 @@ class App extends Component {
                         <Route path={ROUTES.LANDING} exact component={Landing}/>
                         <Route path={ROUTES.SIGN_UP}  exact component={Signup}/>
                         <Route path={ROUTES.SIGN_IN} exact component={Login}/>
+                        <Route path={ROUTES.FORGET_PWD} exact component={ForgetPassword}/>
                         <Route path={ROUTES.HOME}  exact component={Home}/>
                         <Route path={ROUTES.EMAIL_SENT}  exact component={EmailSent}/>
                     </div>

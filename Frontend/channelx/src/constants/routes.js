@@ -5,5 +5,5 @@ export const HOME = '/home';
 export const EMAIL_SENT = '/emailsent'
 export const ACCOUNT = '/account';
 export const ADMIN = '/admin';
-export const PASSWORD_FORGET = '/pw-forget';
+export const FORGET_PWD = '/forget-password';
 export const REACT_APP_CONFIRMATION_EMAIL_REDIRECT='http://localhost:3000'
