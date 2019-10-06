@@ -201,7 +201,7 @@ class Signup extends Component{
                             type="button"
                             id="cancelButton"
                             className="cancelButton"
-                            onClick={() => this.routeTo('/')}
+                            onClick={() => this.props.onModalClose()}
                         >cancel</button>
                         <button
                             type="submit"
