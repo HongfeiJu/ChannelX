@@ -61,8 +61,11 @@ class Login extends Component{
         }).catch((error) => {
           //alert(error.code);
           switch(error.code) {
-          case 'auth/user-not-found':
+            case 'auth/user-not-found':
                 alert('Login failed: Incorrect username or password!')
+                break;
+            case 'auth/wrong-password':
+                alert('Login failed: Incorrect password!')
                 break;
           }
           console.log(error);
