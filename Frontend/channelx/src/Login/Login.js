@@ -7,6 +7,7 @@ Date: 10/01/2019
 import React, {Component} from 'react';
 import './Login.css'
 import fire from "../config/Fire";
+import { withRouter } from 'react-router-dom';
 
 class Login extends Component{
     constructor(props){
@@ -24,7 +25,7 @@ class Login extends Component{
         }
     }
 
-    routeTo(path) {
+    routeTo = (path) => {
         this.props.history.push(path);
     }
 
@@ -55,7 +56,7 @@ class Login extends Component{
         fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u) => {
         }).then((u)=>{
             console.log(u);
-            this.routeTo("/login");
+            this.routeTo("/home");
         }).catch((error) => {
           //alert(error.code);
           switch(error.code) {
@@ -123,4 +124,4 @@ class Login extends Component{
 }
 
 
-export default Login;
+export default withRouter(Login);
