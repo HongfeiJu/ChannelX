@@ -8,13 +8,15 @@ import React from 'react';
 import './Landing.css';
 import Modal from '@material-ui/core/Modal';
 import Signup from "../Signup/Signup";
+import Login from "../Login/Login";
 
 class Landing extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
-            isModalVisible: false
+            isModalVisible: false,
+            isModalLoginVisible: false
         }
     }
 
@@ -25,8 +27,13 @@ class Landing extends React.Component {
         this.setState({isModalVisible: true})
 
     }
+    modalLoginCall = () => {
+        this.setState({isModalLoginVisible: true})
+
+    }
 
     onModalClose = () => this.setState({ isModalVisible: false })
+    onModalLoginClose = () => this.setState({ isModalLoginVisible: false })
 
     render(){
         return <div className="wrapper">
@@ -48,6 +55,7 @@ class Landing extends React.Component {
                     type="button"
                     style={{marginLeft: "auto"}}
                     className="Login"
+                    onClick={() => this.modalLoginCall()}
                 >Login
                 </button>
             </div>
@@ -66,6 +74,15 @@ class Landing extends React.Component {
                     onModalClose={this.onModalClose}
                 />
             </ Modal>
+            <Modal
+                open={this.state.isModalLoginVisible}
+                close={() => this.onModalLoginClose()}
+                onBackdropClick={() => this.onModalLoginClose()}
+            >
+            <Login
+                onModalLoginClose={this.onModalLoginClose}
+            />
+            </Modal>
 
             </div>
         };
