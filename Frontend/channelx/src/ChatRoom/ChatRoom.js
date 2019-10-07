@@ -15,7 +15,7 @@ class ChatRoom extends Component{
         this.updateMessage = this.updateMessage.bind(this);
         this.submitMessage = this.submitMessage.bind(this);
         this.state = {
-            username: "user "+ Math.floor(Math.random()*100),
+            username: '',
             message:'',
             messages : []
         }
@@ -23,6 +23,11 @@ class ChatRoom extends Component{
 
     componentDidMount() {
         this.scrollToBottom();
+
+        this.setState({
+            username: this.fetchUsername()
+        });
+
         firebase.database().ref('message/').on('value', (snapshot)=>{
             const currentMessages = snapshot.val();
             if(currentMessages!=null){
@@ -66,6 +71,15 @@ class ChatRoom extends Component{
     scrollToBottom(){
         this.messagesEnd.scrollIntoView({ behavior: "smooth" });
         this.messagesEnd.scrollTo(0, this.messagesEnd.scrollHeight);
+    }
+
+    fetchUsername(){
+        return "user "+ Math.floor(Math.random()*100);
+        /*
+        const uid = firebase.auth().currentUser.uid;
+        return firebase.firestore().collection('users').doc(uid).get('firstName');
+         */
+
     }
 
     render() {
