@@ -207,11 +207,11 @@ class Signup extends Component{
                             id="submitButton"
                             className="submitButton"
                         >submit</button>
-                        <button
+                        {/* <button
                             type="submit"
                             id="loginButton"
                             className="loginButton"
-                        >Login</button>
+                        >Login</button> */}
                     </div>
                 </form>
             </div>
