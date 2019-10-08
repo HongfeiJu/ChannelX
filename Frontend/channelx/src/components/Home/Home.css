@@ -61,6 +61,11 @@ body {
   margin: 0 auto;
 }
 
+#logout {
+    float: right;
+    background-color: darkgray;
+}
+
 /*.app {
   max-width: 60rem;
   width: 100%;

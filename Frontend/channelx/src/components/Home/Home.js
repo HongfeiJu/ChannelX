@@ -25,7 +25,7 @@ class Home extends Component{
                 <div className = "Header"> 
                     <button id="logout"
                         type="button"
-                        style={{ marginLeft: "auto" }}
+                        //style={{ marginLeft: "auto" }}
                         onClick={() => this.routeTo('/')}
                     >Logout</button>
                 </div>
