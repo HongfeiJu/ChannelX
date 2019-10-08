@@ -19,17 +19,17 @@ describe('<ChatMessage/>', ()=>{
         ReactDOM.unmountComponentAtNode(div);
     });
 
-    it('should have one form element', ()=>{
+    it('should have one message element', ()=>{
         const wrapper = shallow(<ChatMessage/>);
         expect(wrapper.find('.message')).toHaveLength(1);
     });
 
-    it('should have one first name input element', ()=>{
+    it('should have one user element', ()=>{
         const wrapper = shallow(<ChatMessage/>);
         expect(wrapper.find('.messageUser')).toHaveLength(1);
     });
 
-    it('should have one last name input element', ()=>{
+    it('should have one timestamp element', ()=>{
         const wrapper = shallow(<ChatMessage/>);
         expect(wrapper.find('.messageTimestamp')).toHaveLength(1);
     });
