@@ -7,6 +7,7 @@ Date: 10/01/2019
 import React, {Component} from 'react';
 import './Login.css'
 import fire from "../../config/Fire";
+import { withRouter } from 'react-router-dom';
 
 import * as ROUTES from '../../constants/routes';
 
@@ -113,12 +114,13 @@ class Login extends Component{
                             type="button"
                             id="cancelButton"
                             className="cancelButton"
-                            onClick={() => this.routeTo(ROUTES.LANDING)}
+                            onClick={() => this.props.onModalLoginClose()}
                         >cancel</button>
                         <button
                             type="submit"
                             id="submitButton"
                             className="submitButton"
+                            onClick={() => this.routeTo(ROUTES.LANDING)}
                         >submit</button>
                     </div>
                     
@@ -129,4 +131,4 @@ class Login extends Component{
 }
 
 
-export default Login;
+export default withRouter(Login);
