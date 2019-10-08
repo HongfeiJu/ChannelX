@@ -21,14 +21,18 @@ class Home extends Component{
     
     render() {
         return (
-            <div className="Register">
-                <button
-                    type="button"
-                    style={{ marginLeft: "auto" }}
-                    className="Logout"
-                    onClick={() => this.routeTo('/')}
-
-                >Logout</button>
+            <div className="Home">
+                <div className = "Header"> 
+                    <button id="logout"
+                        type="button"
+                        style={{ marginLeft: "auto" }}
+                        onClick={() => this.routeTo('/')}
+                    >Logout</button>
+                </div>
+                <div className = "Main">
+                </div>
+                <div className = "Footer">
+                </div>
             </div>
         );
     }

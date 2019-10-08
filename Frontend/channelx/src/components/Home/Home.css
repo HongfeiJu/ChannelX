@@ -11,18 +11,57 @@ html {
 html,
 body {
   min-height: 100%;
-  min-height: 100vh;
+  min-height: 120vh;
 }
+
 
 body {
   font: 16px 'Roboto', Helvetica, sans-serif;
-  display: flex;
+  //display: flex;
   flex-direction: column;
   margin: 0;
   background: #f6f6f6;
 }
 
-.app {
+.Header {
+  width: 100%;
+  background: lightgray;
+  padding: 1rem;
+  font-size: 1rem;
+  //display: flex;
+  height: 20%;
+  //min-height: 100%;
+  min-height: 20vh;
+  margin: 0 auto;
+  border-bottom: .5px solid black;
+}
+
+.Main {
+  width: 100%;
+  background: lightgray;
+  padding: 1rem;
+  font-size: 1rem;
+  //display: flex;
+  height: 60%;
+  //min-height: 100%;
+  min-height: 80vh;
+  margin: 0 auto;
+  border-bottom: .5px solid black;
+}
+
+.Footer {
+  width: 100%;
+  background: lightgray;
+  padding: 1rem;
+  font-size: 1rem;
+  //display: flex;
+  height: 20%;
+  //min-height: 100%;
+  min-height: 20vh;
+  margin: 0 auto;
+}
+
+/*.app {
   max-width: 60rem;
   width: 100%;
   background: lightgray;
@@ -52,7 +91,7 @@ body {
     display: block;
     color: white;
     background: gray;
-    text-transform: uppercase;
+    //text-transform: uppercase;
   }
   > main {
     flex: 1 1 auto;
@@ -63,3 +102,4 @@ body {
     background: white;
   }
 } 
+*/
