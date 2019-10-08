@@ -6,6 +6,7 @@ Date: 9/24/2019
 
 import React, {Component} from 'react';
 import fire from "../../config/Fire";
+import './Home.css'
 
 class Home extends Component{
     constructor(props){
