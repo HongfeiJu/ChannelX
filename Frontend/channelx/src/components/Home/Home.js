@@ -1,6 +1,6 @@
 /*
 Description: Home page
-Authors: Darshan Prakash, Sami
+Authors: Darshan Prakash, Sami, Manisha
 Date: 9/24/2019
 */
 

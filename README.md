@@ -6,7 +6,7 @@ Darshan Prakash
 Hongfei Ju
 Manisha Miriyala
 Muhammed Sami
-Subhradeep 
+Subhradeep Biswas
 
 Instructions to run the application
 1. After cloning the project, open command prompt in our source directory, channelx in the Frontend folder.
