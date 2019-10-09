@@ -7,7 +7,6 @@ import {withRouter} from 'react-router-dom';
 class Signup extends Component {
     constructor(props) {
         super(props);
-        this.login = this.login.bind(this);
         this.signup = this.signup.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.state = {
@@ -18,6 +17,7 @@ class Signup extends Component {
             userName: null,
             password: null,
             passwordConfirm: null,
+            fireSignupErrors:'',
             errors: {
                 firstName: "",
                 lastName: "",
@@ -75,14 +75,6 @@ class Signup extends Component {
         this.setState({formErrors, [name]: value}, () => console.log(this.state));
     };
 
-    login(e) {
-        e.preventDefault();
-        fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u) => {
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
-
     signup(e) {
         e.preventDefault();
 
@@ -94,17 +86,22 @@ class Signup extends Component {
             console.log(u);
             this.routeTo(ROUTES.EMAIL_SENT);
         }).catch((error) => {
-            console.log(error);
+            this.setState({fireSignupErrors : error.message})
         })
     }
 
 
     render() {
+        let signupErrorNotification = this.state.fireSignupErrors ?
+            (<div> { this.state.fireSignupErrors}</div>): null;
         return (
             <div className="wrapper">
                 <div className="form-wrapper">
                     <div className="FormTitle">
                         <h1>Create an Account</h1>
+                    </div>
+                    <div className="errorMessage">
+                        {signupErrorNotification}
                     </div>
                     <form onSubmit={this.signup}>
                         <div className="firstName">
