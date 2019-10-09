@@ -78,11 +78,14 @@ class Signup extends Component {
     signup(e) {
         e.preventDefault();
 
-        fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u) => {
+        fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then( credentials => {
+            fire.auth().currentUser.sendEmailVerification();
+            fire.firestore().collection('users').doc(credentials.user.uid).set({
+                email : this.state.email,
+                firstName : this.state.firstName,
+                lastName : this.state.lastName
+            });
         }).then((u) => {
-            fire.auth().currentUser.sendEmailVerification().then(function () {
-                // Email sent.
-            })
             console.log(u);
             this.routeTo(ROUTES.EMAIL_SENT);
         }).catch((error) => {
