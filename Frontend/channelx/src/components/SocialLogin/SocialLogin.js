@@ -54,28 +54,52 @@ class SocialLogin extends Component {
                             type="submit"
                             id="googleButton"
                             className="googleButton"
-                            onClick={() => auth.signInWithPopup(googleProvider)}
+                            onClick={() => auth.signInWithPopup(googleProvider).then((u) => {
+                            }).then((u) => {
+                                console.log(u);
+                                this.routeTo(ROUTES.HOME);
+                            }).catch((error) => {
+                                console.log(error);
+                            })}
                         >google
                         </button>
                         <button
                             type="submit"
                             id="twitterButton"
                             className="twitterButton"
-                            onClick={() => auth.signInWithPopup(twitterProvider)}
+                            onClick={() => auth.signInWithPopup(twitterProvider).then((u) => {
+                            }).then((u) => {
+                                console.log(u);
+                                this.routeTo(ROUTES.HOME);
+                            }).catch((error) => {
+                                console.log(error);
+                            })}
                         >twitter
                         </button>
                         <button
                             type="submit"
                             id="githubButton"
                             className="githubButton"
-                            onClick={() => auth.signInWithPopup(githubProvider)}
+                            onClick={() => auth.signInWithPopup(githubProvider).then((u) => {
+                            }).then((u) => {
+                                console.log(u);
+                                this.routeTo(ROUTES.HOME);
+                            }).catch((error) => {
+                                console.log(error);
+                            })}
                         >github
                         </button>
                         <button
                             type="submit"
                             id="facebookButton"
                             className="facebookButton"
-                            onClick={() => auth.signInWithPopup(facebookProvider)}
+                            onClick={() => auth.signInWithPopup(facebookProvider).then((u) => {
+                            }).then((u) => {
+                                console.log(u);
+                                this.routeTo(ROUTES.HOME);
+                            }).catch((error) => {
+                                console.log(error);
+                            })}
                         >facebook
                         </button>
                         <button

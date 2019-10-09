@@ -61,12 +61,6 @@ class Login extends Component {
             console.log(u);
             this.routeTo(ROUTES.HOME);
         }).catch((error) => {
-            //alert(error.code);
-            switch (error.code) {
-                case 'auth/user-not-found':
-                    alert('Login failed: Incorrect username or password!')
-                    break;
-            }
             console.log(error);
         })
     }
@@ -124,7 +118,6 @@ class Login extends Component {
                                 type="submit"
                                 id="loginSubmitButton"
                                 className="loginSubmitButton"
-                                onClick={() => this.routeTo(ROUTES.LANDING)}
                             >Login
                             </button>
                         </div>
