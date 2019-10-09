@@ -14,6 +14,7 @@ class ChatRoom extends Component{
         super(props, context);
         this.updateMessage = this.updateMessage.bind(this);
         this.submitMessage = this.submitMessage.bind(this);
+        this.clearMessage = this.clearMessage.bind(this);
         this.state = {
             username: '',
             message:'',
@@ -43,14 +44,13 @@ class ChatRoom extends Component{
     }
 
     updateMessage(e){
-        console.log(e.target.value);
         this.setState({
             message:e.target.value
         });
     }
 
     submitMessage(){
-        console.log("submit"+this.state.message);
+        console.log("submit "+this.state.message);
         const today = new Date();
         const newMessage = {
             id: this.state.messages.length,
@@ -59,10 +59,24 @@ class ChatRoom extends Component{
             timeStamp: today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
             +" "+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
         };
+
         firebase.database().ref('message/' + newMessage.id).set(newMessage)
             .then(r  =>{
                 console.log(r);
                 this.setState({message:''});
+            }).catch(e=>{
+                console.log(e)
+            });
+    }
+
+    clearMessage(){
+        console.log('clear message');
+        firebase.database().ref('message/').set([])
+            .then(r  =>{
+                console.log(r);
+                this.setState({
+                    messages: []
+                });
             }).catch(e=>{
                 console.log(e)
             });
@@ -98,6 +112,10 @@ class ChatRoom extends Component{
                     {currentMessage}
                 </div>
                 <div className="messageSending">
+                    <button
+                        className="clearButton"
+                        onClick={this.clearMessage}
+                    >clear</button>
                     <input
                         type="text"
                         className="newMessage"
