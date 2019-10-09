@@ -23,13 +23,13 @@ Date: 9/20/2019
     background-color: #7678ED;
 }
 
-.Register {
+.LandingRegister {
     width: 100%;
     flex-direction: column;
     align-items: center;
 }
 
-.Register button {
+.LandingRegister button {
     color: #000000;
     border: 2px solid #fff;
     width: 30%;
@@ -42,24 +42,24 @@ Date: 9/20/2019
     border-radius: 15px;
 }
 
-.Register button:hover {
-    color: #000000;
-    background-color: #61dafb;
+.LandingRegister button:hover {
+    color: #ffffff;
+    background-color: goldenrod;
     border: 2px solid #519e8a;
 }
 
-.Register small {
+.LandingRegister small {
     color: #999;
     font-weight: lighter;
 }
 
-.Login {
+.LandingLogin {
     width: 100%;
     flex-direction: column;
     align-items: center;
 }
 
-.Login button {
+.LandingLogin button {
     color: #000000;
     border: 2px solid #fff;
     width: 30%;
@@ -72,25 +72,25 @@ Date: 9/20/2019
     border-radius: 15px;
 }
 
-.Login button:hover {
-    color: #000000;
-    background-color: #8fd19e;
+.LandingLogin button:hover {
+    color: #ffffff;
+    background-color: goldenrod;
     border: 2px solid #519e8a;
 }
 
-.Login small {
+.LandingLogin small {
     color: #999;
     font-weight: lighter;
 }
 
 
-.SocialLogin {
+.LandingSocialLogin {
     width: 100%;
     flex-direction: column;
     align-items: center;
 }
 
-.SocialLogin button {
+.LandingSocialLogin button {
     color: #000000;
     border: 2px solid #fff;
     width: 30%;
@@ -103,13 +103,14 @@ Date: 9/20/2019
     border-radius: 15px;
 }
 
-.SocialLogin button:hover {
-    color: #000000;
-    background-color: #80bdff;
+.LandingSocialLogin button:hover {
+    color: #ffffff;
+    background-color: goldenrod;
     border: 2px solid #519e8a;
 }
 
-.SocialLogin small {
+.LandingSocialLogin small {
     color: #999;
     font-weight: lighter;
 }
+

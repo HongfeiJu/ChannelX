@@ -3,12 +3,23 @@ import './SocialLogin.css'
 import fire from "../../config/Fire";
 import * as ROUTES from '../../constants/routes';
 import {withRouter} from 'react-router-dom';
-import {auth, googleProvider, facebookProvider, twitterProvider, githubProvider, emailProvider} from "../../config/Fire";
+import {
+    auth,
+    googleProvider,
+    facebookProvider,
+    twitterProvider,
+    githubProvider,
+    emailProvider
+} from "../../config/Fire";
 
-class SocialLogin extends Component{
+class SocialLogin extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     routeTo = (path) => this.props.history.push(path);
 
-    state = { isSignedIn: false }
+    state = {isSignedIn: false}
     uiConfig = {
         signInFlow: "popup",
         signInOptions: [
@@ -26,61 +37,58 @@ class SocialLogin extends Component{
 
     componentDidMount = () => {
         auth.onAuthStateChanged(user => {
-            this.setState({ isSignedIn: !!user })
+            this.setState({isSignedIn: !!user})
             console.log("user", user)
         })
     }
 
-
-    handleSubmit=e=>{
-        console.log("submit button");
-        e.preventDefault();
-    };
-
-    render(){
+    render() {
         return (
             <div className="wrapper">
-                <header>
-                    <h1> Social Login </h1>
-                </header>
-                <div className="createAccount">
-                    <div className="Buttons">
-                    <button
-                        type="submit"
-                        id="submitButton"
-                        className="submitButton"
-                        onClick = {() => auth.signInWithPopup(googleProvider)}
-                    >google</button>
+                <div className="form-wrapper">
+                    <div className="FormTitle">
+                        <h1>Social Login</h1>
                     </div>
-                    <div className="Buttons">
-                    <button
-                        type="submit"
-                        id="submitButton"
-                        className="submitButton"
-                        onClick = {() => auth.signInWithPopup(twitterProvider)}
-                    >twitter</button>
-                    </div>
-                    <div className="Buttons">
-                    <button
-                        type="submit"
-                        id="submitButton"
-                        className="submitButton"
-                        onClick = {() => auth.signInWithPopup(githubProvider)}
-                    >github</button>
-                    </div>
-                    <div className="Buttons">
-                    <button
-                        type="submit"
-                        id="submitButton"
-                        className="submitButton"
-                        onClick = {() => auth.signInWithPopup(facebookProvider)}
-                    >facebook</button>
+                    <div className="socialLoginButtons">
+                        <button
+                            type="submit"
+                            id="googleButton"
+                            className="googleButton"
+                            onClick={() => auth.signInWithPopup(googleProvider)}
+                        >google
+                        </button>
+                        <button
+                            type="submit"
+                            id="twitterButton"
+                            className="twitterButton"
+                            onClick={() => auth.signInWithPopup(twitterProvider)}
+                        >twitter
+                        </button>
+                        <button
+                            type="submit"
+                            id="githubButton"
+                            className="githubButton"
+                            onClick={() => auth.signInWithPopup(githubProvider)}
+                        >github
+                        </button>
+                        <button
+                            type="submit"
+                            id="facebookButton"
+                            className="facebookButton"
+                            onClick={() => auth.signInWithPopup(facebookProvider)}
+                        >facebook
+                        </button>
+                        <button
+                            type="submit"
+                            id="cancelSocialButton"
+                            className="cancelSocialButton"
+                            onClick={() => this.props.onModalLoginClose()}
+                        >cancel
+                        </button>
                     </div>
                 </div>
-
             </div>
         );
-
     }
 }
 

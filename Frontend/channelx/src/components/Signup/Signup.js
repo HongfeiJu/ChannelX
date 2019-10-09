@@ -4,8 +4,8 @@ import fire from "../../config/Fire";
 import * as ROUTES from '../../constants/routes';
 import {withRouter} from 'react-router-dom';
 
-class Signup extends Component{
-    constructor(props){
+class Signup extends Component {
+    constructor(props) {
         super(props);
         this.login = this.login.bind(this);
         this.signup = this.signup.bind(this);
@@ -34,17 +34,17 @@ class Signup extends Component{
         this.props.history.push(path);
     }
 
-    handleSubmit=e=>{
+    handleSubmit = e => {
         console.log("submit button");
         e.preventDefault();
     };
 
-    handleChange=e=>{
+    handleChange = e => {
         e.preventDefault();
         const {name, value} = e.target;
         let formErrors = this.state.errors;
 
-        switch(name){
+        switch (name) {
             case 'firstName':
                 break;
             case 'lastName':
@@ -54,13 +54,13 @@ class Signup extends Component{
             case 'tel':
                 break;
             case 'userName':
-                formErrors.userName = value.length<8 ? 'username should be no less than 8 characters': '';
+                formErrors.userName = value.length < 8 ? 'username should be no less than 8 characters' : '';
                 break;
             case 'password':
-                formErrors.password = value.length<8 ? 'password should be no less than 8 characters': '';
+                formErrors.password = value.length < 8 ? 'password should be no less than 8 characters' : '';
                 break;
             case 'passwordConfirm':
-                setTimeout(e=>{
+                setTimeout(e => {
                         formErrors.passwordConfirm =
                             this.state.password === this.state.passwordConfirm ? '' : 'password doesn\'t match';
                         console.log(formErrors.passwordConfirm);
@@ -69,9 +69,10 @@ class Signup extends Component{
                     200
                 );
                 break;
-            default: break;
+            default:
+                break;
         }
-        this.setState({ formErrors, [name]: value }, () => console.log(this.state));
+        this.setState({formErrors, [name]: value}, () => console.log(this.state));
     };
 
     login(e) {
@@ -79,17 +80,17 @@ class Signup extends Component{
         fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u) => {
         }).catch((error) => {
             console.log(error);
-        } );
+        });
     }
 
-    signup(e){
+    signup(e) {
         e.preventDefault();
 
-        fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
-         }).then((u)=>{
-            fire.auth().currentUser.sendEmailVerification().then(function() {
+        fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u) => {
+        }).then((u) => {
+            fire.auth().currentUser.sendEmailVerification().then(function () {
                 // Email sent.
-              })
+            })
             console.log(u);
             this.routeTo(ROUTES.EMAIL_SENT);
         }).catch((error) => {
@@ -98,121 +99,125 @@ class Signup extends Component{
     }
 
 
-    render(){
-        return <div className="wrapper">
-            <div className="form-wrapper">
-                <div className="FormTitle">
-                    <h1>create an account</h1>
+    render() {
+        return (
+            <div className="wrapper">
+                <div className="form-wrapper">
+                    <div className="FormTitle">
+                        <h1>Create an Account</h1>
+                    </div>
+                    <form onSubmit={this.signup}>
+                        <div className="firstName">
+                            <input
+                                type="text"
+                                id="firstName"
+                                placeholder="First Name"
+                                name="firstName"
+                                required
+                                onChange={this.handleChange}
+                            >
+                            </input>
+                        </div>
+                        <div className="lastName">
+                            <input
+                                type="text"
+                                id="lastName"
+                                placeholder="Last Name"
+                                name="lastName"
+                                required
+                                onChange={this.handleChange}
+                            >
+                            </input>
+                        </div>
+                        <div className="email">
+                            <input
+                                type="email"
+                                id="email"
+                                placeholder="email"
+                                name="email"
+                                required
+                                onChange={this.handleChange}
+                            >
+                            </input>
+                        </div>
+                        <div className="tel">
+                            <input
+                                type="tel"
+                                id="tel"
+                                className="FormField__input"
+                                placeholder="tel"
+                                name="tel"
+                                required
+                                onChange={this.handleChange}
+                            >
+                            </input>
+                        </div>
+                        <hr/>
+                        <div className="userName">
+                            <input
+                                type="text"
+                                id="userName"
+                                className="FormField__input"
+                                placeholder="user name"
+                                name="userName"
+                                required
+                                onChange={this.handleChange}
+                            >
+                            </input>
+                            {this.state.errors.userName.length > 0 && (
+                                <span className="errorMessage">{this.state.errors.userName}</span>
+                            )}
+                        </div>
+                        <div className="password">
+                            <input
+                                type="password"
+                                id="password"
+                                className="FormField__input"
+                                placeholder="password"
+                                name="password"
+                                required
+                                onChange={this.handleChange}
+                            >
+                            </input>
+                            {this.state.errors.password.length > 0 && (
+                                <span className="errorMessage">{this.state.errors.password}</span>
+                            )}
+                        </div>
+                        <div className="password">
+                            <input
+                                type="password"
+                                id="passwordConfirm"
+                                className="FormField__input"
+                                placeholder="confirm password"
+                                name="passwordConfirm"
+                                required
+                                onChange={this.handleChange}
+                            >
+                            </input>
+                            {this.state.errors.passwordConfirm.length > 0 && (
+                                <span className="errorMessage">{this.state.errors.passwordConfirm}</span>
+                            )}
+                        </div>
+                        <div className="createAccount">
+                            <button
+                                type="button"
+                                id="cancelButton"
+                                className="cancelButton"
+                                onClick={() => this.props.onModalClose()}
+                            >Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                id="submitButton"
+                                className="submitButton"
+                                onClick={() => this.routeTo(ROUTES.LANDING)}
+                            >Sign up
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <form onSubmit={this.signup}>
-                    <div className="firstName">
-                        <input
-                            type="text"
-                            id="firstName"
-                            placeholder="First Name"
-                            name="firstName"
-                            required
-                            onChange={this.handleChange}
-                        >
-                        </input>
-                    </div>
-                    <div className="lastName">
-                        <input
-                            type="text"
-                            id="lastName"
-                            placeholder="Last Name"
-                            name="lastName"
-                            required
-                            onChange={this.handleChange}
-                        >
-                        </input>
-                    </div>
-                    <div className="email">
-                        <input
-                            type="email"
-                            id="email"
-                            placeholder="email"
-                            name="email"
-                            required
-                            onChange={this.handleChange}
-                        >
-                        </input>
-                    </div>
-                    <div className="tel">
-                        <input
-                            type="tel"
-                            id="tel"
-                            className="FormField__input"
-                            placeholder="tel"
-                            name="tel"
-                            required
-                            onChange={this.handleChange}
-                        >
-                        </input>
-                    </div>
-                    <hr/>
-                    <div className="userName">
-                        <input
-                            type="text"
-                            id="userName"
-                            className="FormField__input"
-                            placeholder="user name"
-                            name="userName"
-                            required
-                            onChange={this.handleChange}
-                        >
-                        </input>
-                        {this.state.errors.userName.length > 0 && (
-                            <span className="errorMessage">{this.state.errors.userName}</span>
-                        )}
-                    </div>
-                    <div className="password">
-                        <input
-                            type="password"
-                            id="password"
-                            className="FormField__input"
-                            placeholder="password"
-                            name="password"
-                            required
-                            onChange={this.handleChange}
-                        >
-                        </input>
-                        {this.state.errors.password.length > 0 && (
-                            <span className="errorMessage">{this.state.errors.password}</span>
-                        )}
-                    </div>
-                    <div className="password">
-                        <input
-                            type="password"
-                            id="passwordConfirm"
-                            className="FormField__input"
-                            placeholder="confirm password"
-                            name="passwordConfirm"
-                            required
-                            onChange={this.handleChange}
-                        >
-                        </input>
-                        {this.state.errors.passwordConfirm.length > 0 && (
-                            <span className="errorMessage">{this.state.errors.passwordConfirm}</span>
-                        )}
-                    </div>
-                    <div className="createAccount">
-                        <button
-                            type="button"
-                            id="cancelButton"
-                            className="cancelButton"
-                            onClick={() => this.props.onModalClose()}
-                        >cancel</button>
-                        <button
-                            type="submit"
-                            id="submitButton"
-                            className="submitButton"
-                            onClick={() => this.routeTo(ROUTES.LANDING)}
-                        >submit</button>
-                    </div>
-                </form>
             </div>
-        </div>;
+        );
     }
 }
 
