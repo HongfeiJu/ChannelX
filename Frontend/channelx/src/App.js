@@ -7,8 +7,6 @@ Date: 10/02/2019
 import React,{Component} from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import Signup from './components/Signup/Signup';
-import Login from './components/Login/Login';
 import ForgetPassword from './components/Login/ForgetPassword';
 import Landing from './components/Landing/Landing';
 import EmailSent from './components/VerificationEmailPage/EmailSent';

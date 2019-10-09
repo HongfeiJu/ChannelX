@@ -1,6 +1,6 @@
 /*
-Description: Login page
-Authors: Subhradeep Biswas
+Description: Login component for modal
+Authors: Subhradeep Biswas, Darshan Prakash
 Date: 10/01/2019
 */
 
@@ -8,7 +8,6 @@ import React, {Component} from 'react';
 import './Login.css'
 import fire from "../../config/Fire";
 import {withRouter} from 'react-router-dom';
-
 import * as ROUTES from '../../constants/routes';
 
 class Login extends Component {

@@ -1,3 +1,9 @@
+/*
+Description: Social Login component for modal
+Authors: Darshan Prakash
+Date: 10/09/2019
+*/
+
 import React, {Component} from 'react';
 import './SocialLogin.css'
 import fire from "../../config/Fire";

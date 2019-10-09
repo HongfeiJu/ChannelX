@@ -1,3 +1,9 @@
+/*
+Description: Signup component for modal
+Authors: Subhradeep Biswas, Darshan Prakash
+Date: 10/01/2019
+*/
+
 import React, {Component} from 'react';
 import './Signup.css'
 import fire from "../../config/Fire";

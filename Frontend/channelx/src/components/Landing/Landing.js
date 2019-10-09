@@ -1,6 +1,6 @@
 /*
 Description: Landing page which is displayed when user starts running the application
-Authors: Manisha Miriyala
+Authors: Manisha Miriyala, Darshan Prakash
 Date: 9/17/2019
 */
 
