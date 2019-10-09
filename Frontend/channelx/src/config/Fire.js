@@ -18,28 +18,13 @@ const firebaseConfig = {
     messagingSenderId: KEYS.MESSAGING_SENDER_ID,
     appId: KEYS.APP_ID,
     measurementId: KEYS.MEASUREMENTS_ID
-  };
-   
+};
+const fire = firebase.initializeApp(firebaseConfig);
 
-  // class fire {
-  //   constructor() {
-  //     firebase.initializeApp(firebaseConfig);
-  //     this.auth = firebase.auth();
-  //   }
-
-  //   doCreateUserWithEmailAndPassword = (email, password) =>
-  //   this.auth.createUserWithEmailAndPassword(email, password);
-
-  //   doSignInWithEmailAndPassword = (email, password) =>
-  //   this.auth.signInWithEmailAndPassword(email, password);
-
-  //   doSignOut = () => this.auth.signOut();
-
-  //   doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
-
-  //   doPasswordUpdate = password =>
-  //   this.auth.currentUser.updatePassword(password);
-  // }
-
-  const fire = firebase.initializeApp(firebaseConfig);
-  export default fire;
+export const auth = firebase.auth();
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
+export const facebookProvider = new firebase.auth.FacebookAuthProvider();
+export const twitterProvider = new firebase.auth.TwitterAuthProvider();
+export const githubProvider = new firebase.auth.GithubAuthProvider();
+export const emailProvider = new firebase.auth.EmailAuthProvider();
+export default fire;
