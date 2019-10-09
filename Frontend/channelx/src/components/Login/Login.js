@@ -19,6 +19,7 @@ class Login extends Component {
         this.state = {
             email: null,
             password: null,
+            fireLoginErrors:'',
 
             errors: {
                 email: "",
@@ -61,16 +62,21 @@ class Login extends Component {
             console.log(u);
             this.routeTo(ROUTES.HOME);
         }).catch((error) => {
-            console.log(error);
+            this.setState({fireLoginErrors : error.message})
         })
     }
 
     render() {
+        let loginErrorNotification = this.state.fireLoginErrors ?
+            (<div> { this.state.fireLoginErrors}</div>): null;
         return (
             <div className="wrapper">
                 <div className="form-wrapper">
                     <div className="FormTitle">
                         <h1>Sign in</h1>
+                    </div>
+                    <div className="errorMessage">
+                        {loginErrorNotification}
                     </div>
                     <form onSubmit={this.login}>
                         <div className="email">
