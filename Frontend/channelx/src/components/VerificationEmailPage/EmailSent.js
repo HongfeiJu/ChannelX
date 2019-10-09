@@ -30,7 +30,7 @@ class EmailSent extends React.Component {
                             type="button"
                             style={{ marginLeft: "auto" }}
                             className="Register"
-                            onClick={() => this.routeTo(ROUTES.SIGN_IN)}
+                            onClick={() => this.routeTo(ROUTES.LANDING)}
                         >Login</button>
                     </div>
                     
