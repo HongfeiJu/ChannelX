@@ -59,8 +59,11 @@ class Login extends Component {
         e.preventDefault();
         fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u) => {
         }).then((u) => {
-            console.log(u);
-            this.routeTo(ROUTES.HOME);
+            if(fire.auth().currentUser.emailVerified === true)
+                this.routeTo(ROUTES.HOME);
+            else {
+                this.setState({fireLoginErrors: "Kindly verify your email before you login"})
+            }
         }).catch((error) => {
             this.setState({fireLoginErrors : error.message})
         })
