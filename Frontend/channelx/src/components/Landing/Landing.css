@@ -43,12 +43,73 @@ Date: 9/20/2019
 }
 
 .Register button:hover {
-    color: #519e8a;
-    background-color: #fff;
+    color: #000000;
+    background-color: #61dafb;
     border: 2px solid #519e8a;
 }
 
 .Register small {
+    color: #999;
+    font-weight: lighter;
+}
+
+.Login {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Login button {
+    color: #000000;
+    border: 2px solid #fff;
+    width: 30%;
+    margin-top: 1em;
+    padding: 8px 0px;
+    font-size: 1em;
+    font-weight: lighter;
+    letter-spacing: 1px;
+    margin-bottom: 0.25em;
+    border-radius: 15px;
+}
+
+.Login button:hover {
+    color: #000000;
+    background-color: #8fd19e;
+    border: 2px solid #519e8a;
+}
+
+.Login small {
+    color: #999;
+    font-weight: lighter;
+}
+
+
+.SocialLogin {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.SocialLogin button {
+    color: #000000;
+    border: 2px solid #fff;
+    width: 30%;
+    margin-top: 1em;
+    padding: 8px 0px;
+    font-size: 1em;
+    font-weight: lighter;
+    letter-spacing: 1px;
+    margin-bottom: 0.25em;
+    border-radius: 15px;
+}
+
+.SocialLogin button:hover {
+    color: #000000;
+    background-color: #80bdff;
+    border: 2px solid #519e8a;
+}
+
+.SocialLogin small {
     color: #999;
     font-weight: lighter;
 }

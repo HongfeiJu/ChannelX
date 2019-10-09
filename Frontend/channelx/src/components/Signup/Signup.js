@@ -209,11 +209,6 @@ class Signup extends Component{
                             className="submitButton"
                             onClick={() => this.routeTo(ROUTES.LANDING)}
                         >submit</button>
-                        {/* <button
-                            type="submit"
-                            id="loginButton"
-                            className="loginButton"
-                        >Login</button> */}
                     </div>
                 </form>
             </div>

@@ -1,0 +1,39 @@
+.wrapper {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #7678ED;
+}
+
+.Buttons {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Buttons button {
+    color: #ffffff;
+    border: 2px solid #fff;
+    width: 30%;
+    margin-top: 1em;
+    padding: 8px 0px;
+    font-size: 1em;
+    font-weight: lighter;
+    letter-spacing: 1px;
+    margin-bottom: 0.25em;
+    border-radius: 15px;
+}
+
+.Buttons button:hover {
+    color: #000000;
+    background-color: #61dafb;
+    border: 2px solid #519e8a;
+}
+
+.Buttons small {
+    color: #999;
+    font-weight: lighter;
+}
