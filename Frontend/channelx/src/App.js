@@ -7,12 +7,13 @@ Date: 10/02/2019
 import React,{Component} from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+
 import ForgetPassword from './components/Login/ForgetPassword';
 import Landing from './components/Landing/Landing';
 import EmailSent from './components/VerificationEmailPage/EmailSent';
 import Fire from "./config/Fire";
 import Home from "./components/Home/Home";
-import chatPage from "./components/ChatRoom/chatPage";
+import ChatRoom from "./ChatRoom/ChatRoom";
 
 
 import * as ROUTES from './constants/routes';
@@ -51,7 +52,7 @@ class App extends Component {
                         <Route path={ROUTES.FORGET_PWD} exact component={ForgetPassword}/>
                         <Route path={ROUTES.HOME}  exact component={Home}/>
                         <Route path={ROUTES.EMAIL_SENT}  exact component={EmailSent}/>
-                        <Route path={ROUTES.CHAT_PAGE}  exact component={chatPage}/>
+                        <Route path={ROUTES.CHAT_PAGE}  exact component={ChatRoom}/>
                     </div>
                 </Router>
                 {/*{this.state.user ?(<Home />):(<Signup />)}*/}
