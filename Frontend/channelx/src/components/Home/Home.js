@@ -6,6 +6,7 @@ Date: 9/24/2019
 
 import React, {Component} from 'react';
 import fire from "../../config/Fire";
+import './Home.css'
 
 import * as ROUTES from "../../constants/routes";
 
@@ -22,22 +23,28 @@ class Home extends Component{
 
     render() {
         return (
-            <div className="Register">
 
-                <button
-                    type="button"
-                    style={{ marginLeft: "auto" }}
-                    className="Join Channel"
-                    onClick={() => this.routeTo(ROUTES.CHAT_PAGE)}>
-                Join Channel</button>
+            <div className="Home">
+                <div className = "Header"> 
+                    <button id="join"
+                        type="button"
+                        style={{ marginLeft: "auto" }}
+                        className="Join Channel"
+                        onClick={() => this.routeTo(ROUTES.CHAT_PAGE)}>
+                    Join Channel</button>
 
-                <button
-                    type="button"
-                    style={{ marginLeft: "auto" }}
-                    className="Logout"
-                    onClick={() => this.routeTo(ROUTES.LANDING)}
+                    <button id="logout"
+                        type="button"
+                        style={{ marginLeft: "auto" }}
+                        className="Logout"
+                        onClick={() => this.routeTo(ROUTES.LANDING)}
 
-                >Logout</button>
+                    >Logout</button>
+                </div>
+                <div className = "Main">
+                </div>
+                <div className = "Footer">
+                </div>
 
             </div>
         );

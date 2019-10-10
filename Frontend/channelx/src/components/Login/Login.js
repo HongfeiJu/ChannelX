@@ -64,7 +64,18 @@ class Login extends Component {
                 this.setState({fireLoginErrors: "Kindly verify your email before you login"})
             }
         }).catch((error) => {
-            this.setState({fireLoginErrors : error.message})
+          //alert(error.code);
+         /* switch(error.code) {
+            case 'auth/user-not-found':
+                alert('Login failed: Incorrect username or password!')
+                break;
+            case 'auth/wrong-password':
+                alert('Login failed: Incorrect password!')
+                break;
+          }*/
+          console.log(error);
+          this.setState({fireLoginErrors : error.message})
+
         })
     }
 

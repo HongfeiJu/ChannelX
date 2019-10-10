@@ -27,4 +27,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # Don't track content of these folders
-constants/keys/
+src/constants/keys/
