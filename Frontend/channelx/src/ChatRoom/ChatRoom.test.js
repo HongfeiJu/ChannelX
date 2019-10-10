@@ -19,6 +19,11 @@ describe('<ChatRoom/>', ()=>{
         ReactDOM.unmountComponentAtNode(div);
     });
 
+    it('should have one chat room element', ()=>{
+        const wrapper = shallow(<ChatRoom/>);
+        expect(wrapper.find('.chatRoom')).toHaveLength(1);
+    });
+
     it('should have one title element', ()=>{
         const wrapper = shallow(<ChatRoom/>);
         expect(wrapper.find('.roomTitle')).toHaveLength(1);
@@ -32,6 +37,21 @@ describe('<ChatRoom/>', ()=>{
     it('should have one sending element', ()=>{
         const wrapper = shallow(<ChatRoom/>);
         expect(wrapper.find('.messageSending')).toHaveLength(1);
+    });
+
+    it('should have one clear button', ()=>{
+        const wrapper = shallow(<ChatRoom/>);
+        expect(wrapper.find('.clearButton')).toHaveLength(1);
+    });
+
+    it('should have one message input element', ()=>{
+        const wrapper = shallow(<ChatRoom/>);
+        expect(wrapper.find('.newMessage')).toHaveLength(1);
+    });
+
+    it('should have one sending button', ()=>{
+        const wrapper = shallow(<ChatRoom/>);
+        expect(wrapper.find('.sendButton')).toHaveLength(1);
     });
 
 });
