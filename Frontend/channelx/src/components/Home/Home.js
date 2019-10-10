@@ -1,12 +1,14 @@
 /*
 Description: Home page
-Authors: Darshan Prakash, Sami
+Authors: Darshan Prakash, Sami, Manisha
 Date: 9/24/2019
 */
 
 import React, {Component} from 'react';
 import fire from "../../config/Fire";
 import './Home.css'
+
+import * as ROUTES from "../../constants/routes";
 
 class Home extends Component{
     constructor(props){
@@ -18,27 +20,36 @@ class Home extends Component{
     logout(){
         fire.auth().signOut();
     }
-    
+
     render() {
         return (
+
             <div className="Home">
                 <div className = "Header"> 
+                    <button id="join"
+                        type="button"
+                        style={{ marginLeft: "auto" }}
+                        className="Join Channel"
+                        onClick={() => this.routeTo(ROUTES.CHAT_PAGE)}>
+                    Join Channel</button>
+
                     <button id="logout"
                         type="button"
-                        //style={{ marginLeft: "auto" }}
-                        onClick={() => this.routeTo('/')}
+                        style={{ marginLeft: "auto" }}
+                        className="Logout"
+                        onClick={() => this.routeTo(ROUTES.LANDING)}
+
                     >Logout</button>
                 </div>
                 <div className = "Main">
                 </div>
                 <div className = "Footer">
                 </div>
+
             </div>
         );
     }
 
 }
-
-
 
 export default Home;

@@ -51,7 +51,7 @@ class Login extends Component{
         e.preventDefault();
         fire.auth().sendPasswordResetEmail(this.state.email).then((u) => {
             alert('Please check your email...')
-            this.routeTo(ROUTES.SIGN_IN);
+            this.routeTo(ROUTES.LANDING);
         }).catch((error) => {
           //alert(error.code);
           console.log(error);
@@ -84,7 +84,7 @@ class Login extends Component{
                             type="button"
                             id="cancelButton"
                             className="cancelButton"
-                            onClick={() => this.routeTo(ROUTES.SIGN_IN)}
+                            onClick={() => this.routeTo(ROUTES.LANDING)}
                         >cancel</button>
                         <button
                             type="submit"
