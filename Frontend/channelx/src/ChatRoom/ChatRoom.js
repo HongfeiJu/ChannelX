@@ -89,10 +89,9 @@ class ChatRoom extends Component{
 
     fetchUsername(){
         return "user "+ Math.floor(Math.random()*100);
-        /*
-        const uid = firebase.auth().currentUser.uid;
-        return firebase.firestore().collection('users').doc(uid).get('firstName');
-         */
+
+        //const uid = firebase.auth().currentUser.displayName;
+        // return firebase.firestore().collection('users').doc(uid).;
 
     }
 
