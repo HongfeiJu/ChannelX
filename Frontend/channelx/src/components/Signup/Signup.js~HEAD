@@ -1,12 +1,8 @@
-/*
-Description: Signup page
-Authors: Hongfei Ju
-Date: 9/20/2019
-*/
-
 import React, {Component} from 'react';
 import './Signup.css'
-import fire from "../config/Fire";
+import fire from "../../config/Fire";
+import * as ROUTES from '../../constants/routes';
+import {withRouter} from 'react-router-dom';
 
 class Signup extends Component{
     constructor(props){
@@ -88,10 +84,14 @@ class Signup extends Component{
 
     signup(e){
         e.preventDefault();
+
         fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
-        }).then((u)=>{
+         }).then((u)=>{
+            fire.auth().currentUser.sendEmailVerification().then(function() {
+                // Email sent.
+              })
             console.log(u);
-            this.routeTo('/home');
+            this.routeTo(ROUTES.EMAIL_SENT);
         }).catch((error) => {
             console.log(error);
         })
@@ -201,13 +201,19 @@ class Signup extends Component{
                             type="button"
                             id="cancelButton"
                             className="cancelButton"
-                            onClick={() => this.routeTo('/')}
+                            onClick={() => this.props.onModalClose()}
                         >cancel</button>
                         <button
                             type="submit"
                             id="submitButton"
                             className="submitButton"
+                            onClick={() => this.routeTo(ROUTES.LANDING)}
                         >submit</button>
+                        {/* <button
+                            type="submit"
+                            id="loginButton"
+                            className="loginButton"
+                        >Login</button> */}
                     </div>
                 </form>
             </div>
@@ -216,4 +222,4 @@ class Signup extends Component{
 }
 
 
-export default Signup;
+export default withRouter(Signup);

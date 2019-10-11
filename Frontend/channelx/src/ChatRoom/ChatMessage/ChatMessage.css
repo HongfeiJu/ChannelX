@@ -1,0 +1,29 @@
+.message{
+    margin: 3px;
+    padding: 5px;
+}
+
+.messageUser{
+    width:7%;
+    float: left;
+    background-color: gold;
+    border-radius: 5px;
+    margin: 2px;
+    padding: 5px;
+}
+
+.messageText{
+    width:70%;
+    float: left;
+    text-align: left;
+    background-color: #b3d7ff;
+    border-radius: 5px;
+    margin: 2px;
+    padding: 5px;
+}
+
+.messageTimestamp{
+    float: right;
+    margin: 2px;
+    padding: 5px;
+}

@@ -1,15 +1,30 @@
+/*
+Description: Updating Fire.js using constants 
+Author: Sami
+Date: 10/02/2019
+*/
+
 import firebase from "firebase";
+import * as KEYS from '../constants/keys/keys';
+// import 'firebase/auth';
+
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBTi6-MYDO-skqiSeuEJrlpaqe6URhUBtc",
-    authDomain: "channelx-714c6.firebaseapp.com",
-    databaseURL: "https://channelx-714c6.firebaseio.com",
-    projectId: "channelx-714c6",
-    storageBucket: "",
-    messagingSenderId: "697701922217",
-    appId: "1:697701922217:web:03e8c2f4961ea7228f00b8",
-    measurementId: "G-7SJGHG1M48"
-  };
-
+    apiKey: KEYS.API_KEY,
+    authDomain: KEYS.AUTH_DOMAIN,
+    databaseURL: KEYS.DATABASE_URL,
+    projectId: KEYS.PROJECT_ID,
+    storageBucket: KEYS.STORAGE_BUCKET,
+    messagingSenderId: KEYS.MESSAGING_SENDER_ID,
+    appId: KEYS.APP_ID,
+    measurementId: KEYS.MEASUREMENTS_ID
+};
 const fire = firebase.initializeApp(firebaseConfig);
+
+export const auth = firebase.auth();
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
+export const facebookProvider = new firebase.auth.FacebookAuthProvider();
+export const twitterProvider = new firebase.auth.TwitterAuthProvider();
+export const githubProvider = new firebase.auth.GithubAuthProvider();
+export const emailProvider = new firebase.auth.EmailAuthProvider();
 export default fire;
