@@ -13,7 +13,7 @@ import Landing from './components/Landing/Landing';
 import EmailSent from './components/VerificationEmailPage/EmailSent';
 import Fire from "./config/Fire";
 import Home from "./components/Home/Home";
-import ChatRoom from "./ChatRoom/ChatRoom";
+import ChatRoom from "./components/ChatRoom/ChatRoom";
 
 
 import * as ROUTES from './constants/routes';
