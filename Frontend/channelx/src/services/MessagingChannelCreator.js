@@ -20,7 +20,7 @@ class MessagingChannelCreator{
 
         const newChannel = {
             title: title,
-            author: creator,
+            creator: creator,
             messages:{
                 0: initialMessage
             }
