@@ -63,7 +63,6 @@ body {
 
 #logout {
     float: right;
-    //background-color: darkgray;
     color: #000000;
     border: 2px solid #fff;
     width: 10%;
@@ -77,8 +76,25 @@ body {
 }
 
 
+#createChannel {
+    float: left;
+    color: #000000;
+    border: 2px solid #fff;
+    width: 10%;
+    margin-top: 1em;
+    padding: 8px 2px;
+    font-size: 1em;
+    font-weight: lighter;
+    letter-spacing: 1px;
+    margin-bottom: 0.25em;
+    border-radius: 5px;
+}
+
+
+
+
+
 #join {
-    float: right;
     //background-color: darkgray;
     color: #000000;
     border: 2px solid #fff;
@@ -132,5 +148,5 @@ body {
   > footer {
     background: white;
   }
-} 
+}
 */

@@ -18,6 +18,7 @@ import TestPage from "./components/TestPage/TestPage";
 
 
 import * as ROUTES from './constants/routes';
+import CreateChannel from "./components/CreateChannel/CreateChannel";
 
 class App extends Component {
     constructor(props){
@@ -55,6 +56,7 @@ class App extends Component {
                         <Route path={ROUTES.EMAIL_SENT}  exact component={EmailSent}/>
                         <Route path={ROUTES.CHAT_PAGE}  exact component={ChatRoom}/>
                         <Route path={ROUTES.TEST_PAGE}  exact component={TestPage}/>
+                        <Route path={ROUTES.CREATE_CHANNEL} exact component={CreateChannel}/>
                     </div>
                 </Router>
                 {/*{this.state.user ?(<Home />):(<Signup />)}*/}
