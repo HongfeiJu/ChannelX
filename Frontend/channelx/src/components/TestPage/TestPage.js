@@ -8,6 +8,11 @@ import React, {Component} from 'react';
 import PasscodeGenerator from "../../services/PasscodeGenerator";
 import ChannelIDCreator from "../../services/ChannelIDCreator";
 import MessagingChannelCreator from "../../services/MessagingChannelCreator";
+import Fire from "../../config/Fire";
+import AddChannelEntryForm from "./AddChannelEntryForm";
+import ChannelsList from "./ChannelsList"
+
+
 
 class TestPage extends Component{
     constructor(props){
@@ -39,10 +44,15 @@ class TestPage extends Component{
         })
     }
 
+
     render() {
         return (
             <div className="Home">
+                
                 <div className = "Header">
+                <h1>
+                    Test For Create Channel
+                </h1>
                     <button id="onetimePasscode_botton"
                             type="button"
                             style={{ marginLeft: "auto" }}
@@ -61,11 +71,18 @@ class TestPage extends Component{
                             onClick={() => this.createNewChannel()}
 
                     >create new channel</button>
+                <ChannelsList/>
+                <AddChannelEntryForm/> 
                 </div>
+               
+
+                
+                
                 <div className = "Main">
                 </div>
                 <div className = "Footer">
                 </div>
+                
 
             </div>
         );
