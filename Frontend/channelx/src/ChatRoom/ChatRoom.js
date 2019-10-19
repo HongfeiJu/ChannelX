@@ -8,6 +8,7 @@ import React, {Component} from 'react';
 import firebase from "firebase";
 import './ChatRoom.css';
 import ChatMessage from "./ChatMessage/ChatMessage";
+import * as ROUTES from "../constants/routes";
 
 class ChatRoom extends Component{
     constructor(props, context) {
@@ -94,6 +95,9 @@ class ChatRoom extends Component{
         // return firebase.firestore().collection('users').doc(uid).;
 
     }
+    routeTo(path) {
+        this.props.history.push(path);
+    }
 
     render() {
         const currentMessage = this.state.messages.map((message, i)=>{
@@ -104,7 +108,7 @@ class ChatRoom extends Component{
         return (
             <div className="chatRoom">
                 <div className="roomTitle">
-                    <h3>sample channel</h3>
+                    <h3>Chat Window</h3>
                 </div>
                 <div className="messagePanel"
                      ref={(el) => { this.messagesEnd = el; }}>
@@ -126,6 +130,11 @@ class ChatRoom extends Component{
                         className="sendButton"
                         onClick={this.submitMessage}
                     >send</button>
+                    <button
+                        className="goBack"
+                        onClick={() => this.routeTo(ROUTES.HOME)}
+                    >Back</button>
+
                 </div>
             </div>
         );
