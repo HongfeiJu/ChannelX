@@ -67,7 +67,7 @@ class SocialLogin extends Component {
                             }).catch((error) => {
                                 console.log(error);
                             })}
-                        >google
+                        >Google
                         </button>
                         <button
                             type="submit"
@@ -80,7 +80,7 @@ class SocialLogin extends Component {
                             }).catch((error) => {
                                 console.log(error);
                             })}
-                        >twitter
+                        >Twitter
                         </button>
                         <button
                             type="submit"
@@ -93,7 +93,7 @@ class SocialLogin extends Component {
                             }).catch((error) => {
                                 console.log(error);
                             })}
-                        >github
+                        >Github
                         </button>
                         <button
                             type="submit"
@@ -113,7 +113,7 @@ class SocialLogin extends Component {
                             id="cancelSocialButton"
                             className="cancelSocialButton"
                             onClick={() => this.props.onModalLoginClose()}
-                        >cancel
+                        >I'm old school
                         </button>
                     </div>
                 </div>
