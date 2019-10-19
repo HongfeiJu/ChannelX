@@ -28,7 +28,9 @@ class CreateChannel extends Component {
                         onClick={() => this.routeTo(ROUTES.HOME)}>
                     Home
                 </button>
+                
             </div>
+
         );
     }
 
