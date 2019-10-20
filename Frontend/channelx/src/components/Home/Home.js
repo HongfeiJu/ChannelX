@@ -22,7 +22,7 @@ class Home extends Component{
     }
     
     state = {
-    query: "",
+    channels: null,
     data: [],
     filteredData: []
   };
@@ -58,8 +58,19 @@ class Home extends Component{
       });
   };
 
+
   componentWillMount() {
     this.getData();
+  }
+
+  componentDidMount() {
+    //this.getData();
+    fire.db.collection('channels')
+           .get()
+           .then( snapshot => {
+
+           })
+           .catch(error => console.log(error))
   }
 
     render() {
