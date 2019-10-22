@@ -9,6 +9,7 @@ import firebase from "firebase";
 import './ChatRoom.css';
 import ChatMessage from "./ChatMessage/ChatMessage";
 import PasscodeGenerator from "../../services/PasscodeGenerator";
+import getCurrentUserUid from "../../services/currentUuidGetter";
 
 class ChatRoom extends Component{
     constructor(props, context) {
@@ -16,13 +17,16 @@ class ChatRoom extends Component{
         this.updateMessage = this.updateMessage.bind(this);
         this.submitMessage = this.submitMessage.bind(this);
         this.clearMessage = this.clearMessage.bind(this);
+        this.addNewPasscode = this.addNewPasscode.bind(this);
+        this.showPasscodes = this.showPasscodes.bind(this);
         this.state = {
             id:this.props.match.params.id,
             title:'',
             creator:'',
             username: '',
             message:'',
-            messages : []
+            messages : [],
+            passcodes: []
         }
     }
 
@@ -39,7 +43,8 @@ class ChatRoom extends Component{
                 this.setState({
                     title:channel.title,
                     creator:channel.creator,
-                    messages: channel.messages
+                    messages: channel.messages,
+                    passcodes: channel.passcodes
                 });
             }
         });
@@ -72,7 +77,7 @@ class ChatRoom extends Component{
             +" "+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
         };
 
-        firebase.database().ref('channels/test/messages/' + newMessage.id).set(newMessage)
+        firebase.database().ref('channels/'+ this.state.id+'/messages/' + newMessage.id).set(newMessage)
             .then(r  =>{
                 console.log(r);
                 this.setState({message:''});
@@ -101,25 +106,35 @@ class ChatRoom extends Component{
 
     fetchUsername(){
         return "user "+ Math.floor(Math.random()*100);
-
-        //const uid = firebase.auth().currentUser.displayName;
-        // return firebase.firestore().collection('users').doc(uid).;
-
-    }
-
-    fetchUserID(){
-        return 'dummy user';
     }
 
     addNewPasscode(){
-        const newPasscode = (new PasscodeGenerator()).generateOnetimePasscode();
-        //add newPasscode to firebase
+        console.log(this.state.passcodes);
+        const pg = new PasscodeGenerator();
+        let newPasscode = pg.generateOnetimePasscode();
+
+        while(this.state.passcodes.includes(newPasscode.value)){
+            newPasscode = pg.generateOnetimePasscode();
+        }
+
+        firebase.database().ref('channels/'+ this.state.id+'/passcodes/'+this.state.passcodes.length).set(newPasscode)
+            .then(r  =>{
+                console.log(r);
+            }).catch(e=>{
+            console.log(e)
+        });
+
+    }
+
+    showPasscodes(){
+        alert(this.state.passcodes);
     }
 
     getControlBar(){
-        if(this.fetchUserID()===this.state.creator){
+        if(getCurrentUserUid()===this.state.creator){
             return (<div className="control_bar">
-                <button className="control_button">generate passcode</button>
+                <button className="control_button" onClick={this.addNewPasscode}>generate passcode</button>
+                <button className="control_button" onClick={this.showPasscodes}>show passcodes</button>
             </div>);
         }
     }

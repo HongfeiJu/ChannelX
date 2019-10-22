@@ -23,6 +23,9 @@ class MessagingChannelCreator{
             creator: creator,
             messages:{
                 0: initialMessage
+            },
+            passcodes:{
+                0: 'initial passcode'
             }
         };
 
