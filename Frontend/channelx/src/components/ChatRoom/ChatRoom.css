@@ -26,6 +26,20 @@ h3{
     transform: translate(-50%, -50%);
 }
 
+.control_bar{
+    border-bottom: 3px solid rebeccapurple;
+    background-color: white;
+    height: auto;
+}
+
+.control_button{
+    background-color: mediumpurple;
+    margin: 5px;
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+}
+
 .messagePanel{
     width:100%;
     height: 80%;

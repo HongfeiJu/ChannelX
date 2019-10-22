@@ -8,6 +8,7 @@ import React, {Component} from 'react';
 import firebase from "firebase";
 import './ChatRoom.css';
 import ChatMessage from "./ChatMessage/ChatMessage";
+import PasscodeGenerator from "../../services/PasscodeGenerator";
 
 class ChatRoom extends Component{
     constructor(props, context) {
@@ -16,6 +17,9 @@ class ChatRoom extends Component{
         this.submitMessage = this.submitMessage.bind(this);
         this.clearMessage = this.clearMessage.bind(this);
         this.state = {
+            id:this.props.match.params.id,
+            title:'',
+            creator:'',
             username: '',
             message:'',
             messages : []
@@ -23,24 +27,32 @@ class ChatRoom extends Component{
     }
 
     componentDidMount() {
-        this.scrollToBottom();
 
         this.setState({
             username: this.fetchUsername()
         });
 
-        firebase.database().ref('message/').on('value', (snapshot)=>{
-            const currentMessages = snapshot.val();
-            if(currentMessages!=null){
+        firebase.database().ref('channels/' + this.state.id).on('value', (snapshot)=>{
+            const channel = snapshot.val();
+            console.log(this.id+" " +channel);
+            if(channel!=null){
                 this.setState({
-                    messages: currentMessages
+                    title:channel.title,
+                    creator:channel.creator,
+                    messages: channel.messages
                 });
             }
-        })
+        });
+
+        if(this.state.messages.length !== 0){
+            this.scrollToBottom();
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        this.scrollToBottom();
+        if(this.state.messages.length !== 0){
+            this.scrollToBottom();
+        }
     }
 
     updateMessage(e){
@@ -60,7 +72,7 @@ class ChatRoom extends Component{
             +" "+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
         };
 
-        firebase.database().ref('message/' + newMessage.id).set(newMessage)
+        firebase.database().ref('channels/test/messages/' + newMessage.id).set(newMessage)
             .then(r  =>{
                 console.log(r);
                 this.setState({message:''});
@@ -95,19 +107,44 @@ class ChatRoom extends Component{
 
     }
 
+    fetchUserID(){
+        return 'dummy user';
+    }
+
+    addNewPasscode(){
+        const newPasscode = (new PasscodeGenerator()).generateOnetimePasscode();
+        //add newPasscode to firebase
+    }
+
+    getControlBar(){
+        if(this.fetchUserID()===this.state.creator){
+            return (<div className="control_bar">
+                <button className="control_button">generate passcode</button>
+            </div>);
+        }
+    }
+
     render() {
         const currentMessage = this.state.messages.map((message, i)=>{
            return (
                <ChatMessage key={i} user={message.from} text={message.text} time={message.timeStamp}/>
            )
         });
+
+        if(this.state.messages.length === 0){
+            return (
+              <h1>channel doesn't exist</h1>
+            );
+        }
+
         return (
             <div className="chatRoom">
                 <div className="roomTitle">
-                    <h3>sample channel</h3>
+                    <h3>{this.state.title}</h3>
                 </div>
                 <div className="messagePanel"
                      ref={(el) => { this.messagesEnd = el; }}>
+                    {this.getControlBar()}
                     {currentMessage}
                 </div>
                 <div className="messageSending">
