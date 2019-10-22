@@ -20,7 +20,6 @@ class CreateChannel extends Component {
         this.state = {
             channelTitle: null,
             channelPassword: null,
-            channelOnePassword: null,
             channelStartDate: null,
             channelEndDate: null,
             channelStartTime: null,
@@ -30,7 +29,6 @@ class CreateChannel extends Component {
             errors:{
                 channelTitle: "",
                 channelPassword: "",
-                channelOnePassword: "",
                 channelStartDate: "",
                 channelEndDate: "",
                 channelStartTime: "",
@@ -48,8 +46,6 @@ class CreateChannel extends Component {
             case 'channelTitle':
                 break;
             case 'channelPassword':
-                break;
-            case 'channelOnePassword':
                 break;
             case 'channelStartDate':
                 break;
@@ -73,7 +69,6 @@ class CreateChannel extends Component {
         channelCreator.creatNewChannel(
             this.state.channelTitle,
             this.state.channelPassword,
-            this.state.channelOnePassword,
             this.state.channelStartDate,
             this.state.channelEndDate,
             this.state.channelStartTime,
@@ -108,16 +103,6 @@ class CreateChannel extends Component {
                                 id="channelPassword"
                                 placeholder="Password"
                                 name="channelPassword"
-                                required
-                                onChange={this.handlechannelChange}
-                            ></input>
-                        </div>
-                        <div className="channelOnePassword">
-                            <input
-                                type="text"
-                                id="channelOnePassword"
-                                placeholder="One time Password"
-                                name="channelOnePassword"
                                 required
                                 onChange={this.handlechannelChange}
                             ></input>

@@ -11,7 +11,7 @@ import fire from "../config/Fire";
 
 class ChannelCreator {
 
-    creatNewChannel(title,password,onePass, startDate, endDate,startTime,endTime,creator){
+    creatNewChannel(title,password, startDate, endDate,startTime,endTime,creator){
         const channelIDCreator=new ChannelIDCreator();
         const messagingChannelCreator=new MessagingChannelCreator();
         channelIDCreator.getNewChannelID().then(r=>{
@@ -19,7 +19,6 @@ class ChannelCreator {
             fire.firestore().collection('channels').doc(messagingChannelID).set({
                 channelTitle : title,
                 channelPassword : password,
-                channelOnePassword : onePass,
                 channelStartDate : startDate,
                 channelEndDate : endDate,
                 channelStartTime : startTime,
