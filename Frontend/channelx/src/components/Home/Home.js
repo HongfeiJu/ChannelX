@@ -45,26 +45,28 @@ class Home extends Component {
   };
 
   getData = () => {
-    db.collection('channels')
-      .get()
-      .then(response => {
-            response.forEach( doc => {
-              const newChannel = doc.data()
-              data.push(newChannel)
-            })
-          })    
+    db.collection("channels").where("channelTitle", "==", "new")
+    .get()
+    .then(query=>{
+      let data = query.docs.map(doc=>{
+          let x = doc.data()
+              x['_id']=doc.id;
+              return x;
+      })
+      return data;
+      })
       .then(data => {
         const { query } = this.state;
         const filteredData = data.filter(element => {
           return element.name.toLowerCase().includes(query.toLowerCase());
         });
-
+  
         this.setState({
           data,
           filteredData
         });
       });
-  };
+    };
 
 
   componentWillMount() {
