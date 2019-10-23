@@ -22,12 +22,12 @@ var li;
 function gotData(data) {
    if(fire.auth().currentUser){
     var userId = fire.auth().currentUser.uid;
-    console.log(userId);
+    // console.log(userId);
    }
 
    var chan = data.val();
    var keys = Object.keys(chan);
-   console.log(keys);
+//    console.log(keys);
 for(var i = 0; i<keys.length; i++)  {
     var k = keys[i];
     var title = chan[k].title;
@@ -35,7 +35,7 @@ for(var i = 0; i<keys.length; i++)  {
 
     if(creator !== userId) {
 
-        console.log(title, creator);
+        // console.log(title, creator);
         createElement('li', title );
         console.log(li);
     } 
@@ -44,7 +44,7 @@ for(var i = 0; i<keys.length; i++)  {
 }
 
 function errData(err) {
-    console.log('error');
+    // console.log('error');
     console.log(err);
 }
 
