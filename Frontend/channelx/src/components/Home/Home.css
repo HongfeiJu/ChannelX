@@ -91,9 +91,6 @@ body {
 }
 
 
-
-
-
 #join {
     //background-color: darkgray;
     color: #000000;
@@ -107,6 +104,8 @@ body {
     margin-bottom: 0.25em;
     border-radius: 5px;
 }
+
+
 
 /*.app {
   max-width: 60rem;

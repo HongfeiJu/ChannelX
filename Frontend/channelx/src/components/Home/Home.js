@@ -71,9 +71,7 @@ class Home extends Component {
     })
     .then(data => {
       const { query } = this.state;
-        const filteredData = data.filter(element => {
-        return element.toLowerCase().includes(query.toLowerCase());
-      });
+        const filteredData = data;
   
         this.setState({
           data,
@@ -83,9 +81,9 @@ class Home extends Component {
     };
 
 
-  //componentDidMount() {
-  //  this.getData();
-  //}
+  componentDidMount() {
+    this.getData();
+  }
 
 /*  componentDidMount() {
     //this.getData();
@@ -138,23 +136,19 @@ class Home extends Component {
                     </button>
                 </div>
                 <div className = "Main">
-                    <div className="searchForm">
+                    
+                    <div id="searchForm">
                         <form>
-                        <input
-                            placeholder="Search for..."
+                        <input                            
+                            placeholder="Search for channels"
                             value={this.state.query}
                             onChange={this.handleInputChange}
                         />
-                        <button id="search"
-                            type="button"
-                            style={{float: "left"}}
-                            className="search"
-                            onClick={this.getData}
-                        >Search
-                        </button>
-                        <select id="channelDrop" style={{float: "right"}}>
+                        
+                        <select id="channelDrop" >
                           {channelList}
                         </select>
+                        
                         </form>
                     </div>
                 </div>
