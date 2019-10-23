@@ -30,14 +30,16 @@ class Home extends Component {
   };
 
   handleInputChange = event => {
+    //const channels = event.target.value;
     const query = event.target.value;
 
     this.setState(prevState => {
       const filteredData = prevState.data.filter(element => {
-        return element.name.toLowerCase().includes(query.toLowerCase());
+        return element.toLowerCase().includes(query.toLowerCase());
       });
 
       return {
+        //channels,
         query,
         filteredData
       };
@@ -45,21 +47,33 @@ class Home extends Component {
   };
 
   getData = () => {
-    db.collection("channels").where("channelTitle", "==", "new")
+    db.collection("channels") //.where("channelTitle", "==", "channel4")
     .get()
-    .then(query=>{
-      let data = query.docs.map(doc=>{
-          let x = doc.data()
-              x['_id']=doc.id;
-              return x;
-      })
-      return data;
-      })
-      .then(data => {
-        const { query } = this.state;
+    .then(snapshot => {
+      const data = [];
+      snapshot
+        .docs
+        .forEach(doc => {
+          //console.log(JSON.parse(doc._document.channelTitle.value.toString()))
+          console.log(doc.get("channelTitle"));
+          data.push(doc.get("channelTitle"));
+        })
+
+
+       //console.log(snapshot.docs);
+       //console.log(JSON.parse(snapshot._document.data.toString()))
+       //return snapshot.docs;
+        //.forEach(doc => {
+        //  console.log(JSON.parse(doc._document.data.toString()))
+       // });
+
+       return data;
+    })
+    .then(data => {
+      const { query } = this.state;
         const filteredData = data.filter(element => {
-          return element.name.toLowerCase().includes(query.toLowerCase());
-        });
+        return element.toLowerCase().includes(query.toLowerCase());
+      });
   
         this.setState({
           data,
@@ -69,9 +83,9 @@ class Home extends Component {
     };
 
 
-  componentWillMount() {
-    this.getData();
-  }
+  //componentDidMount() {
+  //  this.getData();
+  //}
 
 /*  componentDidMount() {
     //this.getData();
@@ -122,9 +136,17 @@ class Home extends Component {
                             value={this.state.query}
                             onChange={this.handleInputChange}
                         />
+                        <button id="search"
+                            type="button"
+                            style={{float: "left"}}
+                            className="search"
+                            onClick={this.getData}
+                        >Search
+                        </button>
                         </form>
-                    <div>{this.state.filteredData.map(i => <p>{i.name}</p>)}</div>
+                    
                     </div>
+                    <div>{this.state.filteredData.map(i => <p>{i}</p>)}</div>
                 </div>
                 <div className="Footer">
                 </div>
