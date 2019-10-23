@@ -15,25 +15,20 @@ import fire from "../../config/Fire";
 var db = fire.database();
 var ref = db.ref('channels');
 ref.on('value', gotData , errData);
-var li
-var titles = [0,1,2,3,4];
+var li;
+// var titles = [0,1,2,3,4];
 
-const numbers = [1, 2, 3, 4, 5];
-const listItems = numbers.map((number) =>
-  <li>{number}</li>
-);
 
 function gotData(data) {
-
+   if(fire.auth().currentUser){
     var userId = fire.auth().currentUser.uid;
     console.log(userId);
+   }
 
    var chan = data.val();
-//    console.log(chan);
    var keys = Object.keys(chan);
    console.log(keys);
 for(var i = 0; i<keys.length; i++)  {
-    // console.log(keys[i]);
     var k = keys[i];
     var title = chan[k].title;
     var creator = chan[k].creator
@@ -43,15 +38,7 @@ for(var i = 0; i<keys.length; i++)  {
         console.log(title, creator);
         createElement('li', title );
         console.log(li);
-        // li.class("channellisting");
-        // li.parent("channellist");
-
-        // titles = title;
-
     } 
-
-    
-
     
 }
 }
@@ -88,21 +75,23 @@ function useChannels() {
 
 
 
-
 const ChannelsList = () => {
-
-
-  
     const channels = useChannels()
     return (
-     <body>
+     <div>
             <h2>Channel List</h2>
         
-        <ol id = "channellist"> 
-            
-            
+        <ol> 
+            {channels.map((ch) => 
+            <li key = {ch.id}>
+             <div className = "Channels" >
+             <h2>{ch.channelTitle}</h2>
+        
+             </div>
+            </li>
+            )}
         </ol>
-     </body>
+     </div>
     )
 }
 

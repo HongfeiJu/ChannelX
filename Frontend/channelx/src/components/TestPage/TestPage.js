@@ -71,7 +71,7 @@ class TestPage extends Component{
                             onClick={() => this.createNewChannel()}
 
                     >create new channel</button>
-                {/* <ChannelsList/> */}
+                    <ChannelsList/>
 
                 {/* <AddChannelEntryForm/>  */}
                 </div>
