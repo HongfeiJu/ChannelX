@@ -112,12 +112,15 @@ class ChatRoom extends Component{
         console.log(this.state.passcodes);
         const pg = new PasscodeGenerator();
         let newPasscode = pg.generateOnetimePasscode();
-
-        while(this.state.passcodes.includes(newPasscode.value)){
-            newPasscode = pg.generateOnetimePasscode();
+        let id=0;
+        if(this.state.passcodes!==undefined){
+            id=this.state.passcodes.length;
+            while(this.state.passcodes.includes(newPasscode.value)){
+                newPasscode = pg.generateOnetimePasscode();
+            }
         }
 
-        firebase.database().ref('channels/'+ this.state.id+'/passcodes/'+this.state.passcodes.length).set(newPasscode)
+        firebase.database().ref('channels/'+ this.state.id+'/passcodes/'+id).set(newPasscode)
             .then(r  =>{
                 console.log(r);
             }).catch(e=>{
