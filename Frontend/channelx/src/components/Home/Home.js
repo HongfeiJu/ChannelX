@@ -103,6 +103,15 @@ class Home extends Component {
   }*/
 
     render() {
+        const { filteredData } = this.state;
+
+        let channelList = filteredData.length > 0
+          && filteredData.map((channel, i) => {
+          return (
+            <option key={i} value={channel}>{channel}</option>
+          )
+        }, this);
+
         return (
             <div className="Home">
                 <div className="Header">
@@ -143,10 +152,11 @@ class Home extends Component {
                             onClick={this.getData}
                         >Search
                         </button>
+                        <select id="channelDrop" style={{float: "right"}}>
+                          {channelList}
+                        </select>
                         </form>
-                    
                     </div>
-                    <div>{this.state.filteredData.map(i => <p>{i}</p>)}</div>
                 </div>
                 <div className="Footer">
                 </div>
