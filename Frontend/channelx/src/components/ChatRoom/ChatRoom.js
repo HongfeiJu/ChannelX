@@ -8,6 +8,8 @@ import React, {Component} from 'react';
 import firebase from "firebase";
 import './ChatRoom.css';
 import ChatMessage from "./ChatMessage/ChatMessage";
+import PasscodeGenerator from "../../services/PasscodeGenerator";
+import getCurrentUserUid from "../../services/currentUuidGetter";
 
 class ChatRoom extends Component{
     constructor(props, context) {
@@ -15,32 +17,47 @@ class ChatRoom extends Component{
         this.updateMessage = this.updateMessage.bind(this);
         this.submitMessage = this.submitMessage.bind(this);
         this.clearMessage = this.clearMessage.bind(this);
+        this.addNewPasscode = this.addNewPasscode.bind(this);
+        this.showPasscodes = this.showPasscodes.bind(this);
         this.state = {
+            id:this.props.match.params.id,
+            title:'',
+            creator:'',
             username: '',
             message:'',
-            messages : []
+            messages : [],
+            passcodes: []
         }
     }
 
     componentDidMount() {
-        this.scrollToBottom();
 
         this.setState({
             username: this.fetchUsername()
         });
 
-        firebase.database().ref('message/').on('value', (snapshot)=>{
-            const currentMessages = snapshot.val();
-            if(currentMessages!=null){
+        firebase.database().ref('channels/' + this.state.id).on('value', (snapshot)=>{
+            const channel = snapshot.val();
+            console.log(this.id+" " +channel);
+            if(channel!=null){
                 this.setState({
-                    messages: currentMessages
+                    title:channel.title,
+                    creator:channel.creator,
+                    messages: channel.messages,
+                    passcodes: channel.passcodes
                 });
             }
-        })
+        });
+
+        if(this.state.messages.length !== 0){
+            this.scrollToBottom();
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        this.scrollToBottom();
+        if(this.state.messages.length !== 0){
+            this.scrollToBottom();
+        }
     }
 
     updateMessage(e){
@@ -60,7 +77,7 @@ class ChatRoom extends Component{
             +" "+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
         };
 
-        firebase.database().ref('message/' + newMessage.id).set(newMessage)
+        firebase.database().ref('channels/'+ this.state.id+'/messages/' + newMessage.id).set(newMessage)
             .then(r  =>{
                 console.log(r);
                 this.setState({message:''});
@@ -89,10 +106,41 @@ class ChatRoom extends Component{
 
     fetchUsername(){
         return "user "+ Math.floor(Math.random()*100);
+    }
 
-        //const uid = firebase.auth().currentUser.displayName;
-        // return firebase.firestore().collection('users').doc(uid).;
+    addNewPasscode(){
+        console.log(this.state.passcodes);
+        const pg = new PasscodeGenerator();
+        let newPasscode = pg.generateOnetimePasscode();
+        let id=0;
+        if(this.state.passcodes!==undefined){
+            id=this.state.passcodes.length;
+            while(this.state.passcodes.includes(newPasscode.value)){
+                newPasscode = pg.generateOnetimePasscode();
+            }
+        }
 
+        firebase.database().ref('channels/'+ this.state.id+'/passcodes/'+id).set(newPasscode)
+            .then(r  =>{
+                console.log(r);
+                alert(newPasscode + " added");
+            }).catch(e=>{
+            console.log(e)
+        });
+
+    }
+
+    showPasscodes(){
+        alert(this.state.passcodes);
+    }
+
+    getControlBar(){
+        if(getCurrentUserUid()===this.state.creator){
+            return (<div className="control_bar">
+                <button className="control_button" onClick={this.addNewPasscode}>generate passcode</button>
+                <button className="control_button" onClick={this.showPasscodes}>show passcodes</button>
+            </div>);
+        }
     }
 
     render() {
@@ -101,13 +149,21 @@ class ChatRoom extends Component{
                <ChatMessage key={i} user={message.from} text={message.text} time={message.timeStamp}/>
            )
         });
+
+        if(this.state.messages.length === 0){
+            return (
+              <h1>channel doesn't exist</h1>
+            );
+        }
+
         return (
             <div className="chatRoom">
                 <div className="roomTitle">
-                    <h3>sample channel</h3>
+                    <h3>{this.state.title}</h3>
                 </div>
                 <div className="messagePanel"
                      ref={(el) => { this.messagesEnd = el; }}>
+                    {this.getControlBar()}
                     {currentMessage}
                 </div>
                 <div className="messageSending">
