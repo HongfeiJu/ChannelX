@@ -123,6 +123,7 @@ class ChatRoom extends Component{
         firebase.database().ref('channels/'+ this.state.id+'/passcodes/'+id).set(newPasscode)
             .then(r  =>{
                 console.log(r);
+                alert(newPasscode + " added");
             }).catch(e=>{
             console.log(e)
         });
