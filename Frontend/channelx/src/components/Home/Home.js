@@ -81,7 +81,11 @@ class Home extends Component {
     };
 
 
-  componentDidMount() {
+  componentWillMount() {
+    this.getData();
+  }
+
+  componentWillMount() {
     this.getData();
   }
 
