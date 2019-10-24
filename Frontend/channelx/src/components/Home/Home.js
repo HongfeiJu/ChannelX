@@ -26,7 +26,20 @@ class Home extends Component {
     state = {
     channels: null,
     data: [],
-    filteredData: []
+    filteredData: [],
+    selectedChannel: null,
+    selectedChannelId: 0
+  };
+
+  handleSelectChange = event => {
+    //const channels = event.target.value;
+    const selectedChannel = event.target.value;
+    console.log(selectedChannel);
+    this.setState(() => {
+      return {
+        selectedChannel
+      };
+    });
   };
 
   handleInputChange = event => {
@@ -39,11 +52,30 @@ class Home extends Component {
       });
 
       return {
-        //channels,
         query,
         filteredData
       };
     });
+  };
+
+  getChannelId = () => {
+    db.collection("channels").where("channelTitle", "==", this.state.selectedChannel)
+    .get()
+    .then(snapshot => {
+      //let selectedChannelId = null;
+      //doc.get("channelTitle")
+      snapshot
+        .docs
+        .forEach(doc => {
+          //console.log(JSON.parse(doc._document.channelTitle.value.toString()))
+          console.log("channelId    => ");
+          console.log(doc.id);
+        
+          this.routeTo(ROUTES.CHANNEL+"/"+doc.id)
+          
+        });  
+    });
+    //this.routeTo(ROUTES.CHAT_PAGE+"/"+this.state.selectedChannelId)
   };
 
   getData = () => {
@@ -80,10 +112,6 @@ class Home extends Component {
       });
     };
 
-
-  componentWillMount() {
-    this.getData();
-  }
 
   componentWillMount() {
     this.getData();
@@ -128,7 +156,9 @@ class Home extends Component {
                             type="button"
                             style={{marginLeft: "auto"}}
                             className="Join Channel"
-                            onClick={() => this.routeTo(ROUTES.CHAT_PAGE)}>
+                            onClick={() => this.routeTo(ROUTES.CHANNEL+"/2")}
+                            //onClick={this.getChannelId}
+                            >
                         Join Channel
                     </button>
                     <button id="logout"
@@ -140,7 +170,6 @@ class Home extends Component {
                     </button>
                 </div>
                 <div className = "Main">
-                    
                     <div id="searchForm">
                         <form>
                         <input                            
@@ -149,7 +178,8 @@ class Home extends Component {
                             onChange={this.handleInputChange}
                         />
                         
-                        <select id="channelDrop" >
+                        <select id="channelDrop" 
+                        onChange={this.handleSelectChange}>
                           {channelList}
                         </select>
                         
