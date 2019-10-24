@@ -91,7 +91,13 @@ class Signup extends Component {
                 firstName : this.state.firstName,
                 lastName : this.state.lastName
             });
-        }).then((u) => {
+        })
+        .then((u) => {
+            if(fire.auth().currentUser){
+                fire.auth().currentUser.updateProfile({
+                   displayName: this.state.firstName,
+                })
+              }
             console.log(u);
             this.routeTo(ROUTES.EMAIL_SENT);
         }).catch((error) => {

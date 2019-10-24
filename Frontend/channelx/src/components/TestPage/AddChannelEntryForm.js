@@ -1,3 +1,9 @@
+/*
+Description: Test Channel entry Form Page
+Authors: Sami
+Date: 10/18/2019
+*/
+
 import React, {useState} from 'react'
 import fire from '../../config/Fire'
 

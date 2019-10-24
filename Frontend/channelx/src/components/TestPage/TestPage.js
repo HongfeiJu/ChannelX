@@ -1,6 +1,6 @@
 /*
 Description: test page
-Authors: Hongfei Ju
+Authors: Hongfei Ju , Sami
 Date: 9/24/2019
 */
 
@@ -71,8 +71,9 @@ class TestPage extends Component{
                             onClick={() => this.createNewChannel()}
 
                     >create new channel</button>
-                <ChannelsList/>
-                <AddChannelEntryForm/> 
+                    <ChannelsList/>
+
+                {/* <AddChannelEntryForm/>  */}
                 </div>
                
 
