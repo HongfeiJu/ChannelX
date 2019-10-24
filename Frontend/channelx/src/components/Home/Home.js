@@ -7,15 +7,25 @@ Date: 9/24/2019
 import React, {Component} from 'react';
 import fire from "../../config/Fire";
 import { db } from "../../config/Fire";
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider'
+
 import './Home.css'
 
 import * as ROUTES from "../../constants/routes";
+import getCurrentUserUid from '../../services/currentUuidGetter';
 
 class Home extends Component {
-    constructor(props) {
-        super(props);
-        this.logout = this.logout.bind(this);
-    }
+  constructor(props) {
+      super(props);
+      this.logout = this.logout.bind(this);
+  }
+    
+  componentDidMount() {
+    this.getData();
+  }
 
     routeTo = (path) => this.props.history.push(path);
 
@@ -26,7 +36,8 @@ class Home extends Component {
     state = {
     channels: null,
     data: [],
-    filteredData: []
+    filteredData: [],
+    userCreatedChannels: []
   };
 
   handleInputChange = event => {
@@ -47,7 +58,7 @@ class Home extends Component {
   };
 
   getData = () => {
-    db.collection("channels") //.where("channelTitle", "==", "channel4")
+    db.collection("channels").where("channelCreator", "==", "AEv8lARJxaetc9qQFoYZHnH02GA3") // TODO: need to get it from firebase instead
     .get()
     .then(snapshot => {
       const data = [];
@@ -80,11 +91,6 @@ class Home extends Component {
       });
     };
 
-
-  componentDidMount() {
-    this.getData();
-  }
-
 /*  componentDidMount() {
     //this.getData();
     db.collection('channels')
@@ -99,6 +105,25 @@ class Home extends Component {
            })
            .catch(error => console.log(error))
   }*/
+
+    channelListItemClick = (channelTitle) => {
+      // connect to firebase and get the id of the channel with title == channelTitle
+      // in this.props.history.push, have channelId instead of channelTitle
+      this.props.history.push(`/${channelTitle}`)
+    }
+
+    renderListItems = () => {
+      let data = this.state.data
+
+      return data.map((channelTitle) => {
+        return (
+          <ListItem button onClick={() => this.channelListItemClick(channelTitle)}>
+            <ListItemText primary={channelTitle} />
+            <Divider />
+          </ListItem>
+        )
+      })
+    }
 
     render() {
         const { filteredData } = this.state;
@@ -145,11 +170,17 @@ class Home extends Component {
                             onChange={this.handleInputChange}
                         />
                         
-                        <select id="channelDrop" >
+                        {/* <select id="channelDrop" >
                           {channelList}
-                        </select>
+                        </select> */}
                         
                         </form>
+                    </div>
+
+                    <div className="channelsList">
+                      <List>
+                        {this.renderListItems()}
+                      </List>
                     </div>
                 </div>
                 <div className="Footer">

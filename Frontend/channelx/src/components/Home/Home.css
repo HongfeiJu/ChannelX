@@ -105,6 +105,18 @@ body {
     border-radius: 5px;
 }
 
+.channelsList {
+  width: fit-content;
+  margin-left: 0px;
+  margin-top: 10px;
+  border: 1px solid black;
+  padding: 5px;
+}
+
+.channelListItem {
+  border: 1px solid black;
+  border-radius: 5px;
+}
 
 
 /*.app {

@@ -8,7 +8,7 @@ import React, {Component} from 'react';
 import firebase from "firebase";
 import './ChatRoom.css';
 import ChatMessage from "./ChatMessage/ChatMessage";
-import * as ROUTES from "../constants/routes";
+import * as ROUTES from "../../constants/routes";
 
 class ChatRoom extends Component{
     constructor(props, context) {
