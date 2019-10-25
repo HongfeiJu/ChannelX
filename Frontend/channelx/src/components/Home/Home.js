@@ -71,23 +71,33 @@ class Home extends Component {
   };
 
   getChannelId = () => {
-    db.collection("channels").where("channelTitle", "==", this.state.selectedChannel)
-    .get()
-    .then(snapshot => {
-      //let selectedChannelId = null;
-      //doc.get("channelTitle")
-      snapshot
-        .docs
-        .forEach(doc => {
-          //console.log(JSON.parse(doc._document.channelTitle.value.toString()))
-          console.log("channelId    => ");
-          console.log(doc.id);
-        
-          this.routeTo(ROUTES.CHANNEL+"/"+doc.id)
+    console.log("Join Channel clicked");
+    var selectedChannel = document.getElementById("channelDrop").value;
+    console.log(selectedChannel);
+
+    if (selectedChannel == "Select Channel"){
+      alert("Please select a channel to join");
+    }
+    else{
+      db.collection("channels").where("channelTitle", "==", selectedChannel)
+      .get()
+      .then(snapshot => {
+        //let selectedChannelId = null;
+        //doc.get("channelTitle")
+        snapshot
+          .docs
+          .forEach(doc => {
+            //console.log(JSON.parse(doc._document.channelTitle.value.toString()))
+            console.log("channelId    => ");
+            console.log(doc.id);
           
-        });  
-    });
-    //this.routeTo(ROUTES.CHAT_PAGE+"/"+this.state.selectedChannelId)
+            this.routeTo("/channel/"+doc.id)
+            
+          });  
+      });
+      //this.routeTo(ROUTES.CHAT_PAGE+"/"+this.state.selectedChannelId)
+    }
+    
   };
 
   getData = () => {
@@ -95,9 +105,15 @@ class Home extends Component {
     .get()
     .then(snapshot => {
       const data = [];
+      let i=0;
       snapshot
         .docs
         .forEach(doc => {
+
+          if (i== 0){
+            data.push("Select Channel");  
+          }    
+          i=i+1;      
           //console.log(JSON.parse(doc._document.channelTitle.value.toString()))
           // console.log(doc.get("channelTitle"));
           data.push(doc.get("channelTitle"));
@@ -128,6 +144,7 @@ class Home extends Component {
   componentWillMount() {
     this.getData();
   }
+
 
 /*  componentDidMount() {
     //this.getData();
@@ -169,8 +186,7 @@ class Home extends Component {
                             type="button"
                             style={{marginLeft: "auto"}}
                             className="Join Channel"
-                            onClick={() => this.routeTo(ROUTES.CHANNEL+"/2")}
-                            //onClick={this.getChannelId}
+                            onClick={this.getChannelId}
                             >
                         Join Channel
                     </button>
@@ -184,22 +200,19 @@ class Home extends Component {
                 </div>
                 <div className = "Main">
                     <div id="searchForm">
-                        <form>
-                        <input                            
-                            placeholder="Search for channels"
-                            value={this.state.query}
-                            onChange={this.handleInputChange}
-                        />
-                        
-                        <select id="channelDrop" 
-                        onChange={this.handleSelectChange}>
-                          {channelList}
-                        </select>
-                        
-                        </form>
+
+                      <input                            
+                          placeholder="Search for channels"
+                          value={this.state.query}
+                          onChange={this.handleInputChange}
+                      />
+                      
+                      <select id="channelDrop" 
+                      onChange={this.handleSelectChange}>
+                        {channelList}
+                      </select>
+
                     </div>
-                </div>
-                <div className="Footer">
                 </div>
             </div>
         );
