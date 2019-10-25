@@ -8,8 +8,10 @@ import React, {Component} from 'react';
 import firebase from "firebase";
 import './ChatRoom.css';
 import ChatMessage from "./ChatMessage/ChatMessage";
+import * as ROUTES from "../../constants/routes";
 import PasscodeGenerator from "../../services/PasscodeGenerator";
 import getCurrentUserUid from "../../services/currentUuidGetter";
+
 
 class ChatRoom extends Component{
     constructor(props, context) {
@@ -142,6 +144,9 @@ class ChatRoom extends Component{
             </div>);
         }
     }
+    routeTo(path) {
+        this.props.history.push(path);
+    }
 
     render() {
         const currentMessage = this.state.messages.map((message, i)=>{
@@ -160,6 +165,7 @@ class ChatRoom extends Component{
             <div className="chatRoom">
                 <div className="roomTitle">
                     <h3>{this.state.title}</h3>
+
                 </div>
                 <div className="messagePanel"
                      ref={(el) => { this.messagesEnd = el; }}>
@@ -182,6 +188,11 @@ class ChatRoom extends Component{
                         className="sendButton"
                         onClick={this.submitMessage}
                     >send</button>
+                    <button
+                        className="goBack"
+                        onClick={() => this.routeTo(ROUTES.HOME)}
+                    >Back</button>
+
                 </div>
             </div>
         );

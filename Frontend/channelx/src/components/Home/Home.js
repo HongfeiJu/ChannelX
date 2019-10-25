@@ -1,15 +1,21 @@
 /*
 Description: Home page
-Authors: Darshan Prakash, Sami, Manisha
+Authors: Darshan Prakash, Sami, Manisha 
 Date: 9/24/2019
 */
 
 import React, {Component} from 'react';
 import fire from "../../config/Fire";
 import { db } from "../../config/Fire";
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider'
+import currentUuidGetter from '../../services/currentUuidGetter'
 import './Home.css'
 
 import * as ROUTES from "../../constants/routes";
+import getCurrentUserUid from '../../services/currentUuidGetter';
 
 
 function getUsername() {
@@ -21,13 +27,37 @@ if (user) {
   // No user is signed in.
 }
 }
-
-
 class Home extends Component {
-    constructor(props) {
-        super(props);
-        this.logout = this.logout.bind(this);
-    }
+  constructor(props) {
+      super(props);
+      this.logout = this.logout.bind(this);
+  }
+    
+  componentDidMount() {
+    this.getCreatedChannels();
+    this.getData();
+    //this.getChannelData()
+  }
+// Retrieve all information from the firebase 
+    // getChannelData = () => {
+    //   db.collection("channels")
+    //     .get()
+    //     .then(snapshot => {
+    //       const channelData = []
+
+    //       snapshot
+    //         .docs
+    //         .forEach(doc => {
+    //           channelData.push({ channelCreator: doc.get("channelCreator"), channelTitle: doc.get("channelTitle")})
+    //         })
+    //         this.setState({
+    //           channelData
+    //         });
+
+    //         console.log("Available channel data: ", channelData)
+          
+    //     });
+    // }
 
     routeTo = (path) => this.props.history.push(path);
 
@@ -39,8 +69,9 @@ class Home extends Component {
     channels: null,
     data: [],
     filteredData: [],
+    userCreatedChannels: [],
     selectedChannel: null,
-    selectedChannelId: 0
+    selectedChannelId: 0,
   };
 
   handleSelectChange = event => {
@@ -54,9 +85,11 @@ class Home extends Component {
     });
   };
 
+
   handleInputChange = event => {
     //const channels = event.target.value;
     const query = event.target.value;
+  
 
     this.setState(prevState => {
       const filteredData = prevState.data.filter(element => {
@@ -100,8 +133,27 @@ class Home extends Component {
     
   };
 
+  
+  getCreatedChannels = () => {
+    db.collection("channels").where("channelCreator", "==", getCurrentUserUid()) 
+    .get()
+    .then(snapshot => {
+      const userCreatedChannels = [];
+
+      snapshot
+        .docs
+        .forEach(doc => {
+          userCreatedChannels.push(doc.get("channelTitle"));
+        })
+        this.setState({
+          userCreatedChannels
+        });
+        
+      });
+  }
+
   getData = () => {
-    db.collection("channels") //.where("channelTitle", "==", "channel4")
+    db.collection("channels") 
     .get()
     .then(snapshot => {
       const data = [];
@@ -118,15 +170,6 @@ class Home extends Component {
           // console.log(doc.get("channelTitle"));
           data.push(doc.get("channelTitle"));
         })
-
-
-       //console.log(snapshot.docs);
-       //console.log(JSON.parse(snapshot._document.data.toString()))
-       //return snapshot.docs;
-        //.forEach(doc => {
-        //  console.log(JSON.parse(doc._document.data.toString()))
-       // });
-
        return data;
     })
     .then(data => {
@@ -135,31 +178,40 @@ class Home extends Component {
   
         this.setState({
           data,
-          filteredData
+          filteredData,
         });
       });
     };
 
+  // https://stackoverflow.com/questions/46043832/why-componentwillmount-should-not-be-used
+  // componentWillMount() {
+  //   this.getData();
+  // }
 
-  componentWillMount() {
-    this.getData();
-  }
+  channelListItemClick = (channelTitle) => {
+    db.collection("channels").where("channelTitle", "==", channelTitle) 
+    .get()
+    .then(snapshot => {
+      snapshot
+        .docs
+        .forEach(doc => {        
+          this.routeTo("/channel/"+doc.id)
+        })
+    });
+  };
 
+  userCreatedChannels = () => {
+      let data = this.state.userCreatedChannels
 
-/*  componentDidMount() {
-    //this.getData();
-    db.collection('channels')
-           .get()
-           .then( snapshot => {
-              const channels = [] 
-              snapshot.forEach( doc => {
-                const data = doc.data()
-                channels.push(data)
-              })
-              this.setState({filteredData = channels})
-           })
-           .catch(error => console.log(error))
-  }*/
+      return data.map((channelTitle) => {
+        return (
+          <ListItem button onClick={() => this.channelListItemClick(channelTitle)}>
+            <ListItemText primary={channelTitle} />
+            <Divider />
+          </ListItem>
+        )
+      })
+    }
 
     render() {
         const { filteredData } = this.state;
@@ -212,6 +264,25 @@ class Home extends Component {
                         {channelList}
                       </select>
 
+                    </div>
+
+                    <div className="channelsList">
+                      {/* <List
+                      {this.renderListItems()}
+                      // onClick={this.handleListOnClick}>
+                      //   {this.state.userCreatedChannels}
+                      </List> */}
+
+                      <List>
+                        {this.userCreatedChannels()}
+                      </List>
+{/*                     
+                        <List className = "channelsList"  >
+                          {this.state.userCreatedChannels.map(i => (
+                            <li className='indent' key={i}><Link onClick={this.channelListItemClick.bind(this)}>{i}</Link></li>
+                          ))}
+                        </List>
+                       */}
                     </div>
                 </div>
             </div>
