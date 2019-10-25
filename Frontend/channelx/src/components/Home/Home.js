@@ -11,6 +11,7 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider'
+import currentUuidGetter from '../../services/currentUuidGetter'
 
 import './Home.css'
 
@@ -58,7 +59,7 @@ class Home extends Component {
   };
 
   getData = () => {
-    db.collection("channels").where("channelCreator", "==", "AEv8lARJxaetc9qQFoYZHnH02GA3") // TODO: need to get it from firebase instead
+    db.collection("channels").where("channelCreator", "==", getCurrentUserUid()) 
     .get()
     .then(snapshot => {
       const data = [];

@@ -17,7 +17,7 @@ body {
 
 body {
   font: 16px 'Roboto', Helvetica, sans-serif;
-  //display: flex;
+  display: flex;
   flex-direction: column;
   margin: 0;
   background: #f6f6f6;
@@ -28,9 +28,9 @@ body {
   background: lightgray;
   padding: 1rem;
   font-size: 1rem;
-  //display: flex;
+  display: flex;
   height: 20%;
-  //min-height: 100%;
+  min-height: 100%;
   min-height: 20vh;
   margin: 0 auto;
   border-bottom: .5px solid black;
@@ -41,9 +41,9 @@ body {
   background: lightgray;
   padding: 1rem;
   font-size: 1rem;
-  //display: flex;
+  display: flex;
   height: 60%;
-  //min-height: 100%;
+  min-height: 100%;
   min-height: 80vh;
   margin: 0 auto;
   border-bottom: .5px solid black;
@@ -54,9 +54,9 @@ body {
   background: lightgray;
   padding: 1rem;
   font-size: 1rem;
-  //display: flex;
+  display: flex;
   height: 20%;
-  //min-height: 100%;
+  min-height: 100%;
   min-height: 20vh;
   margin: 0 auto;
 }
@@ -92,7 +92,7 @@ body {
 
 
 #join {
-    //background-color: darkgray;
+    background-color: darkgray;
     color: #000000;
     border: 2px solid #fff;
     width: 10%;
@@ -107,6 +107,7 @@ body {
 
 .channelsList {
   width: fit-content;
+  width: 10%;
   margin-left: 0px;
   margin-top: 10px;
   border: 1px solid black;
@@ -117,6 +118,7 @@ body {
   border: 1px solid black;
   border-radius: 5px;
 }
+
 
 
 /*.app {
