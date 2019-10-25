@@ -1,6 +1,6 @@
 /*
 Description: Home page
-Authors: Darshan Prakash, Sami, Manisha
+Authors: Darshan Prakash, Sami, Manisha 
 Date: 9/24/2019
 */
 
@@ -12,7 +12,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider'
 import currentUuidGetter from '../../services/currentUuidGetter'
-
 import './Home.css'
 
 import * as ROUTES from "../../constants/routes";
@@ -28,8 +27,6 @@ if (user) {
   // No user is signed in.
 }
 }
-
-
 class Home extends Component {
   constructor(props) {
       super(props);
@@ -37,8 +34,30 @@ class Home extends Component {
   }
     
   componentDidMount() {
+    this.getCreatedChannels();
     this.getData();
+    //this.getChannelData()
   }
+// Retrieve all information from the firebase 
+    // getChannelData = () => {
+    //   db.collection("channels")
+    //     .get()
+    //     .then(snapshot => {
+    //       const channelData = []
+
+    //       snapshot
+    //         .docs
+    //         .forEach(doc => {
+    //           channelData.push({ channelCreator: doc.get("channelCreator"), channelTitle: doc.get("channelTitle")})
+    //         })
+    //         this.setState({
+    //           channelData
+    //         });
+
+    //         console.log("Available channel data: ", channelData)
+          
+    //     });
+    // }
 
     routeTo = (path) => this.props.history.push(path);
 
@@ -52,7 +71,7 @@ class Home extends Component {
     filteredData: [],
     userCreatedChannels: [],
     selectedChannel: null,
-    selectedChannelId: 0
+    selectedChannelId: 0,
   };
 
   handleSelectChange = event => {
@@ -114,8 +133,27 @@ class Home extends Component {
     
   };
 
-  getData = () => {
+  
+  getCreatedChannels = () => {
     db.collection("channels").where("channelCreator", "==", getCurrentUserUid()) 
+    .get()
+    .then(snapshot => {
+      const userCreatedChannels = [];
+
+      snapshot
+        .docs
+        .forEach(doc => {
+          userCreatedChannels.push(doc.get("channelTitle"));
+        })
+        this.setState({
+          userCreatedChannels
+        });
+        
+      });
+  }
+
+  getData = () => {
+    db.collection("channels") 
     .get()
     .then(snapshot => {
       const data = [];
@@ -132,15 +170,6 @@ class Home extends Component {
           // console.log(doc.get("channelTitle"));
           data.push(doc.get("channelTitle"));
         })
-
-
-       //console.log(snapshot.docs);
-       //console.log(JSON.parse(snapshot._document.data.toString()))
-       //return snapshot.docs;
-        //.forEach(doc => {
-        //  console.log(JSON.parse(doc._document.data.toString()))
-       // });
-
        return data;
     })
     .then(data => {
@@ -149,56 +178,30 @@ class Home extends Component {
   
         this.setState({
           data,
-          filteredData
+          filteredData,
         });
       });
     };
 
-  componentWillMount() {
-    this.getData();
-  }
+  // https://stackoverflow.com/questions/46043832/why-componentwillmount-should-not-be-used
+  // componentWillMount() {
+  //   this.getData();
+  // }
 
+  channelListItemClick = (channelTitle) => {
+    db.collection("channels").where("channelTitle", "==", channelTitle) 
+    .get()
+    .then(snapshot => {
+      snapshot
+        .docs
+        .forEach(doc => {        
+          this.routeTo("/channel/"+doc.id)
+        })
+    });
+  };
 
-/*  componentDidMount() {
-    //this.getData();
-    db.collection('channels')
-           .get()
-           .then( snapshot => {
-              const channels = [] 
-              snapshot.forEach( doc => {
-                const data = doc.data()
-                channels.push(data)
-              })
-              this.setState({filteredData = channels})
-           })
-           .catch(error => console.log(error))
-  }*/
-
-    channelListItemClick = (channelTitle) => {
-      // connect to firebase and get the id of the channel with title == channelTitle
-      // in this.props.history.push, have channelId instead of channelTitle
-      //this.props.history.push(`/${channelTitle}`)
-      //var selectedChannel = document.getElementById("channelDrop").value;
-
-      db.collection("channels").where("channelTitle", "==", channelTitle)
-      .get()
-      .then(snapshot => {
-        //let selectedChannelId = null;
-        //doc.get("channelTitle")
-        snapshot
-          .docs
-          .forEach(doc => {
-            //console.log(JSON.parse(doc._document.channelTitle.value.toString()))
-            console.log("channelId    => ");
-            console.log(doc.id);
-          
-            this.routeTo("/channel/"+doc.id)
-    })
-  });
-};
-
-    renderListItems = () => {
-      let data = this.state.data
+  userCreatedChannels = () => {
+      let data = this.state.userCreatedChannels
 
       return data.map((channelTitle) => {
         return (
@@ -264,9 +267,22 @@ class Home extends Component {
                     </div>
 
                     <div className="channelsList">
+                      {/* <List
+                      {this.renderListItems()}
+                      // onClick={this.handleListOnClick}>
+                      //   {this.state.userCreatedChannels}
+                      </List> */}
+
                       <List>
-                        {this.renderListItems()}
+                        {this.userCreatedChannels()}
                       </List>
+{/*                     
+                        <List className = "channelsList"  >
+                          {this.state.userCreatedChannels.map(i => (
+                            <li className='indent' key={i}><Link onClick={this.channelListItemClick.bind(this)}>{i}</Link></li>
+                          ))}
+                        </List>
+                       */}
                     </div>
                 </div>
             </div>
