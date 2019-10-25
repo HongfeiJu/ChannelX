@@ -50,7 +50,20 @@ class Home extends Component {
     channels: null,
     data: [],
     filteredData: [],
-    userCreatedChannels: []
+    userCreatedChannels: [],
+    selectedChannel: null,
+    selectedChannelId: 0
+  };
+
+  handleSelectChange = event => {
+    //const channels = event.target.value;
+    const selectedChannel = event.target.value;
+    console.log(selectedChannel);
+    this.setState(() => {
+      return {
+        selectedChannel
+      };
+    });
   };
 
 
@@ -65,11 +78,40 @@ class Home extends Component {
       });
 
       return {
-        //channels,
         query,
         filteredData
       };
     });
+  };
+
+  getChannelId = () => {
+    console.log("Join Channel clicked");
+    var selectedChannel = document.getElementById("channelDrop").value;
+    console.log(selectedChannel);
+
+    if (selectedChannel == "Select Channel"){
+      alert("Please select a channel to join");
+    }
+    else{
+      db.collection("channels").where("channelTitle", "==", selectedChannel)
+      .get()
+      .then(snapshot => {
+        //let selectedChannelId = null;
+        //doc.get("channelTitle")
+        snapshot
+          .docs
+          .forEach(doc => {
+            //console.log(JSON.parse(doc._document.channelTitle.value.toString()))
+            console.log("channelId    => ");
+            console.log(doc.id);
+          
+            this.routeTo("/channel/"+doc.id)
+            
+          });  
+      });
+      //this.routeTo(ROUTES.CHAT_PAGE+"/"+this.state.selectedChannelId)
+    }
+    
   };
 
   getData = () => {
@@ -77,9 +119,15 @@ class Home extends Component {
     .get()
     .then(snapshot => {
       const data = [];
+      let i=0;
       snapshot
         .docs
         .forEach(doc => {
+
+          if (i== 0){
+            data.push("Select Channel");  
+          }    
+          i=i+1;      
           //console.log(JSON.parse(doc._document.channelTitle.value.toString()))
           // console.log(doc.get("channelTitle"));
           data.push(doc.get("channelTitle"));
@@ -129,8 +177,25 @@ class Home extends Component {
     channelListItemClick = (channelTitle) => {
       // connect to firebase and get the id of the channel with title == channelTitle
       // in this.props.history.push, have channelId instead of channelTitle
-      this.props.history.push(`/${channelTitle}`)
-    }
+      //this.props.history.push(`/${channelTitle}`)
+      //var selectedChannel = document.getElementById("channelDrop").value;
+
+      db.collection("channels").where("channelTitle", "==", channelTitle)
+      .get()
+      .then(snapshot => {
+        //let selectedChannelId = null;
+        //doc.get("channelTitle")
+        snapshot
+          .docs
+          .forEach(doc => {
+            //console.log(JSON.parse(doc._document.channelTitle.value.toString()))
+            console.log("channelId    => ");
+            console.log(doc.id);
+          
+            this.routeTo("/channel/"+doc.id)
+    })
+  });
+};
 
     renderListItems = () => {
       let data = this.state.data
@@ -170,7 +235,8 @@ class Home extends Component {
                             type="button"
                             style={{marginLeft: "auto"}}
                             className="Join Channel"
-                            onClick={() => this.routeTo(ROUTES.CHAT_PAGE)}>
+                            onClick={this.getChannelId}
+                            >
                         Join Channel
                     </button>
                     <button id="logout"
@@ -182,20 +248,19 @@ class Home extends Component {
                     </button>
                 </div>
                 <div className = "Main">
-                    
                     <div id="searchForm">
-                        <form>
-                        <input                            
-                            placeholder="Search for channels"
-                            value={this.state.query}
-                            onChange={this.handleInputChange}
-                        />
-                        
-                        {/* <select id="channelDrop" >
-                          {channelList}
-                        </select> */}
-                        
-                        </form>
+
+                      <input                            
+                          placeholder="Search for channels"
+                          value={this.state.query}
+                          onChange={this.handleInputChange}
+                      />
+                      
+                      <select id="channelDrop" 
+                      onChange={this.handleSelectChange}>
+                        {channelList}
+                      </select>
+
                     </div>
 
                     <div className="channelsList">
@@ -203,8 +268,6 @@ class Home extends Component {
                         {this.renderListItems()}
                       </List>
                     </div>
-                </div>
-                <div className="Footer">
                 </div>
             </div>
         );
