@@ -19,8 +19,6 @@ class Signup extends Component {
             firstName: null,
             lastName: null,
             email: null,
-            tel: null,
-            userName: null,
             password: null,
             passwordConfirm: null,
             fireSignupErrors:'',
@@ -28,8 +26,6 @@ class Signup extends Component {
                 firstName: "",
                 lastName: "",
                 email: "",
-                tel: "",
-                userName: "",
                 password: "",
                 passwordConfirm: "",
             }
@@ -56,11 +52,6 @@ class Signup extends Component {
             case 'lastName':
                 break;
             case 'email':
-                break;
-            case 'tel':
-                break;
-            case 'userName':
-                formErrors.userName = value.length < 8 ? 'username should be no less than 8 characters' : '';
                 break;
             case 'password':
                 formErrors.password = value.length < 8 ? 'password should be no less than 8 characters' : '';
@@ -91,7 +82,13 @@ class Signup extends Component {
                 firstName : this.state.firstName,
                 lastName : this.state.lastName
             });
-        }).then((u) => {
+        })
+        .then((u) => {
+            if(fire.auth().currentUser){
+                fire.auth().currentUser.updateProfile({
+                   displayName: this.state.firstName,
+                })
+              }
             console.log(u);
             this.routeTo(ROUTES.EMAIL_SENT);
         }).catch((error) => {
@@ -146,34 +143,7 @@ class Signup extends Component {
                             >
                             </input>
                         </div>
-                        <div className="tel">
-                            <input
-                                type="tel"
-                                id="tel"
-                                className="FormField__input"
-                                placeholder="tel"
-                                name="tel"
-                                required
-                                onChange={this.handleChange}
-                            >
-                            </input>
-                        </div>
-                        <hr/>
-                        <div className="userName">
-                            <input
-                                type="text"
-                                id="userName"
-                                className="FormField__input"
-                                placeholder="user name"
-                                name="userName"
-                                required
-                                onChange={this.handleChange}
-                            >
-                            </input>
-                            {this.state.errors.userName.length > 0 && (
-                                <span className="errorMessage">{this.state.errors.userName}</span>
-                            )}
-                        </div>
+                        
                         <div className="password">
                             <input
                                 type="password"

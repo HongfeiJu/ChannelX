@@ -13,7 +13,7 @@ class MessagingChannelCreator{
         const initialMessage = {
             id: 0,
             from: 'system',
-            text: 'channel '+title +' created by ' + creator,
+            text: 'channel '+title +' created',
             timeStamp: today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
                 +" "+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
         };
@@ -23,7 +23,8 @@ class MessagingChannelCreator{
             creator: creator,
             messages:{
                 0: initialMessage
-            }
+            },
+            passcodes:[]
         };
 
         firebase.database().ref('channels/' + channelID).set(newChannel)

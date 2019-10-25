@@ -18,6 +18,18 @@ import './Home.css'
 import * as ROUTES from "../../constants/routes";
 import getCurrentUserUid from '../../services/currentUuidGetter';
 
+
+function getUsername() {
+  var user = fire.auth().currentUser;
+
+if (user) {
+  return user.displayName;
+} else {
+  // No user is signed in.
+}
+}
+
+
 class Home extends Component {
   constructor(props) {
       super(props);
@@ -41,9 +53,11 @@ class Home extends Component {
     userCreatedChannels: []
   };
 
+
   handleInputChange = event => {
     //const channels = event.target.value;
     const query = event.target.value;
+  
 
     this.setState(prevState => {
       const filteredData = prevState.data.filter(element => {
@@ -67,7 +81,7 @@ class Home extends Component {
         .docs
         .forEach(doc => {
           //console.log(JSON.parse(doc._document.channelTitle.value.toString()))
-          console.log(doc.get("channelTitle"));
+          // console.log(doc.get("channelTitle"));
           data.push(doc.get("channelTitle"));
         })
 
@@ -91,6 +105,11 @@ class Home extends Component {
         });
       });
     };
+
+  componentWillMount() {
+    this.getData();
+  }
+
 
 /*  componentDidMount() {
     //this.getData();
@@ -139,6 +158,7 @@ class Home extends Component {
         return (
             <div className="Home">
                 <div className="Header">
+                  <h1>Hello {getUsername()}</h1>
                     <button id="createChannel"
                             type="button"
                             style={{marginLeft: "auto"}}
@@ -189,6 +209,10 @@ class Home extends Component {
             </div>
         );
     }
+
+
+    
+  
 
 }
 
