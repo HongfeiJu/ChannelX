@@ -1,111 +1,111 @@
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
 
-html {
-  font-size: 100%;
-}
-
-html,
-body {
-  min-height: 100%;
-  min-height: 120vh;
-}
-
-
-body {
-  font: 16px 'Roboto', Helvetica, sans-serif;
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  background: rebeccapurple;
+.Home {
+    width: 100%;
+    height: 100vh;
+    font: 16px 'Roboto', Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    background: #7678ED;
 }
 
 .Header {
-  width: 100%;
-  background: rebeccapurple;
-  padding: 1rem;
-  font-size: 1rem;
-  //display: flex;
-  height: 20%;
-  //min-height: 100%;
-  min-height: 20vh;
-  margin: 0 auto;
-  border-bottom: .5px solid black;
+    width: 100%;
+    background: #7678ED;
+    padding: 1rem;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 20%;
+    border-bottom: .5px solid black;
 }
 
-.Main {
-  width: 100%;
-  background: rebeccapurple;
-  padding: 1rem;
-  font-size: 1rem;
-  //display: flex;
-  height: 60%;
-  //min-height: 100%;
-  min-height: 80vh;
-  margin: auto;
-  border-bottom: .5px solid black;
+.HomeHeaderButtons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
 }
 
-#logout {
-    float: right;
-    color: #000000;
-    border: 2px solid #fff;
-    width: 8%;
-    margin-top: 1em;
-    padding: 8px 2px;
-    font-size: 1em;
-    font-weight: lighter;
-    letter-spacing: 1px;
-    margin-bottom: 0.25em;
-    border-radius: 5px;
-}
-
-
-#createChannel {
-    float: left;
+.HomeLogout {
+    float :left;
+    background-color: lightgrey;
     color: #000000;
     border: 2px solid #fff;
     width: 13%;
     margin-top: 1em;
+    margin-right: auto;
     padding: 8px 2px;
     font-size: 1em;
-    font-weight: lighter;
     letter-spacing: 1px;
     margin-bottom: 0.25em;
     border-radius: 5px;
 }
 
 
-#join {
-    //background-color: darkgray;
+.HomeCreateChannel {
+    float: right;
+    background-color: darkseagreen;
     color: #000000;
     border: 2px solid #fff;
-    width: 10%;
+    width: 13%;
     margin-top: 1em;
-    padding: 8px 0px;
+    margin-left: auto;
+    padding: 8px 2px;
     font-size: 1em;
-    font-weight: lighter;
     letter-spacing: 1px;
     margin-bottom: 0.25em;
     border-radius: 5px;
+}
+
+
+.HomeJoinChannel {
+    background-color: goldenrod;
+    color: #000000;
+    border: 2px solid #fff;
+    width: 13%;
+    margin-top: 1em;
+
+
+    padding: 8px 0px;
+    font-size: 1em;
+    letter-spacing: 1px;
+    margin-bottom: 0.25em;
+    border-radius: 5px;
+}
+
+.HomeMain {
+    align-items: center;
+    width: 100%;
+    background: #7678ED;
+    padding: 1rem;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    min-height: 80vh;
+    margin: auto;
+    border-bottom: .5px solid black;
+}
+
+.searchForm {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
 }
 
 .channelsList {
-  width: fit-content;
-  background-color: cornsilk;
-  width: 13%;
-  margin-left: 0px;
-  margin-top: 10px;
-  border: 1px solid whitesmoke;
-  padding: 5px;
+    width: fit-content;
+    background-color: cornsilk;
+    margin-left: 0px;
+    margin-top: 10px;
+    border: 1px solid whitesmoke;
+    padding: 5px;
 }
 
 .channelListItem {
-  border: 1px solid whitesmoke;
-  border-radius: 5px;
+    border: 1px solid whitesmoke;
+    border-radius: 5px;
 }
 
 
