@@ -51,11 +51,11 @@ class Landing extends React.Component {
                 <header>
                     <h1> Welcome to ChannelX </h1>
                 </header>
-                <div className="LandingRegister">
+                <div className="LandingLogin">
                     <button
                         type="button"
                         style={{marginLeft: "auto"}}
-                        className="LandingRegister"
+                        className="LandingLogin"
                         onClick={() => this.modalCall()}
                     >Register
                     </button>

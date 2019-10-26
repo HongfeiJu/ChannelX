@@ -24,6 +24,21 @@ h3{
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+    color: white;
+}
+
+.control_bar{
+    border-bottom: 3px solid rebeccapurple;
+    background-color: white;
+    height: auto;
+}
+
+.control_button{
+    background-color: mediumpurple;
+    margin: 1px;
+    width: auto;
+    height: auto;
+    border-radius: 5px;
 }
 
 .messagePanel{
@@ -61,4 +76,12 @@ h3{
     height: 100%;
     border-radius: 10px;
     margin-right: 15px;
+}
+
+.goBack{
+    width: 10%;
+    height: 80%;
+    border-radius: 10px;
+    margin-top: 9px;
+    float: left;
 }

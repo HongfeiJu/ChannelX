@@ -54,4 +54,29 @@ describe('<ChatRoom/>', ()=>{
         expect(wrapper.find('.sendButton')).toHaveLength(1);
     });
 
+    it('should have one control bar', ()=>{
+        const wrapper = shallow(<ChatRoom/>);
+        expect(wrapper.find('.control_bar')).toHaveLength(1);
+    });
+
+    it('should have two control buttons', ()=>{
+        const wrapper = shallow(<ChatRoom/>);
+        expect(wrapper.find('.control_button')).toHaveLength(2);
+    });
+
+    it('should have one sending button', ()=>{
+        const wrapper = shallow(<ChatRoom/>);
+        expect(wrapper.find('.sendButton')).toHaveLength(1);
+    });
+
+    it('test add new passcode', ()=>{
+        const chatRoom = new ChatRoom();
+        chatRoom.addNewPasscode();
+    });
+
+    it('test show passcode', ()=>{
+        const chatRoom = new ChatRoom();
+        chatRoom.showPasscodes();
+    });
+
 });
