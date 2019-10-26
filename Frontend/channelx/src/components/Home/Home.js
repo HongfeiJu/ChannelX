@@ -176,31 +176,32 @@ class Home extends Component {
             <div className="Home">
                 <div className="Header">
                     <h1>Hello {getUsername()}</h1>
-                    <button id="createChannel"
-                            type="button"
-                            style={{marginLeft: "auto"}}
-                            className="CreateChannel"
-                            onClick={() => this.routeTo(ROUTES.CREATE_CHANNEL)}
-                    >Create Channel
-                    </button>
-                    <button id="join"
-                            type="button"
-                            style={{marginLeft: "auto"}}
-                            className="Join Channel"
-                            onClick={this.getChannelId}
-                    >
-                        Join Channel
-                    </button>
-                    <button id="logout"
-                            type="button"
-                            style={{marginLeft: "auto"}}
-                            className="Logout"
-                            onClick={() => this.routeTo(ROUTES.LANDING)}
-                    >Logout
-                    </button>
+                    <div className="HomeHeaderButtons">
+                        <button id="HomeCreateChannel"
+                                type="button"
+                                className="HomeCreateChannel"
+                                onClick={() => this.routeTo(ROUTES.CREATE_CHANNEL)}
+                        >Create Channel
+                        </button>
+                        <button id="HomeJoinChannel"
+                                type="button"
+                                className="HomeJoinChannel"
+                                onClick={this.getChannelId}
+                        >
+                            Join Channel
+                        </button>
+                        <button id="HomeLogout"
+                                type="button"
+                                className="HomeLogout"
+                                onClick={() => this.routeTo(ROUTES.LANDING)}
+                        >Logout
+                        </button>
+                    </div>
                 </div>
-                <div className="Main">
-                    <div id="searchForm">
+                <div className="HomeMain">
+                    <hr>
+                    </hr>
+                    <div class="searchForm">
                         <input
                             placeholder="Search for channels"
                             value={this.state.query}
@@ -211,6 +212,9 @@ class Home extends Component {
                             {channelList}
                         </select>
                     </div>
+                    <hr>
+                    </hr>
+                    <h1>My Channels</h1>
                     <div className="channelsList">
                         <List>
                             {this.userCreatedChannels()}

@@ -165,7 +165,10 @@ class ChatRoom extends Component{
             <div className="chatRoom">
                 <div className="roomTitle">
                     <h3>{this.state.title}</h3>
-
+                    <button
+                        className="goBack"
+                        onClick={() => this.routeTo(ROUTES.HOME)}
+                    >Back</button>
                 </div>
                 <div className="messagePanel"
                      ref={(el) => { this.messagesEnd = el; }}>
@@ -188,11 +191,6 @@ class ChatRoom extends Component{
                         className="sendButton"
                         onClick={this.submitMessage}
                     >send</button>
-                    <button
-                        className="goBack"
-                        onClick={() => this.routeTo(ROUTES.HOME)}
-                    >Back</button>
-
                 </div>
             </div>
         );
