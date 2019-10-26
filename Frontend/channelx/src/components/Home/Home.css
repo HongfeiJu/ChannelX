@@ -28,12 +28,13 @@
 }
 
 .HomeLogout {
-    float :right;
-    background-color: goldenrod;
+    float :left;
+    background-color: lightgrey;
     color: #000000;
     border: 2px solid #fff;
     width: 13%;
     margin-top: 1em;
+    margin-right: auto;
     padding: 8px 2px;
     font-size: 1em;
     letter-spacing: 1px;
@@ -43,12 +44,13 @@
 
 
 .HomeCreateChannel {
-    float: left;
-    background-color: goldenrod;
+    float: right;
+    background-color: darkseagreen;
     color: #000000;
     border: 2px solid #fff;
     width: 13%;
     margin-top: 1em;
+    margin-left: auto;
     padding: 8px 2px;
     font-size: 1em;
     letter-spacing: 1px;
@@ -63,8 +65,8 @@
     border: 2px solid #fff;
     width: 13%;
     margin-top: 1em;
-    margin-left: auto;
-    margin-right: auto;
+
+
     padding: 8px 0px;
     font-size: 1em;
     letter-spacing: 1px;

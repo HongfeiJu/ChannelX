@@ -177,24 +177,18 @@ class Home extends Component {
                 <div className="Header">
                     <h1>Hello {getUsername()}</h1>
                     <div className="HomeHeaderButtons">
-                        <button id="HomeCreateChannel"
-                                type="button"
-                                className="HomeCreateChannel"
-                                onClick={() => this.routeTo(ROUTES.CREATE_CHANNEL)}
-                        >Create Channel
-                        </button>
-                        <button id="HomeJoinChannel"
-                                type="button"
-                                className="HomeJoinChannel"
-                                onClick={this.getChannelId}
-                        >
-                            Join Channel
-                        </button>
+
                         <button id="HomeLogout"
                                 type="button"
                                 className="HomeLogout"
                                 onClick={() => this.routeTo(ROUTES.LANDING)}
                         >Logout
+                        </button>
+                        <button id="HomeCreateChannel"
+                                type="button"
+                                className="HomeCreateChannel"
+                                onClick={() => this.routeTo(ROUTES.CREATE_CHANNEL)}
+                        >Create New
                         </button>
                     </div>
                 </div>
@@ -212,6 +206,13 @@ class Home extends Component {
                             {channelList}
                         </select>
                     </div>
+                    <button id="HomeJoinChannel"
+                            type="button"
+                            className="HomeJoinChannel"
+                            onClick={this.getChannelId}
+                    >
+                        Join
+                    </button>
                     <hr>
                     </hr>
                     <h1>My Channels</h1>
