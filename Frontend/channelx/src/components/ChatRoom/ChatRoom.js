@@ -90,11 +90,12 @@ class ChatRoom extends Component{
 
     clearMessage(){
         console.log('clear message');
-        firebase.database().ref('message/').set([])
+        const sysMsg=this.state.messages[0];
+        firebase.database().ref('channels/'+ this.state.id+'/messages/').set({0:sysMsg})
             .then(r  =>{
                 console.log(r);
                 this.setState({
-                    messages: []
+                    messages: [sysMsg]
                 });
             }).catch(e=>{
                 console.log(e)
@@ -111,23 +112,31 @@ class ChatRoom extends Component{
     }
 
     addNewPasscode(){
-        console.log(this.state.passcodes);
         const pg = new PasscodeGenerator();
         let newPasscode = pg.generateOnetimePasscode();
         let id=0;
+        let useOut=false;
         if(this.state.passcodes!==undefined){
             id=this.state.passcodes.length;
-            while(this.state.passcodes.includes(newPasscode.value)){
+            let count = 0;
+            console.log("passcodes " + this.state.passcodes);
+            console.log("new" + newPasscode);
+            while(this.state.passcodes.includes(newPasscode)&&count<100){
                 newPasscode = pg.generateOnetimePasscode();
+                count++;
             }
+            if(count === 100) useOut=true;
         }
-
+        if(useOut){
+            alert("passcodes used out");
+            return;
+        }
         firebase.database().ref('channels/'+ this.state.id+'/passcodes/'+id).set(newPasscode)
             .then(r  =>{
                 console.log(r);
                 alert(newPasscode + " added");
             }).catch(e=>{
-            console.log(e)
+             console.log(e)
         });
 
     }
@@ -141,12 +150,19 @@ class ChatRoom extends Component{
             return (<div className="control_bar">
                 <button className="control_button" onClick={this.addNewPasscode}>generate passcode</button>
                 <button className="control_button" onClick={this.showPasscodes}>show passcodes</button>
+                <button className="control_button" onClick={this.clearMessage}>clear history</button>
             </div>);
         }
     }
     routeTo(path) {
         this.props.history.push(path);
     }
+
+    handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            this.submitMessage();
+        }
+    };
 
     render() {
         const currentMessage = this.state.messages.map((message, i)=>{
@@ -176,15 +192,12 @@ class ChatRoom extends Component{
                     {currentMessage}
                 </div>
                 <div className="messageSending">
-                    <button
-                        className="clearButton"
-                        onClick={this.clearMessage}
-                    >clear</button>
                     <input
                         type="text"
                         className="newMessage"
                         placeholder="input new message"
                         value={this.state.message}
+                        onKeyDown={this.handleKeyDown}
                         onChange={this.updateMessage}
                     />
                     <button
