@@ -25,11 +25,7 @@ class TestPage extends Component{
     }
 
     showChannelID(){
-        this.channelIDCreator.getNewChannelID().then(r=>{
-            alert(r.val());
-        }).catch(e=>{
-            alert(e);
-        })
+        alert(this.channelIDCreator.getNewChannelID());
     }
 
     createNewChannel(){
