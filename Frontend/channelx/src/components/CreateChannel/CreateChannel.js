@@ -48,6 +48,7 @@ class CreateChannel extends Component {
             case 'channelPassword':
                 break;
             case 'channelStartDate':
+                    console.log(formErrors.channelStartDate);
                 break;
             case 'channelEndDate':
                 break;
