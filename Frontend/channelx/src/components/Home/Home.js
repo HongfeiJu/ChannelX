@@ -12,6 +12,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider'
 import './Home.css'
+//import Select from 'react-select';
 
 import * as ROUTES from "../../constants/routes";
 import getCurrentUserUid from '../../services/currentUuidGetter';
@@ -51,6 +52,7 @@ class Home extends Component {
     };
 
     handleSelectChange = event => {
+        event.target.blur()
         const selectedChannel = event.target.value;
         console.log(selectedChannel);
         this.setState(() => {
@@ -163,6 +165,7 @@ class Home extends Component {
         })
     };
 
+
     render() {
         const {filteredData} = this.state;
         let channelList = filteredData.length > 0
@@ -202,7 +205,10 @@ class Home extends Component {
                             onChange={this.handleInputChange}
                         />
                         <select id="channelDrop"
-                                onChange={this.handleSelectChange}>
+                                size={this.state.size} onFocus={()=>{this.setState({size: 5})}} 
+                                onBlur={()=>{this.setState({size: 1})}} //onChange={(e)=>{e.target.blur()}}
+                                onChange={this.handleSelectChange}
+                                >
                             {channelList}
                         </select>
                     </div>
