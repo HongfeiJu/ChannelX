@@ -1,7 +1,8 @@
 /*
 Description: Home page
-Authors: Darshan Prakash, Sami, Manisha 
+Authors: Darshan Prakash, Sami, Manisha, Subhradeep
 Date: 9/24/2019
+Updated: 10/31/2019
 */
 
 import React, {Component} from 'react';
@@ -52,7 +53,7 @@ class Home extends Component {
     };
 
     handleSelectChange = event => {
-        event.target.blur()
+        //event.target.blur()
         const selectedChannel = event.target.value;
         console.log(selectedChannel);
         this.setState(() => {
@@ -60,6 +61,8 @@ class Home extends Component {
                 selectedChannel
             };
         });
+
+        event.target.blur()
     };
 
 
@@ -200,7 +203,7 @@ class Home extends Component {
                     </hr>
                     <div class="searchForm">
                         <input
-                            placeholder="Search for channels"
+                            placeholder="Search public channels"
                             value={this.state.query}
                             onChange={this.handleInputChange}
                         />
