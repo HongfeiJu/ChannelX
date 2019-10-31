@@ -215,12 +215,30 @@ class Home extends Component {
                     </button>
                     <hr>
                     </hr>
-                    <h1>My Channels</h1>
-                    <div className="channelsList">
-                        <List>
-                            {this.userCreatedChannels()}
-                        </List>
+                    <div className= "participatedList">
+                        <h1>My Channels</h1>
+                        <div className="channelsList">
+                            <div className="searchFormCreated">
+                                <input
+                                    placeholder="Search for channels"
+                                    value={this.state.query}
+                                    onChange={this.handleInputChange}
+                                />
+                                <select id="channelDrop"
+                                        onChange={this.handleSelectChange}>
+                                    {channelList}
+                                </select>
+                            </div>
+                            {/*<input type="text" className="input" placeholder="Search..." />*/}
+                            {/*<ul>*/}
+                            {/*    ...*/}
+                            {/*</ul>*/}
+                            <List>
+                                {this.userCreatedChannels()}
+                            </List>
+                        </div>
                     </div>
+
                 </div>
             </div>
         );
