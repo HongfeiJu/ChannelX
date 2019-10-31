@@ -1,6 +1,6 @@
 /*
 Description: Create Channel Page
-Authors: Darshan Prakash
+Authors: Darshan Prakash, Muhammad
 Date: 10/18/2019
 */
 
@@ -9,29 +9,20 @@ import './CreateChannel.css'
 import * as ROUTES from "../../constants/routes";
 import fire from '../../config/Fire'
 import ChannelCreator from "../../services/ChannelCreator";
-import moment from 'react-moment';
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
-
+import 'react-dates/initialize';
+import { DateRangePicker, SingleDatePicker, DayPickerRangeController } from 'react-dates';
+import 'react-dates/lib/css/_datepicker.css';
 
 class CreateChannel extends Component {
 
-    state = {
-        startDate: new Date(),
-        endDate: new Date()
-      };
-
-      handleChange = date => {
-        this.setState({
-          startDate: date,
-          endDate: date
-        });
-      };
     
     constructor(props) {
 
 
         super(props);
+
+
+
         this.createChannel = this.createChannel.bind(this);
         this.handlechannelChange = this.handlechannelChange.bind(this);
         this.state = {
@@ -53,6 +44,15 @@ class CreateChannel extends Component {
             }
         }
     }
+
+
+    handlechannelendChange = e => {
+        e.preventDefault();
+        const {name, value} = e.target;
+        let formErrors = this.state.errors;
+
+        this.setState({formErrors, [name]: value}, () => console.log(this.state));
+    };
 
     handlechannelChange = e => {
         e.preventDefault();
@@ -97,7 +97,8 @@ class CreateChannel extends Component {
     routeTo = (path) => this.props.history.push(path);
 
     render() {
-        // const [startDate, setStartDate] = useState(new Date());
+
+
         return (
            
             <div className="wrapper">
@@ -106,6 +107,8 @@ class CreateChannel extends Component {
                         <h1>Create your Channel</h1>
                     </div>
                     <form onSubmit={this.createChannel}>
+
+
                         <div className="channelTitle">
                             <input
                                 type="text"
@@ -126,40 +129,31 @@ class CreateChannel extends Component {
                                 onChange={this.handlechannelChange}
                             ></input>
                         </div>
+                        
                         <div className="channelStartDate">
-                            <text>
-                                Start Date
-                            </text>
-                            <DatePicker
-                            id="channelStartDate"
-                            name="channelStartDate"
-                            selected={this.state.startDate}
-                            required
-                            onChange={this.handleChange}
-                            minDate={new Date()}
-                            />
-                        </div>
-                        <div className="channelEndDate">
-                            <text>
-                                End Date
-                            </text>
-                            <DatePicker
-                            id="channelEndDate"
-                            name="channelEndDate"
-                            selected={this.state.endDate}
-                            required
-                            onChange={this.handleChange}
-                            minDate={new Date()}
-                            />
+                          
+                            <DateRangePicker onEvent={this.handleEvent}
+  startDate={this.state.startDate} // momentPropTypes.momentObj or null,
+  startDateId="your_unique_start_date_id" // PropTypes.string.isRequired,
+  endDate={this.state.endDate} // momentPropTypes.momentObj or null,
+  endDateId="your_unique_end_date_id" // PropTypes.string.isRequired,
+  onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })} // PropTypes.func.isRequired,
+  focusedInput={this.state.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
+  onFocusChange={focusedInput => this.setState({ focusedInput })} // PropTypes.func.isRequired,
+  onChange={this.handlechannelChange}
+//   onChange={this.handlechannelendChange}
+ 
+/>
                             {/* <input
                                 type="date"
-                                id="channelEndDate"
-                                name="channelEndDate"
+                                id="channelStartDate"
+                                name="channelStartDate"
                                 required
                                 onChange={this.handlechannelChange}
-                            ></input> */}
+                            ></input>  */}
+        
                         </div>
-                        <div className="channelStartTime">
+                         <div className="channelStartTime">
                             <text>
                                 Start Time
                             </text>
@@ -186,7 +180,7 @@ class CreateChannel extends Component {
                                 required
                                 onChange={this.handlechannelChange}
                             ></input>
-                        </div>
+                        </div> 
                         <div className="createChannel">
                             <button
                                 type="button"
