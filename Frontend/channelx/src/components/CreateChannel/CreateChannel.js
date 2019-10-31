@@ -4,16 +4,33 @@ Authors: Darshan Prakash
 Date: 10/18/2019
 */
 
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import './CreateChannel.css'
 import * as ROUTES from "../../constants/routes";
 import fire from '../../config/Fire'
 import ChannelCreator from "../../services/ChannelCreator";
+import moment from 'react-moment';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
 
 class CreateChannel extends Component {
+
+    state = {
+        startDate: new Date(),
+        endDate: new Date()
+      };
+
+      handleChange = date => {
+        this.setState({
+          startDate: date,
+          endDate: date
+        });
+      };
     
     constructor(props) {
+
+
         super(props);
         this.createChannel = this.createChannel.bind(this);
         this.handlechannelChange = this.handlechannelChange.bind(this);
@@ -47,8 +64,7 @@ class CreateChannel extends Component {
                 break;
             case 'channelPassword':
                 break;
-            case 'channelStartDate':
-                    console.log(formErrors.channelStartDate);
+            case 'channelStartDate':                    
                 break;
             case 'channelEndDate':
                 break;
@@ -81,7 +97,9 @@ class CreateChannel extends Component {
     routeTo = (path) => this.props.history.push(path);
 
     render() {
+        // const [startDate, setStartDate] = useState(new Date());
         return (
+           
             <div className="wrapper">
                 <div className="form-wrapper">
                     <div className="FormTitle">
@@ -112,25 +130,34 @@ class CreateChannel extends Component {
                             <text>
                                 Start Date
                             </text>
-                            <input
-                                type="date"
-                                id="channelStartDate"
-                                name="channelStartDate"
-                                required
-                                onChange={this.handlechannelChange}
-                            ></input>
+                            <DatePicker
+                            id="channelStartDate"
+                            name="channelStartDate"
+                            selected={this.state.startDate}
+                            required
+                            onChange={this.handleChange}
+                            minDate={new Date()}
+                            />
                         </div>
                         <div className="channelEndDate">
                             <text>
                                 End Date
                             </text>
-                            <input
+                            <DatePicker
+                            id="channelEndDate"
+                            name="channelEndDate"
+                            selected={this.state.endDate}
+                            required
+                            onChange={this.handleChange}
+                            minDate={new Date()}
+                            />
+                            {/* <input
                                 type="date"
                                 id="channelEndDate"
                                 name="channelEndDate"
                                 required
                                 onChange={this.handlechannelChange}
-                            ></input>
+                            ></input> */}
                         </div>
                         <div className="channelStartTime">
                             <text>
