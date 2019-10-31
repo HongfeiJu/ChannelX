@@ -224,15 +224,12 @@ class Home extends Component {
                                     value={this.state.query}
                                     onChange={this.handleInputChange}
                                 />
-                                <select id="channelDrop"
-                                        onChange={this.handleSelectChange}>
-                                    {channelList}
-                                </select>
+                                <input
+                                    type="text"
+                                    value={this.state.value}
+                                    onChange={this.handleInputChange}
+                                />
                             </div>
-                            {/*<input type="text" className="input" placeholder="Search..." />*/}
-                            {/*<ul>*/}
-                            {/*    ...*/}
-                            {/*</ul>*/}
                             <List>
                                 {this.userCreatedChannels()}
                             </List>
