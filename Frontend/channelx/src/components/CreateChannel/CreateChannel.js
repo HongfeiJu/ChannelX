@@ -1,24 +1,22 @@
 /*
 Description: Create Channel Page
-Authors: Darshan Prakash, Muhammad
+Authors: Darshan Prakash, Muhammad Sami
 Date: 10/18/2019
 */
 
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import './CreateChannel.css'
 import * as ROUTES from "../../constants/routes";
 import fire from '../../config/Fire'
 import ChannelCreator from "../../services/ChannelCreator";
 import 'react-dates/initialize';
-import { DateRangePicker, SingleDatePicker, DayPickerRangeController } from 'react-dates';
+import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
-import moment from 'react-moment'
 import Moment from 'moment';
-// import moment from 'moment';
 
 
-var sdate = null;
-var edate = null;
+var channelStartDate = null;
+var channelEndDate = null;
 
 class CreateChannel extends Component {
 
@@ -28,16 +26,12 @@ class CreateChannel extends Component {
 
         super(props);
 
-
-
         this.createChannel = this.createChannel.bind(this);
         this.handlechannelChange = this.handlechannelChange.bind(this);
 
         this.state = {
             channelTitle: null,
             channelPassword: null,
-            channelStartDate: null,
-            channelEndDate: null,
             channelStartTime: null,
             channelEndTime: null,
             channelCreator: fire.auth().currentUser.uid,
@@ -45,8 +39,6 @@ class CreateChannel extends Component {
             errors:{
                 channelTitle: "",
                 channelPassword: "",
-                channelStartDate: "",
-                channelEndDate: "",
                 channelStartTime: "",
                 channelEndTime: "",
             }
@@ -64,10 +56,6 @@ class CreateChannel extends Component {
             case 'channelTitle':
                 break;
             case 'channelPassword':
-                break;
-            case 'channelStartDate':                    
-                break;
-            case 'channelEndDate':
                 break;
             case 'channelStartTime':
                 break;
@@ -87,8 +75,8 @@ class CreateChannel extends Component {
         channelCreator.creatNewChannel(
             this.state.channelTitle,
             this.state.channelPassword,
-            sdate,
-            edate,
+            channelStartDate,
+            channelEndDate,
             this.state.channelStartTime,
             this.state.channelEndTime,
             this.state.channelCreator);
@@ -100,50 +88,12 @@ class CreateChannel extends Component {
     render() {
 
 
+        channelStartDate = Moment(this.state.startDate).format('YYYY-MM-DD').toString();
 
-        // const today = this.state.startDate;
+         channelEndDate = Moment(this.state.endDate).format('YYYY-MM-DD').toString();
 
-         sdate = Moment(this.state.startDate).format('YYYY-MM-DD').toString();
-
-         edate = Moment(this.state.endDate).format('YYYY-MM-DD').toString();
-
-
-
-        //  date.format('MMM-DD-YYYY')
-        
-        // date.moment().format("hh:mm:ss a")
-        console.log(sdate);
-        console.log(edate);
-
-        // var day = today.getDate();
-
-        // console.log(day);
-
-        //  console.log(today.moment().toDate());
-
-        //  const m2 = moment(today);
-
-        //  console.log(today);
-
-        //  console.log(today.utc().value());
-
-
-        //  let newDateVar = today.utc().format();
-        //  var chan = moment(today).toDate();
-        //  console.log(chan);
-        //  var keys = Object.keys(chan);
-
-         
-
-        // console.log(moment(today).format("MMMM D, YYYY"));
-
-        // console.log(this.state.startDate);
-        // console.log(this.state.endDate);
-
-        // var plainDate = moment().toDate();
-        // console.log(this.state.startDate.toDate());
-
-        // channelStartDate = this.state.startDate
+        console.log(channelStartDate);
+        console.log(channelEndDate);
 
 
         return (
@@ -177,7 +127,7 @@ class CreateChannel extends Component {
                             ></input>
                         </div>
                         
-                        <div className="channelStartDate">
+                        <div className="startDate">
                           
                             <DateRangePicker 
   startDate={this.state.startDate} // momentPropTypes.momentObj or null,
@@ -187,18 +137,7 @@ class CreateChannel extends Component {
   onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })} // PropTypes.func.isRequired,
   focusedInput={this.state.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
   onFocusChange={focusedInput => this.setState({ focusedInput })} // PropTypes.func.isRequired,
-
-
-  
- 
 />
-                            {/* <input
-                                type="date"
-                                id="channelStartDate"
-                                name="channelStartDate"
-                                required
-                                
-                            ></input>  */}
         
                         </div>
                          <div className="channelStartTime">
