@@ -12,6 +12,13 @@ import ChannelCreator from "../../services/ChannelCreator";
 import 'react-dates/initialize';
 import { DateRangePicker, SingleDatePicker, DayPickerRangeController } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
+import moment from 'react-moment'
+import Moment from 'moment';
+// import moment from 'moment';
+
+
+var sdate = null;
+var edate = null;
 
 class CreateChannel extends Component {
 
@@ -25,6 +32,7 @@ class CreateChannel extends Component {
 
         this.createChannel = this.createChannel.bind(this);
         this.handlechannelChange = this.handlechannelChange.bind(this);
+
         this.state = {
             channelTitle: null,
             channelPassword: null,
@@ -46,13 +54,6 @@ class CreateChannel extends Component {
     }
 
 
-    handlechannelendChange = e => {
-        e.preventDefault();
-        const {name, value} = e.target;
-        let formErrors = this.state.errors;
-
-        this.setState({formErrors, [name]: value}, () => console.log(this.state));
-    };
 
     handlechannelChange = e => {
         e.preventDefault();
@@ -86,8 +87,8 @@ class CreateChannel extends Component {
         channelCreator.creatNewChannel(
             this.state.channelTitle,
             this.state.channelPassword,
-            this.state.channelStartDate,
-            this.state.channelEndDate,
+            sdate,
+            edate,
             this.state.channelStartTime,
             this.state.channelEndTime,
             this.state.channelCreator);
@@ -97,6 +98,52 @@ class CreateChannel extends Component {
     routeTo = (path) => this.props.history.push(path);
 
     render() {
+
+
+
+        // const today = this.state.startDate;
+
+         sdate = Moment(this.state.startDate).format('YYYY-MM-DD').toString();
+
+         edate = Moment(this.state.endDate).format('YYYY-MM-DD').toString();
+
+
+
+        //  date.format('MMM-DD-YYYY')
+        
+        // date.moment().format("hh:mm:ss a")
+        console.log(sdate);
+        console.log(edate);
+
+        // var day = today.getDate();
+
+        // console.log(day);
+
+        //  console.log(today.moment().toDate());
+
+        //  const m2 = moment(today);
+
+        //  console.log(today);
+
+        //  console.log(today.utc().value());
+
+
+        //  let newDateVar = today.utc().format();
+        //  var chan = moment(today).toDate();
+        //  console.log(chan);
+        //  var keys = Object.keys(chan);
+
+         
+
+        // console.log(moment(today).format("MMMM D, YYYY"));
+
+        // console.log(this.state.startDate);
+        // console.log(this.state.endDate);
+
+        // var plainDate = moment().toDate();
+        // console.log(this.state.startDate.toDate());
+
+        // channelStartDate = this.state.startDate
 
 
         return (
@@ -132,7 +179,7 @@ class CreateChannel extends Component {
                         
                         <div className="channelStartDate">
                           
-                            <DateRangePicker onEvent={this.handleEvent}
+                            <DateRangePicker 
   startDate={this.state.startDate} // momentPropTypes.momentObj or null,
   startDateId="your_unique_start_date_id" // PropTypes.string.isRequired,
   endDate={this.state.endDate} // momentPropTypes.momentObj or null,
@@ -140,8 +187,9 @@ class CreateChannel extends Component {
   onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })} // PropTypes.func.isRequired,
   focusedInput={this.state.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
   onFocusChange={focusedInput => this.setState({ focusedInput })} // PropTypes.func.isRequired,
-  onChange={this.handlechannelChange}
-//   onChange={this.handlechannelendChange}
+
+
+  
  
 />
                             {/* <input
@@ -149,7 +197,7 @@ class CreateChannel extends Component {
                                 id="channelStartDate"
                                 name="channelStartDate"
                                 required
-                                onChange={this.handlechannelChange}
+                                
                             ></input>  */}
         
                         </div>
