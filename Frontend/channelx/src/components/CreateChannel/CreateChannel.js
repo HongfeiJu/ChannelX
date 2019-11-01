@@ -1,7 +1,7 @@
 /*
 Description: Create Channel Page
 Authors: Darshan Prakash, Muhammad Sami
-Date: 10/18/2019
+Date: 10/31/2019
 */
 
 import React, {Component} from 'react';
@@ -13,12 +13,22 @@ import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 import Moment from 'moment';
+import TimePicker from 'react-time-picker'
+// import TimeRangePicker from '@wojtekmaj/react-timerange-picker'
+
 
 
 var channelStartDate = null;
 var channelEndDate = null;
 
 class CreateChannel extends Component {
+
+
+    state = {
+        time: '10:00',
+      }
+    
+      onChange = time => this.setState({ time })
 
     
     constructor(props) {
@@ -144,7 +154,13 @@ class CreateChannel extends Component {
                             <text>
                                 Start Time
                             </text>
-                            <input
+
+                            <TimePicker
+          onChange={this.onChange}
+          value={this.state.time}
+        />
+
+                            {/* <input
                                 type="time"
                                 id="channelStartTime"
                                 name="channelStartTime"
@@ -152,13 +168,17 @@ class CreateChannel extends Component {
                                 max="23:59"
                                 required
                                 onChange={this.handlechannelChange}
-                            ></input>
+                            ></input> */}
                         </div>
                         <div className="channelEndTime">
-                            <text>
+                             <text>
                                 End Time
                             </text>
-                            <input
+                            <TimePicker
+          onChange={this.onChange}
+          value={this.state.time}
+        />
+                            {/* <input
                                 type="time"
                                 id="channelEndTime"
                                 name="channelEndTime"
@@ -166,7 +186,7 @@ class CreateChannel extends Component {
                                 max="23:59"
                                 required
                                 onChange={this.handlechannelChange}
-                            ></input>
+                            ></input>  */}
                         </div> 
                         <div className="createChannel">
                             <button
