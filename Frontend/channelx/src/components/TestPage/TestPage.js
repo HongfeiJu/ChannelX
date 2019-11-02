@@ -11,9 +11,6 @@ import MessagingChannelCreator from "../../services/MessagingChannelCreator";
 import Fire from "../../config/Fire";
 import AddChannelEntryForm from "./AddChannelEntryForm";
 import ChannelsList from "./ChannelsList"
-import Time from './Time';
-
-
 
 class TestPage extends Component{
     constructor(props){
@@ -45,7 +42,6 @@ class TestPage extends Component{
         })
     }
 
-
     render() {
         return (
             <div className="Home">
@@ -58,39 +54,25 @@ class TestPage extends Component{
                             type="button"
                             style={{ marginLeft: "auto" }}
                             onClick={() => this.showPasscode()}
-
                     >show one time passcode</button>
                     <button id="channelID_botton"
                             type="button"
                             style={{ marginLeft: "auto" }}
                             onClick={() => this.showChannelID()}
-
                     >get channel id</button>
                     <button id="newChannel_btn"
                             type="button"
                             style={{ marginLeft: "auto" }}
                             onClick={() => this.createNewChannel()}
-
                     >create new channel</button>
-                    {/* <ChannelsList/> */}
-                    <Time/>
-
-                {/* <AddChannelEntryForm/>  */}
                 </div>
-               
-
-                
-                
                 <div className = "Main">
                 </div>
                 <div className = "Footer">
                 </div>
-                
-
             </div>
         );
     }
-
 }
 
 export default TestPage;
