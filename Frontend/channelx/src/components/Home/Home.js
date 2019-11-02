@@ -1,17 +1,20 @@
 /*
 Description: Home page
-Authors: Darshan Prakash, Sami, Manisha 
+Authors: Darshan Prakash, Sami, Manisha, Subhradeep
 Date: 9/24/2019
+Updated: 10/31/2019
 */
 
 import React, {Component} from 'react';
+import firebase from "firebase";
 import fire from "../../config/Fire";
 import {db} from "../../config/Fire";
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider'
-import './Home.css'
+import Divider from '@material-ui/core/Divider';
+import './Home.css';
+
 
 import * as ROUTES from "../../constants/routes";
 import getCurrentUserUid from '../../services/currentUuidGetter';
@@ -51,6 +54,7 @@ class Home extends Component {
     };
 
     handleSelectChange = event => {
+        //event.target.blur()
         const selectedChannel = event.target.value;
         console.log(selectedChannel);
         this.setState(() => {
@@ -58,6 +62,9 @@ class Home extends Component {
                 selectedChannel
             };
         });
+
+        event.target.blur()
+        event.target.parentNode.blur();
     };
 
 
@@ -77,6 +84,7 @@ class Home extends Component {
     getChannelId = () => {
         console.log("Join Channel clicked");
         var selectedChannel = document.getElementById("channelDrop").value;
+        const currUser = fire.auth().currentUser.uid
         console.log(selectedChannel);
 
         if (selectedChannel == "Select Channel") {
@@ -91,9 +99,16 @@ class Home extends Component {
                             console.log("channelId    => ");
                             console.log(doc.id);
                             this.routeTo("/channel/" + doc.id)
+
+                            fire.firestore().collection('users').doc(currUser).update(
+                                {
+                                    channelsJoined: firebase.firestore.FieldValue.arrayUnion(doc.id)
+                                }
+                            );
                         });
                 });
         }
+
     };
 
     getCreatedChannels = () => {
@@ -163,6 +178,7 @@ class Home extends Component {
         })
     };
 
+
     render() {
         const {filteredData} = this.state;
         let channelList = filteredData.length > 0
@@ -197,12 +213,15 @@ class Home extends Component {
                     </hr>
                     <div class="searchForm">
                         <input
-                            placeholder="Search for channels"
+                            placeholder="Search public channels"
                             value={this.state.query}
                             onChange={this.handleInputChange}
                         />
                         <select id="channelDrop"
-                                onChange={this.handleSelectChange}>
+                                size={this.state.size} onFocus={()=>{this.setState({size: 5})}} 
+                                onBlur={()=>{this.setState({size: 1})}} //onChange={(e)=>{e.target.blur()}}
+                                onChange={this.handleSelectChange}
+                                >
                             {channelList}
                         </select>
                     </div>
