@@ -25,20 +25,14 @@ import {
 
 var channelStartDate = null;
 var channelEndDate = null;
-var channelStartTime = null;
-var channelEndTime = null;
+var channelStartTime = "12:00 PM";
+var channelEndTime = "12:00 PM";
 
 
 class CreateChannel extends Component {
 
-    
     constructor(props) {
-
-
         super(props);
-
-          
-
         this.createChannel = this.createChannel.bind(this);
         this.handlechannelChange = this.handlechannelChange.bind(this);
 
@@ -53,8 +47,6 @@ class CreateChannel extends Component {
             }
         }
     }
-
-
 
     handlechannelChange = e => {
         e.preventDefault();
@@ -94,9 +86,6 @@ class CreateChannel extends Component {
         channelStartDate = Moment(this.state.startDate).format('YYYY-MM-DD').toString();
 
          channelEndDate = Moment(this.state.endDate).format('YYYY-MM-DD').toString();
-
-        // console.log(channelStartDate);
-        // console.log(channelEndDate);
 
         return (
 

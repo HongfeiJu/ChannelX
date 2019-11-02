@@ -1,3 +1,9 @@
+/*
+Description: Test for Clock Picker
+Authors: Muhammad Sami
+Date: 11/01/2019
+*/
+
 import 'date-fns';
 import React from 'react';
 import Moment from 'moment';
@@ -44,7 +50,3 @@ export default function MaterialUIPickers() {
     </MuiPickersUtilsProvider>
   );
 }
-
-// console.log(value);
-
-// export { time }
