@@ -1,15 +1,14 @@
 
 .channelTitle,
 .channelPassword,
-.channelOnePassword{
+.channelOnePassword,
+.datePicker{
     width: 100%;
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
 }
 
-.channelStartDate,
-.channelEndDate,
 .channelStartTime,
 .channelEndTime {
     width: 49%;
@@ -18,12 +17,10 @@
     margin-bottom: 15px;
 }
 
-.channelStartDate,
 .channelStartTime {
     margin-right: 1%;
 }
 
-.channelEndDate,
 .channelEndTime {
     margin-left: 1%;
 }
