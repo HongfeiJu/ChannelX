@@ -11,6 +11,8 @@ import ChatMessage from "./ChatMessage/ChatMessage";
 import * as ROUTES from "../../constants/routes";
 import PasscodeGenerator from "../../services/PasscodeGenerator";
 import getCurrentUserUid from "../../services/currentUuidGetter";
+import SweetAlert from "react-bootstrap-sweetalert";
+
 
 
 class ChatRoom extends Component{
@@ -21,6 +23,12 @@ class ChatRoom extends Component{
         this.clearMessage = this.clearMessage.bind(this);
         this.addNewPasscode = this.addNewPasscode.bind(this);
         this.showPasscodes = this.showPasscodes.bind(this);
+
+        // this.state = {
+        //     alert: null
+        //   };
+
+
         this.state = {
             id:this.props.match.params.id,
             title:'',
@@ -28,7 +36,8 @@ class ChatRoom extends Component{
             username: '',
             message:'',
             messages : [],
-            passcodes: []
+            passcodes: [],
+            alert: null,
         }
     }
 
@@ -67,6 +76,29 @@ class ChatRoom extends Component{
             message:e.target.value
         });
     }
+
+
+    showAlert() {
+        const getAlert = () => (
+          <SweetAlert 
+            warning
+            title="Channel is not available for chat ritenow!" 
+            onConfirm={() => this.hideAlert()}
+          >
+          </SweetAlert>
+        );
+    
+        this.setState({
+          alert: getAlert()
+        });
+      }
+    
+      hideAlert() {
+        console.log('Hiding alert...');
+        this.setState({
+          alert: null
+        });
+      }
 
     submitMessage(){
         console.log("submit "+this.state.message);
@@ -160,7 +192,10 @@ class ChatRoom extends Component{
 
     handleKeyDown = (e) => {
         if (e.key === 'Enter') {
-            this.submitMessage();
+            // this.submitMessage();
+             this.showAlert();
+             // eslint-disable-next-line no-unused-expressions
+             this.state.alert;
         }
     };
 
@@ -197,13 +232,22 @@ class ChatRoom extends Component{
                         className="newMessage"
                         placeholder="input new message"
                         value={this.state.message}
+                        // onKeyDown={this.handleKeyDown}
                         onKeyDown={this.handleKeyDown}
                         onChange={this.updateMessage}
+
+                        
                     />
                     <button
                         className="sendButton"
-                        onClick={this.submitMessage}
+                        // onClick={this.submitMessage}
+                        onClick={() => this.showAlert()}
+                        
+
+                        
+                        
                     >send</button>
+                    {this.state.alert}
                 </div>
             </div>
         );
