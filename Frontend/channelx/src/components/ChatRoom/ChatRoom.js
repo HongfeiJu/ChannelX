@@ -232,7 +232,6 @@ class ChatRoom extends Component{
                         className="newMessage"
                         placeholder="input new message"
                         value={this.state.message}
-                        // onKeyDown={this.handleKeyDown}
                         onKeyDown={this.handleKeyDown}
                         onChange={this.updateMessage}
 
@@ -242,9 +241,6 @@ class ChatRoom extends Component{
                         className="sendButton"
                         // onClick={this.submitMessage}
                         onClick={() => this.showAlert()}
-                        
-
-                        
                         
                     >send</button>
                     {this.state.alert}
