@@ -11,6 +11,7 @@ import MessagingChannelCreator from "../../services/MessagingChannelCreator";
 import Fire from "../../config/Fire";
 import AddChannelEntryForm from "./AddChannelEntryForm";
 import ChannelsList from "./ChannelsList"
+import Time from './Time';
 
 
 
@@ -71,7 +72,8 @@ class TestPage extends Component{
                             onClick={() => this.createNewChannel()}
 
                     >create new channel</button>
-                    <ChannelsList/>
+                    {/* <ChannelsList/> */}
+                    <Time/>
 
                 {/* <AddChannelEntryForm/>  */}
                 </div>
