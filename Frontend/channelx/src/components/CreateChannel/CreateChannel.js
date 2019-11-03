@@ -17,12 +17,14 @@ import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider,KeyboardTimePicker} from '@material-ui/pickers';
 import getCurrentUserUid from "../../services/currentUuidGetter";
+import SweetAlert from "react-bootstrap-sweetalert";
+
 
 
 var channelStartDate = null;
 var channelEndDate = null;
-var channelStartTime = "10:00 AM";
-var channelEndTime = "05:00 PM";
+var channelStartTime = null;
+var channelEndTime = null;
 
 
 class CreateChannel extends Component {
@@ -31,10 +33,12 @@ class CreateChannel extends Component {
         super(props);
         this.createChannel = this.createChannel.bind(this);
         this.handlechannelChange = this.handlechannelChange.bind(this);
+    
         this.state = {
             channelTitle: null,
             channelPassword: null,
             channelCreator: getCurrentUserUid(),
+            alert: null,
             errors: {
                 channelTitle: "",
                 channelPassword: "",
@@ -57,9 +61,35 @@ class CreateChannel extends Component {
         this.setState({formErrors, [name]: value}, () => console.log(this.state));
     };
 
+    showAlert() {
+        const getAlert = () => (
+          <SweetAlert 
+            success
+            title="Channel Created Successfully!" 
+            onConfirm={() => this.hideAlert()}
+          >
+          </SweetAlert>
+        );
+    
+        this.setState({
+          alert: getAlert()
+        });
+      }
+    
+      hideAlert() {
+        console.log('Hiding alert...');
+        
+        this.setState({
+          alert: null
+        });
+
+        this.routeTo(ROUTES.HOME);
+      }
+
 
     createChannel(e) {
         e.preventDefault();
+        
         const channelCreator = new ChannelCreator();
         channelCreator.creatNewChannel(
             this.state.channelTitle,
@@ -69,8 +99,13 @@ class CreateChannel extends Component {
             channelStartTime,
             channelEndTime,
             this.state.channelCreator);
-        this.routeTo(ROUTES.HOME);
+
+            // this.setState({done: true})
+        // this.routeTo(ROUTES.HOME);
     }
+
+
+
 
     routeTo = (path) => this.props.history.push(path);
 
@@ -83,6 +118,7 @@ class CreateChannel extends Component {
                     <div className="FormTitle">
                         <h1>Create your Channel</h1>
                     </div>
+                    
                     <form onSubmit={this.createChannel}>
                         <div className="channelTitle">
                             <input
@@ -143,10 +179,15 @@ class CreateChannel extends Component {
                                 type="submit"
                                 id="submitButton"
                                 className="createButton"
+                                onClick={() => this.showAlert()}
+
+                                
                             >Create
                             </button>
+                            {this.state.alert}
                         </div>
                     </form>
+                    
                 </div>
             </div>
         );
@@ -159,9 +200,10 @@ export default CreateChannel;
 function MaterialUIPickersStartTime() {
 
     const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T10:00:00'));
+    channelStartTime = Moment(selectedDate).format('HH:mm:ss').toString();
     const handleDateChange = date => {
         setSelectedDate(date);
-        channelStartTime = Moment(date).format('LT').toString();
+        channelStartTime = Moment(date).format('HH:mm:ss').toString();
     };
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -182,10 +224,12 @@ function MaterialUIPickersStartTime() {
 
 function MaterialUIPickersEndTime() {
 
-    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T17:00:00'));
+    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-09-18T17:00:00'));
+    channelEndTime = Moment(selectedDate).format('HH:mm:ss').toString();
     const handleDateChange = date => {
         setSelectedDate(date);
-        channelEndTime = Moment(date).format('LT').toString();
+        channelEndTime = Moment(date).format('HH:mm:ss').toString();
+        console.log(channelEndTime);
     };
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>

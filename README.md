@@ -18,8 +18,10 @@ Instructions to run the application
 7. Run ```npm install @material-ui/pickers``` .
 8. Run ```npm install @date-io/date-fns``` .
 9. Run ```npm install date-fns@next @date-io/date-fns``` .
-10. Run ```npm audit fix``` if there are any warnings or error with your version of npm.
-11. Run ```npm start``` to start the the application. It will open up in the browser at ```http://localhost:3000```.
-12. You will be taken to the landing page where you can select Register button which will take yoy to Signup Page.
-13. Enter your details and click ```submit``` to register. You will be taken to home page if your email address is valid.
-14. Click on signout in Home page to log out of application.
+10. Run ```npm install --save react-dates moment``` . 
+11. Run ```npm install react-bootstrap-sweetalert``` . 
+12. Run ```npm audit fix``` if there are any warnings or error with your version of npm.
+13. Run ```npm start``` to start the the application. It will open up in the browser at ```http://localhost:3000```.
+14. You will be taken to the landing page where you can select Register button which will take yoy to Signup Page.
+15. Enter your details and click ```submit``` to register. You will be taken to home page if your email address is valid.
+16. Click on signout in Home page to log out of application.

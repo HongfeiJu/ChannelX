@@ -31,7 +31,7 @@ class ChannelCreator {
                 }
             );
             messagingChannelCreator.createChannel(messagingChannelID, title, creator);
-            alert('channel created');
+            // alert('channel created');
         }).catch(e=>{
             alert(e);
             alert('channel not created');
