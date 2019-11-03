@@ -200,6 +200,7 @@ export default CreateChannel;
 function MaterialUIPickersStartTime() {
 
     const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T10:00:00'));
+    channelStartTime = Moment(selectedDate).format('HH:mm:ss').toString();
     const handleDateChange = date => {
         setSelectedDate(date);
         channelStartTime = Moment(date).format('HH:mm:ss').toString();
@@ -224,6 +225,7 @@ function MaterialUIPickersStartTime() {
 function MaterialUIPickersEndTime() {
 
     const [selectedDate, setSelectedDate] = React.useState(new Date('2014-09-18T17:00:00'));
+    channelEndTime = Moment(selectedDate).format('HH:mm:ss').toString();
     const handleDateChange = date => {
         setSelectedDate(date);
         channelEndTime = Moment(date).format('HH:mm:ss').toString();

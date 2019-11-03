@@ -15,8 +15,6 @@ import SweetAlert from "react-bootstrap-sweetalert";
 import { db } from "../../config/Fire";
 import Moment from 'moment';
 
-// var isChatEnable = false;
-
 class ChatRoom extends Component {
     constructor(props, context) {
         super(props, context);
@@ -25,11 +23,6 @@ class ChatRoom extends Component {
         this.clearMessage = this.clearMessage.bind(this);
         this.addNewPasscode = this.addNewPasscode.bind(this);
         this.showPasscodes = this.showPasscodes.bind(this);
-
-        // this.state = {
-        //     alert: null
-        //   };
-
 
         this.state = {
             id: this.props.match.params.id,
@@ -116,6 +109,8 @@ class ChatRoom extends Component {
                 + " " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
         };
 
+        if(this.state.message.length > 0) {
+
         firebase.database().ref('channels/' + this.state.id + '/messages/' + newMessage.id).set(newMessage)
             .then(r => {
                 console.log(r);
@@ -123,6 +118,8 @@ class ChatRoom extends Component {
             }).catch(e => {
                 console.log(e)
             });
+
+        }
     }
 
     clearMessage() {
@@ -142,6 +139,7 @@ class ChatRoom extends Component {
 
     getChannnelDatesandTimes = () => {
 
+        var startDate;
         var endDate;
         var startTime;
         var endTime;
@@ -157,6 +155,7 @@ class ChatRoom extends Component {
             .get()
             .then(doc => {
 
+                startDate = doc.get("channelStartDate");
                 endDate = doc.get("channelEndDate");
                 startTime = doc.get("channelStartTime");
                 endTime = doc.get("channelEndTime");
@@ -164,13 +163,8 @@ class ChatRoom extends Component {
                 console.log(endTime);
                 console.log(time);
 
-
-                
                 var nextDay = false;
-
-
                 var dt = new Date();
-
 
         var s = startTime.split(':');
         var e = endTime.split(':');
@@ -192,31 +186,21 @@ class ChatRoom extends Component {
         console.log(validTime);
 
 
-        var validDate = Moment(date).isSameOrBefore(endDate);
+        var validDate = Moment(date).isSameOrAfter(startDate) && Moment(date).isSameOrBefore(endDate);
         console.log(validDate);
 
         if(validDate && validTime) {
 
             this.setState({isChatEnable: true})
-            
-            // this.state.isChatEnable.setState(true);
 
         } else {
 
             this.setState({isChatEnable: false})
 
         }
-
-
             }).catch(error => {
                 console.log(`error is ${error}`);
             });
-
-
-        
-        
-
-        
 
         };
     scrollToBottom() {
@@ -328,7 +312,6 @@ class ChatRoom extends Component {
 
 
                     />
-                    {/* {!this.state.isChatEnable && ( */}
                     <button
                         className="sendButton"
                         onClick={this.state.isChatEnable ? this.submitMessage : () => ( this.showAlert())}
