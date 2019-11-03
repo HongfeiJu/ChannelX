@@ -12,8 +12,8 @@ import Fire from "../../config/Fire";
 import AddChannelEntryForm from "./AddChannelEntryForm";
 import ChannelsList from "./ChannelsList"
 import PasscodeChecker from "../../services/PasscodeChecker";
-import PrivatePasscodeGenerator from "../../services/PrivatePasscodeGenertor";
-//import ChannelIDGetter from "../../services/ChannelIDGetter";
+//import PrivatePasscodeGenerator from "../../services/PrivatePasscodeGenertor";
+
 
 
 class TestPage extends Component{
@@ -24,7 +24,6 @@ class TestPage extends Component{
         this.msgChannelCreator=new MessagingChannelCreator();
         this.passcodeChecker=new PasscodeChecker();
         this.privatePasscodeGenerator=new PrivatePasscodeGenerator();
-        //this.channelIDgetter=new ChannelIDGetter();
     }
 
     showPasscode(){
@@ -100,13 +99,10 @@ class TestPage extends Component{
                         <button id="newChannel_btn"
                                 type="button"
                                 style={{ marginLeft: "auto" }}
-                                onClick={() => this.getPrivatePasscode()}
+                                onClick={() => {
+                                    this.getPrivatePasscode()
+                                }}
                         >private passcode</button>
-                        <button id="newChannel_btn"
-                                type="button"
-                                style={{ marginLeft: "auto" }}
-                                onClick={() => {}}
-                        >get channelID</button>
                     </div>
                     <ChannelsList/>
                 </div>
