@@ -23,8 +23,8 @@ import SweetAlert from "react-bootstrap-sweetalert";
 
 var channelStartDate = null;
 var channelEndDate = null;
-var channelStartTime = "10:00 AM";
-var channelEndTime = "05:00 PM";
+var channelStartTime = null;
+var channelEndTime = null;
 
 
 class CreateChannel extends Component {
@@ -202,7 +202,7 @@ function MaterialUIPickersStartTime() {
     const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T10:00:00'));
     const handleDateChange = date => {
         setSelectedDate(date);
-        channelStartTime = Moment(date).format('LT').toString();
+        channelStartTime = Moment(date).format('HH:mm:ss').toString();
     };
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -223,10 +223,11 @@ function MaterialUIPickersStartTime() {
 
 function MaterialUIPickersEndTime() {
 
-    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T17:00:00'));
+    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-09-18T17:00:00'));
     const handleDateChange = date => {
         setSelectedDate(date);
-        channelEndTime = Moment(date).format('LT').toString();
+        channelEndTime = Moment(date).format('HH:mm:ss').toString();
+        console.log(channelEndTime);
     };
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
