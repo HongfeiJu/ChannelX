@@ -15,7 +15,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import './Home.css';
 
-
+import { Container, Row, Col, Button, Form, FormControl } from 'react-bootstrap'
+import MyNavbar from '../Navbar/MyNavbar'
 import * as ROUTES from "../../constants/routes";
 import getCurrentUserUid from '../../services/currentUuidGetter';
 
@@ -189,59 +190,91 @@ class Home extends Component {
             }, this);
 
         return (
-            <div className="Home">
-                <div className="Header">
-                    <h1>Hello {getUsername()}</h1>
-                    <div className="HomeHeaderButtons">
+            <>
+                <MyNavbar />
+                <Container>
+                    <Row>
+                        <Col>
+                            <div class="searchForm">
+                                <input
+                                    placeholder="Search public channels"
+                                    value={this.state.query}
+                                    onChange={this.handleInputChange}
+                                />
+                                <select id="channelDrop"
+                                        size={this.state.size} onFocus={()=>{this.setState({size: 5})}} 
+                                        onBlur={()=>{this.setState({size: 1})}} //onChange={(e)=>{e.target.blur()}}
+                                        onChange={this.handleSelectChange}
+                                        >
+                                    {channelList}
+                                </select>
+                            </div>
+                            <Button id="HomeJoinChannel" variant="primary" onClick={this.getChannelId}>Join</Button>
+                        </Col>
+                        <Col>
+                            <h1>My Channels</h1>
+                            <div className="channelsList">
+                                <List>
+                                    {this.userCreatedChannels()}
+                                </List>
+                            </div>
+                        </Col>
+                    </Row>
+                </Container>
+            </>
+            // <div className="Home">
+            //     <div className="Header">
+            //         <h1>Hello {getUsername()}</h1>
+            //         <div className="HomeHeaderButtons">
 
-                        <button id="HomeLogout"
-                                type="button"
-                                className="HomeLogout"
-                                onClick={() => this.routeTo(ROUTES.LANDING)}
-                        >Logout
-                        </button>
-                        <button id="HomeCreateChannel"
-                                type="button"
-                                className="HomeCreateChannel"
-                                onClick={() => this.routeTo(ROUTES.CREATE_CHANNEL)}
-                        >Create New
-                        </button>
-                    </div>
-                </div>
-                <div className="HomeMain">
-                    <hr>
-                    </hr>
-                    <div class="searchForm">
-                        <input
-                            placeholder="Search public channels"
-                            value={this.state.query}
-                            onChange={this.handleInputChange}
-                        />
-                        <select id="channelDrop"
-                                size={this.state.size} onFocus={()=>{this.setState({size: 5})}} 
-                                onBlur={()=>{this.setState({size: 1})}} //onChange={(e)=>{e.target.blur()}}
-                                onChange={this.handleSelectChange}
-                                >
-                            {channelList}
-                        </select>
-                    </div>
-                    <button id="HomeJoinChannel"
-                            type="button"
-                            className="HomeJoinChannel"
-                            onClick={this.getChannelId}
-                    >
-                        Join
-                    </button>
-                    <hr>
-                    </hr>
-                    <h1>My Channels</h1>
-                    <div className="channelsList">
-                        <List>
-                            {this.userCreatedChannels()}
-                        </List>
-                    </div>
-                </div>
-            </div>
+            //             <button id="HomeLogout"
+            //                     type="button"
+            //                     className="HomeLogout"
+            //                     onClick={() => this.routeTo(ROUTES.LANDING)}
+            //             >Logout
+            //             </button>
+            //             <button id="HomeCreateChannel"
+            //                     type="button"
+            //                     className="HomeCreateChannel"
+            //                     onClick={() => this.routeTo(ROUTES.CREATE_CHANNEL)}
+            //             >Create New
+            //             </button>
+            //         </div>
+            //     </div>
+            //     <div className="HomeMain">
+            //         <hr>
+            //         </hr>
+            //         <div class="searchForm">
+            //             <input
+            //                 placeholder="Search public channels"
+            //                 value={this.state.query}
+            //                 onChange={this.handleInputChange}
+            //             />
+            //             <select id="channelDrop"
+            //                     size={this.state.size} onFocus={()=>{this.setState({size: 5})}} 
+            //                     onBlur={()=>{this.setState({size: 1})}} //onChange={(e)=>{e.target.blur()}}
+            //                     onChange={this.handleSelectChange}
+            //                     >
+            //                 {channelList}
+            //             </select>
+            //         </div>
+            //         <button id="HomeJoinChannel"
+            //                 type="button"
+            //                 className="HomeJoinChannel"
+            //                 onClick={this.getChannelId}
+            //         >
+            //             Join
+            //         </button>
+            //         <hr>
+            //         </hr>
+            //         <h1>My Channels</h1>
+            //         <div className="channelsList">
+            //             <List>
+            //                 {this.userCreatedChannels()}
+            //             </List>
+            //         </div>
+            //     </div>
+            // </div>
         );
     }
 }

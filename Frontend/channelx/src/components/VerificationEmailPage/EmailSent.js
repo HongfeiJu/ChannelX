@@ -6,7 +6,7 @@ Date: 10/03/2019
 */
 
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
+// import 'bootstrap/dist/css/bootstrap.css';
 import * as ROUTES from '../../constants/routes';
 
 class EmailSent extends React.Component {

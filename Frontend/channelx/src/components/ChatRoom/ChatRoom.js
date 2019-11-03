@@ -11,7 +11,8 @@ import ChatMessage from "./ChatMessage/ChatMessage";
 import * as ROUTES from "../../constants/routes";
 import PasscodeGenerator from "../../services/PasscodeGenerator";
 import getCurrentUserUid from "../../services/currentUuidGetter";
-import SweetAlert from "react-bootstrap-sweetalert";
+// import SweetAlert from "react-bootstrap-sweetalert";
+import SweetAlert from 'sweetalert-react';
 import { db } from "../../config/Fire";
 import Moment from 'moment';
 

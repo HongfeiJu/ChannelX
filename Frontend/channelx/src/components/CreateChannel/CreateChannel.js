@@ -17,8 +17,8 @@ import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider,KeyboardTimePicker} from '@material-ui/pickers';
 import getCurrentUserUid from "../../services/currentUuidGetter";
-import SweetAlert from "react-bootstrap-sweetalert";
-
+// import SweetAlert from "react-bootstrap-sweetalert";
+import SweetAlert from 'sweetalert-react';
 
 
 var channelStartDate = null;

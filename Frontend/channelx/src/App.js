@@ -3,7 +3,7 @@ Description: Basic routing for landing page and register page
 Author: Hongfei Ju, Darshan Prakash, Manisha, Sami
 Date: 10/02/2019
 */
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React,{Component} from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
