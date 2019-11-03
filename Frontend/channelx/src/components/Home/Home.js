@@ -74,6 +74,30 @@ class Home extends Component {
         });
     };
 
+    handleSelectChangeParticipated = event => {
+        const selectedChannel = event.target.value;
+        console.log(selectedChannel);
+        this.setState(() => {
+            return {
+                selectedChannel
+            };
+        });
+    };
+
+
+    handleInputChangeParticipated = event => {
+        const query = event.target.value;
+        this.setState(prevState => {
+            const filteredData = prevState.data.filter(element => {
+                return element.toLowerCase().includes(query.toLowerCase());
+            });
+            return {
+                query,
+                filteredData
+            };
+        });
+    };
+
     getChannelId = () => {
         console.log("Join Channel clicked");
         var selectedChannel = document.getElementById("channelDrop").value;
@@ -218,16 +242,16 @@ class Home extends Component {
                     <div className= "participatedList">
                         <h1>My Channels</h1>
                         <div className="channelsList">
-                            <div className="searchFormCreated">
+                            <div class="searchFormCreated">
                                 <input
                                     placeholder="Search for channels"
                                     value={this.state.query}
-                                    onChange={this.handleInputChange}
+                                    onChange={this.handleInputChangeParticipated}
                                 />
                                 <input
                                     type="text"
                                     value={this.state.value}
-                                    onChange={this.handleInputChange}
+                                    onChange={this.handleInputChangeParticipated}
                                 />
                             </div>
                             <List>
