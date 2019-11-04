@@ -101,7 +101,7 @@ class CreateChannel extends Component {
             this.state.channelCreator);
 
             // this.setState({done: true})
-        // this.routeTo(ROUTES.HOME);
+        this.routeTo(ROUTES.HOME);
     }
 
 
@@ -173,13 +173,13 @@ class CreateChannel extends Component {
                                 id="cancelButton"
                                 className="leaveButton"
                                 onClick={() => this.routeTo(ROUTES.HOME)}
-                            >Leave
+                            >Cancel
                             </button>
                             <button
                                 type="submit"
                                 id="submitButton"
                                 className="createButton"
-                                onClick={() => this.showAlert()}
+                                // onClick={() => this.showAlert()}
 
                                 
                             >Create
