@@ -1,4 +1,5 @@
 
+
 .Home {
     width: 100%;
     height: 100vh;
@@ -7,17 +8,10 @@
     flex-direction: column;
     margin: auto;
     background: #7678ED;
-}
-
-.Header {
-    width: 100%;
-    background: #7678ED;
+    align-items: center;
     padding: 1rem;
     font-size: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 20%;
+    min-height: 80vh;
     border-bottom: .5px solid black;
 }
 
@@ -74,19 +68,7 @@
     border-radius: 5px;
 }
 
-.HomeMain {
-    align-items: center;
-    width: 100%;
-    background: #7678ED;
-    padding: 1rem;
-    font-size: 1rem;
-    display: flex;
-    flex-direction: column;
-    height: 80%;
-    min-height: 80vh;
-    margin: auto;
-    border-bottom: .5px solid black;
-}
+
 
 .searchForm {
     width: 20%;
