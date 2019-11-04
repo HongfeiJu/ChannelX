@@ -10,7 +10,6 @@ import './ChatRoom.css';
 import ChatMessage from "./ChatMessage/ChatMessage";
 import * as ROUTES from "../../constants/routes";
 import PasscodeGenerator from "../../services/PasscodeGenerator";
-import getCurrentUserUid from "../../services/currentUuidGetter";
 import SweetAlert from "react-bootstrap-sweetalert";
 import { db } from "../../config/Fire";
 import Moment from 'moment';
@@ -39,6 +38,8 @@ class ChatRoom extends Component {
 
     componentDidMount() {
 
+        this.authListener();
+
         this.getChannnelDatesandTimes();
 
         this.setState({
@@ -61,6 +62,21 @@ class ChatRoom extends Component {
         if (this.state.messages.length !== 0) {
             this.scrollToBottom();
         }
+    }
+
+    authListener() {
+        firebase.auth().onAuthStateChanged((user) => {
+            console.log(user);
+            if(user) {
+                this.setState({
+                    UUID: user.uid,
+                    user
+                });
+            } else {
+                this.setState({user: null});
+                this.routeTo(ROUTES.LANDING);
+            }
+        });
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -247,7 +263,7 @@ class ChatRoom extends Component {
     }
 
     getControlBar() {
-        if (getCurrentUserUid() === this.state.creator) {
+        if (this.state.UUID === this.state.creator) {
             return (<div className="control_bar">
                 <button className="control_button" onClick={this.addNewPasscode}>generate passcode</button>
                 <button className="control_button" onClick={this.showPasscodes}>show passcodes</button>
@@ -281,11 +297,11 @@ class ChatRoom extends Component {
             )
         });
 
-        if (this.state.messages.length === 0) {
-            return (
-                <h1>channel doesn't exist</h1>
-            );
-        }
+        // if (this.state.messages.length === 0) {
+        //     return (
+        //         <h1>channel doesn't exist</h1>
+        //     );
+        // }
 
         return (
             <div className="chatRoom">

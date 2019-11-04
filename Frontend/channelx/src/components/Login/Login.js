@@ -9,6 +9,7 @@ import './Login.css'
 import fire from "../../config/Fire";
 import {withRouter} from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
+import firebase from "firebase";
 
 class Login extends Component {
     constructor(props) {
@@ -25,6 +26,23 @@ class Login extends Component {
                 password: ""
             }
         }
+    }
+
+    componentDidMount() {
+        this.authListener();
+    }
+
+    authListener() {
+        firebase.auth().onAuthStateChanged((user) => {
+            console.log(user);
+            if(user) {
+                this.setState({
+                    emailVerified: firebase.auth().currentUser.emailVerified
+                });
+            } else {
+                this.setState({emailVerified : false});
+            }
+        });
     }
 
     routeTo(path) {
@@ -56,26 +74,19 @@ class Login extends Component {
 
     login(e) {
         e.preventDefault();
-        fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u) => {
-        }).then((u) => {
-            if(fire.auth().currentUser.emailVerified === true)
-                this.routeTo(ROUTES.HOME);
-            else {
-                this.setState({fireLoginErrors: "Kindly verify your email before you login"})
-            }
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() =>{
+            firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+        }).then(() => {
+            setTimeout(e => {
+                if(this.state.emailVerified === true)
+                    this.routeTo(ROUTES.HOME);
+                else {
+                    this.setState({fireLoginErrors: "Kindly verify your email before you login"})
+                }
+            }, 500);
         }).catch((error) => {
-          //alert(error.code);
-         /* switch(error.code) {
-            case 'auth/user-not-found':
-                alert('Login failed: Incorrect username or password!')
-                break;
-            case 'auth/wrong-password':
-                alert('Login failed: Incorrect password!')
-                break;
-          }*/
           console.log(error);
           this.setState({fireLoginErrors : error.message})
-
         })
     }
 
@@ -91,7 +102,7 @@ class Login extends Component {
                     <div className="errorMessage">
                         {loginErrorNotification}
                     </div>
-                    <form onSubmit={this.login}>
+                    <form onSubmit ={this.login}>
                         <div className="email">
                             <input
                                 type="email"
@@ -119,12 +130,9 @@ class Login extends Component {
                                 <span className="errorMessage">{this.state.errors.password}</span>
                             )}
                         </div>
-
                         <div className="forgetPass">
-                            <a href="#" onClick={() => this.routeTo('/forget-password')} style={{cursor: 'pointer'}}>Forgot
-                                password?</a>
+                            <a href="#" onClick={() => this.routeTo('/forget-password')} >Forgot password?</a>
                         </div>
-
                         <div className="LoginButtons">
                             <button
                                 type="button"
@@ -140,7 +148,6 @@ class Login extends Component {
                             >Login
                             </button>
                         </div>
-
                     </form>
                 </div>
             </div>
