@@ -76,21 +76,20 @@ class Login extends Component{
                         >
                         </input>
                     </div>
-
-                    
-
-                    <div className="Reset">
+                    <div className="LoginButtons">
                         <button
                             type="button"
-                            id="cancelButton"
-                            className="cancelButton"
+                            id="loginCancelButton"
+                            className="loginCancelButton"
                             onClick={() => this.routeTo(ROUTES.LANDING)}
-                        >cancel</button>
+                        >Cancel
+                        </button>
                         <button
                             type="submit"
-                            id="submitButton"
-                            className="submitButton"
-                        >submit</button>
+                            id="loginSubmitButton"
+                            className="loginSubmitButton"
+                        >Reset
+                        </button>
                     </div>
                 </form>
             </div>
