@@ -62,7 +62,6 @@ class Home extends Component {
                 selectedChannel
             };
         });
-
         event.target.blur()
         event.target.parentNode.blur();
     };
@@ -73,15 +72,13 @@ class Home extends Component {
         console.log(query);
         let filteredData = [];
         this.setState(prevState => {
-            if (query == ''){
+            if (query == '') {
                 filteredData.push("Select Channel");
-            }
-            else{
+            } else {
                 filteredData = prevState.data.filter(element => {
                     return element.toLowerCase().includes(query.toLowerCase());
                 });
             }
-            
             return {
                 query,
                 filteredData
@@ -94,7 +91,6 @@ class Home extends Component {
         var selectedChannel = document.getElementById("channelDrop").value;
         const currUser = fire.auth().currentUser.uid
         console.log(selectedChannel);
-
         if (selectedChannel == "Select Channel") {
             alert("Please select a channel to join");
         } else {
@@ -107,7 +103,6 @@ class Home extends Component {
                             console.log("channelId    => ");
                             console.log(doc.id);
                             this.routeTo("/channel/" + doc.id)
-
                             fire.firestore().collection('users').doc(currUser).update(
                                 {
                                     channelsJoined: firebase.firestore.FieldValue.arrayUnion(doc.id)
@@ -195,59 +190,57 @@ class Home extends Component {
                     <option key={i} value={channel}>{channel}</option>
                 )
             }, this);
-
         return (
             <div className="Home">
-                <div className="Header">
-                    <h1>Hello {getUsername()}</h1>
-                    <div className="HomeHeaderButtons">
-
-                        <button id="HomeLogout"
-                                type="button"
-                                className="HomeLogout"
-                                onClick={() => this.routeTo(ROUTES.LANDING)}
-                        >Logout
-                        </button>
-                        <button id="HomeCreateChannel"
-                                type="button"
-                                className="HomeCreateChannel"
-                                onClick={() => this.routeTo(ROUTES.CREATE_CHANNEL)}
-                        >Create New
-                        </button>
-                    </div>
-                </div>
-                <div className="HomeMain">
-                    <hr>
-                    </hr>
-                    <div class="searchForm">
-                        <input
-                            placeholder="Search public channels"
-                            value={this.state.query}
-                            onChange={this.handleInputChange}
-                        />
-                        <select id="channelDrop"
-                                size={this.state.size} onFocus={()=>{this.setState({size: 3})}} 
-                                onBlur={()=>{this.setState({size: 1})}} //onChange={(e)=>{e.target.blur()}}
-                                onChange={this.handleSelectChange}
-                                >
-                            {channelList}
-                        </select>
-                    </div>
-                    <button id="HomeJoinChannel"
+                <h1>Hello {getUsername()}</h1>
+                <div className="HomeHeaderButtons">
+                    <button id="HomeLogout"
                             type="button"
-                            className="HomeJoinChannel"
-                            onClick={this.getChannelId}
-                    >
-                        Join
+                            className="HomeLogout"
+                            onClick={() => this.routeTo(ROUTES.LANDING)}
+                    >Logout
                     </button>
-                    <hr>
-                    </hr>
-                    <h1>My Channels</h1>
-                    <div className="channelsList">
-                        <List>
-                            {this.userCreatedChannels()}
-                        </List>
-                    </div>
+                    <button id="HomeCreateChannel"
+                            type="button"
+                            className="HomeCreateChannel"
+                            onClick={() => this.routeTo(ROUTES.CREATE_CHANNEL)}
+                    >Create New
+                    </button>
+                </div>
+                <hr>
+                </hr>
+                <div class="searchForm">
+                    <input
+                        placeholder="Search public channels"
+                        value={this.state.query}
+                        onChange={this.handleInputChange}
+                    />
+                    <select id="channelDrop"
+                            size={this.state.size} onFocus={() => {
+                        this.setState({size: 3})
+                    }}
+                            onBlur={() => {
+                                this.setState({size: 1})
+                            }} //onChange={(e)=>{e.target.blur()}}
+                            onChange={this.handleSelectChange}
+                    >
+                        {channelList}
+                    </select>
+                </div>
+                <button id="HomeJoinChannel"
+                        type="button"
+                        className="HomeJoinChannel"
+                        onClick={this.getChannelId}
+                >
+                    Join
+                </button>
+                <hr>
+                </hr>
+                <h1>My Channels</h1>
+                <div className="channelsList">
+                    <List>
+                        {this.userCreatedChannels()}
+                    </List>
                 </div>
             </div>
         );
