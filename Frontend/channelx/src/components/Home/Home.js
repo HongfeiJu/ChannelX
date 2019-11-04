@@ -70,10 +70,18 @@ class Home extends Component {
 
     handleInputChange = event => {
         const query = event.target.value;
+        console.log(query);
+        let filteredData = [];
         this.setState(prevState => {
-            const filteredData = prevState.data.filter(element => {
-                return element.toLowerCase().includes(query.toLowerCase());
-            });
+            if (query == ''){
+                filteredData.push("Select Channel");
+            }
+            else{
+                filteredData = prevState.data.filter(element => {
+                    return element.toLowerCase().includes(query.toLowerCase());
+                });
+            }
+            
             return {
                 query,
                 filteredData
