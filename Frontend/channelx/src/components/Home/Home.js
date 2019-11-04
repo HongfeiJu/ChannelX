@@ -70,10 +70,18 @@ class Home extends Component {
 
     handleInputChange = event => {
         const query = event.target.value;
+        console.log(query);
+        let filteredData = [];
         this.setState(prevState => {
-            const filteredData = prevState.data.filter(element => {
-                return element.toLowerCase().includes(query.toLowerCase());
-            });
+            if (query == ''){
+                filteredData.push("Select Channel");
+            }
+            else{
+                filteredData = prevState.data.filter(element => {
+                    return element.toLowerCase().includes(query.toLowerCase());
+                });
+            }
+            
             return {
                 query,
                 filteredData
@@ -146,7 +154,7 @@ class Home extends Component {
             })
             .then(data => {
                 const {query} = this.state;
-                const filteredData = data;
+                const filteredData = data.slice(0, 1);
                 this.setState({
                     data,
                     filteredData,
@@ -218,7 +226,7 @@ class Home extends Component {
                             onChange={this.handleInputChange}
                         />
                         <select id="channelDrop"
-                                size={this.state.size} onFocus={()=>{this.setState({size: 5})}} 
+                                size={this.state.size} onFocus={()=>{this.setState({size: 3})}} 
                                 onBlur={()=>{this.setState({size: 1})}} //onChange={(e)=>{e.target.blur()}}
                                 onChange={this.handleSelectChange}
                                 >
