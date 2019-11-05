@@ -7,7 +7,7 @@ date: 10/16/2019
 import firebase from "firebase";
 
 class MessagingChannelCreator{
-    createChannel(channelID, title, creator){
+    createChannel(channelID, title, creator, type){
         const today = new Date();
 
         const initialMessage = {
@@ -20,6 +20,7 @@ class MessagingChannelCreator{
 
         const newChannel = {
             title: title,
+            type: type,
             creator: creator,
             messages:{
                 0: initialMessage
