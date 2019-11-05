@@ -126,7 +126,7 @@ class CreateChannel extends Component {
             <div className="wrapper">
                 <div className="form-wrapper">
                     <div className="FormTitle">
-                        <h1>Create your Public Channel</h1>
+                        <h1>Create your Channel</h1>
                     </div>
                     <form onSubmit={this.createChannel}>
                         <div className="channelTitle">
@@ -192,15 +192,8 @@ class CreateChannel extends Component {
                             </button>
                             {this.state.alert}
                         </div>
-                        <hr/>
-                        <div className="RedirectToOther">
-                            <a
-                                href="#"
-                                onClick={() => this.routeTo(ROUTES.CREATE_PRIVATE_CHANNEL)} >
-                                Want to create a private channel?
-                            </a>
-                        </div>
                     </form>
+
                 </div>
             </div>
         );

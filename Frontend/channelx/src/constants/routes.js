@@ -10,6 +10,5 @@ export const FORGET_PWD = '/forget-password';
 export const CHAT_PAGE = '/channel/:id';
 
 export const TEST_PAGE = '/test';
-export const CREATE_CHANNEL = '/createChannel';
-export const CREATE_PRIVATE_CHANNEL = '/createPrivateChannel';
+export const CREATE_CHANNEL = '/createChannel'
 export const REACT_APP_CONFIRMATION_EMAIL_REDIRECT='http://localhost:3000';
