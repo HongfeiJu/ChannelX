@@ -100,8 +100,9 @@ class CreateChannel extends Component {
             channelEndTime,
             this.state.channelCreator);
 
+            this.showAlert();
             // this.setState({done: true})
-        this.routeTo(ROUTES.HOME);
+        // this.routeTo(ROUTES.HOME);
     }
 
 
