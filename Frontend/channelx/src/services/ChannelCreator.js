@@ -30,7 +30,8 @@ class ChannelCreator {
                     channelsCreated: firebase.firestore.FieldValue.arrayUnion(messagingChannelID)
                 }
             );
-            messagingChannelCreator.createChannel(messagingChannelID, title, creator);
+            const type = 'public';
+            messagingChannelCreator.createChannel(messagingChannelID, title, creator,type);
             alert('channel created');
         }).catch(e=>{
             alert(e);
