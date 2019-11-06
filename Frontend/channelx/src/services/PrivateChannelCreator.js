@@ -7,15 +7,16 @@ date: 10/30/2019
 import firebase from "firebase";
 import ChannelIDCreator from "./ChannelIDCreator";
 import MessagingChannelCreator from "./MessagingChannelCreator";
+import PrivatePasscodeGenerator from "../services/PrivatePasscodeGenertor";
 import fire from "../config/Fire";
 
 class PrivateChannelCreator {
 
-    creatNewPrivateChannel(title,privatePasscode,creator){
-        const channelIDCreator=new ChannelIDCreator();
+    creatNewPrivateChannel(title,creator){
         const messagingChannelCreator=new MessagingChannelCreator();
-        channelIDCreator.getNewChannelID().then(r=>{
-            const messagingChannelID = r.val().toString();
+        const privatePasscodeGenerator=new PrivatePasscodeGenerator();
+        let messagingChannelID = (new ChannelIDCreator()).getNewChannelID();
+        privatePasscodeGenerator.generatePrivatePasscode(messagingChannelID).then(privatePasscode=>{
             fire.firestore().collection('privateChannels').doc(messagingChannelID).set({
                 channelTitle : title,
                 channelPassword : privatePasscode,
@@ -26,13 +27,10 @@ class PrivateChannelCreator {
                     privateChannelsCreated: firebase.firestore.FieldValue.arrayUnion(messagingChannelID)
                 }
             );
-            const type = 'private';
-            messagingChannelCreator.createChannel(messagingChannelID, title, creator,type);
-            alert('channel created');
-        }).catch(e=>{
-            alert(e);
-            alert('channel not created');
-        })
+            alert('Private channel '+ title + ' created with passcode ' + privatePasscode);
+        });
+        const type = 'private';
+        messagingChannelCreator.createChannel(messagingChannelID, title, creator,type);
     }
 }
 
