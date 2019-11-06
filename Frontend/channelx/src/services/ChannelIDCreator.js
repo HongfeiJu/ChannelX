@@ -1,36 +1,46 @@
 /*
 description: generate unique channel id
 author: Hongfei Ju
-date: 10/16/2019
+date: 10/29/2019
  */
-
-import firebase from "firebase";
 
 class ChannelIDCreator{
     getNewChannelID(){
-        let value = -1;
-        return firebase.database().ref('nextID/').once('value', (snapshot) => {
-            value = snapshot.val();
-            if(value!=null){
-                console.log('get '+value);
-                this.updateNewID(value+1);
-                return value;
+        const today = new Date();
+        let time=today.getTime();
+        let res='';
+        let str=time.toString();
+        for(let i=0;i<str.length;i++){
+            if(i%2===0) res+=str.charAt(i);
+            else{
+                let sub='a';
+                switch (str.charAt(i)) {
+                    case '0': sub='a';
+                        break;
+                    case '1': sub='b';
+                        break;
+                    case '2': sub='c';
+                        break;
+                    case '3': sub='d';
+                        break;
+                    case '4': sub='e';
+                        break;
+                    case '5': sub='f';
+                        break;
+                    case '6': sub='g';
+                        break;
+                    case '7': sub='h';
+                        break;
+                    case '8': sub='i';
+                        break;
+                    case '9': sub='j';
+                        break;
+                    default:sub='0';
+                }
+                res+=sub;
             }
-        });
-    }
-
-     updateNewID(nextID){
-        firebase.database().ref('nextID').set(nextID)
-            .then(r  =>{
-                console.log('put '+nextID);
-                console.log(r);
-            }).catch(e=>{
-            console.log(e)
-        });
-    }
-
-    sleep = (milliseconds) => {
-        return new Promise(resolve => setTimeout(resolve, milliseconds))
+        }
+        return res;
     }
 }
 
