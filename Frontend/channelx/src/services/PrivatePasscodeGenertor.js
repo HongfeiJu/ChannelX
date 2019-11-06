@@ -9,7 +9,7 @@ import firebase from "firebase";
 class PrivatePasscodeGenerator{
 
     generatePrivatePasscode(channelID){
-        return firebase.database().ref('privatePasscodes/').once('value', (r)=>{
+        return firebase.database().ref('privatePasscodes/').once('value').then((r)=>{
             console.log(r.val());
             const passcodes = Object.keys(r.val());
             const years = ['1995', '1996', '1997', '1998', '1999', '2000', '2001', '2002', '2003', '2004', ],
