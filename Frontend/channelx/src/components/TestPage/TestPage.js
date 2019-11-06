@@ -52,7 +52,7 @@ class TestPage extends Component{
 
     getPrivatePasscode(){
         this.privatePasscodeGenerator.generatePrivatePasscode('testID').then(r=>{
-            alert(r);
+            alert('get '+r);
         })
 
     }
