@@ -1,4 +1,3 @@
-
 .Home {
     width: 100%;
     height: 100vh;
@@ -95,20 +94,21 @@
 }
 
 .searchFormCreated{
-    width: 400%;
+    width: 480%;
     display: flex;
     flex-direction: column;
 }
 .participatedList{
-    width: 20%;
+    width: 28%;
     color: #b3d7ff;
     background-color: darkslateblue;
-    margin-left: 0px;
+    margin-left: 2%;
     margin-top: 10px;
     margin-bottom: 100px;
     margin-right: 950px;
     border: 1px solid darkslateblue;
     padding: 5px;
+    overflow-y: scroll;
 }
 .channelsList {
     width: 20%;

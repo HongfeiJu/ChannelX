@@ -47,6 +47,7 @@ class Home extends Component {
         data: [],
         filteredData: [],
         filtered: [],
+        filtered_List: [],
         userCreatedChannels: [],
         selectedChannel: null,
     };
@@ -65,8 +66,10 @@ class Home extends Component {
     handleInputChange = event => {
         const query = event.target.value;
         this.setState(prevState => {
+            console.log(prevState);
             const filteredData = prevState.data.filter(element => {
                 return element.toLowerCase().includes(query.toLowerCase());
+                console.log(filteredData);
             });
             return {
                 query,
@@ -75,6 +78,7 @@ class Home extends Component {
         });
     };
 
+    
     handleSelectChangeParticipated = event => {
         const selected = event.target.value;
         console.log(selected);
@@ -85,19 +89,40 @@ class Home extends Component {
         });
     };
 
-
+   
     handleInputChangeParticipated = event => {
         const query_participate = event.target.value;
-        this.setState(prevState => {
-            const filtered = prevState.data.filter(element => {
-                return element.toLowerCase().includes(query_participate.toLowerCase());
-            });
-            return {
-                query_participate,
-                filtered
-            };
+        
+        let filtered_list = this.state.userCreatedChannels.filter(ele => {
+            return ele.toLowerCase().startsWith(query_participate.toLowerCase())
+        })
+
+        console.log("Original Lis: ", this.state.userCreatedChannels)
+        console.log("Filtered List: ", filtered_list)
+        this.setState({
+            filtered: filtered_list
         });
-    };
+    
+  };
+
+    // handleChange = event => {
+    //     //const query_participate = event.target.value;
+    //     let currentList = [];
+    //     let newList = [];
+    //     if (e.target.value !== "") {
+    //       currentList = this.userCreatedChannels;
+    //       newList = currentList.filter(item => {
+    //         const lc = item.toLowerCase();
+    //         const filter = e.target.value.toLowerCase();
+    //         return lc.includes(filter);
+    //       });
+    //     } else {
+    //       newList = this.userCreatedChannels;
+    //     }
+    //     this.setState({
+    //       filtered: newList
+    //     });
+    //   };
 
     getChannelId = () => {
         console.log("Join Channel clicked");
@@ -126,9 +151,11 @@ class Home extends Component {
             .get()
             .then(snapshot => {
                 const userCreatedChannels = [];
+                let i = 0;
                 snapshot
                     .docs
                     .forEach(doc => {
+
                         userCreatedChannels.push(doc.get("channelTitle"));
                     });
                     return userCreatedChannels;
@@ -184,7 +211,7 @@ class Home extends Component {
     };
 
     userCreatedChannels = () => {
-        let data = this.state.userCreatedChannels
+        let data = this.state.filtered
         return data.map((channelTitle) => {
             return (
                 <ListItem button onClick={() => this.channelListItemClick(channelTitle)}>
@@ -204,30 +231,36 @@ class Home extends Component {
                 )
             }, this);
 
+        const {filtered} = this.state;
+        let participatedList = filtered.length > 0
+            && filtered.map((channel, i) => {
+                return (
+                    <option key={i} value={channel}>{channel}</option>
+                    )
+                }, this);         
+        
         return (
             <div className="Home">
                 <div className="Header">
-                    <h1>Hello {getUsername()}</h1>
+                    <h1>Hello {getUsername()} </h1>
                     <div className="HomeHeaderButtons">
 
                         <button id="HomeLogout"
                                 type="button"
                                 className="HomeLogout"
                                 onClick={() => this.routeTo(ROUTES.LANDING)}
-                        >Logout
+                        > Logout
                         </button>
                         <button id="HomeCreateChannel"
                                 type="button"
                                 className="HomeCreateChannel"
                                 onClick={() => this.routeTo(ROUTES.CREATE_CHANNEL)}
-                        >Create New
+                        > Create New
                         </button>
                     </div>
                 </div>
                 <div className="HomeMain">
-                    <hr>
-                    </hr>
-                    <div class="searchForm">
+                    <div className="searchForm">
                         <input
                             placeholder="Search for channels"
                             value={this.state.query}
@@ -237,6 +270,21 @@ class Home extends Component {
                                 onChange={this.handleSelectChange}>
                             {channelList}
                         </select>
+                        {/* <div className= "participatedList">
+                            <h1>My Channels</h1>
+                            <div className="channelsList">
+                                <div class="searchFormCreated">
+                                    <input
+                                        placeholder="Search for channels"
+                                        value={this.state.query_participate}
+                                        onChange={this.handleInputChangeParticipated}/>
+                                </div>
+                                <List>
+                                    {this.userCreatedChannels()}
+                                </List>
+
+                            </div>
+                        </div> */}
                     </div>
                     <button id="HomeJoinChannel"
                             type="button"
@@ -245,34 +293,20 @@ class Home extends Component {
                     >
                         Join
                     </button>
-                    <hr>
-                    </hr>
-                    </div>
-                    <div>
-                    <input type="text" className="input" placeholder="Search..." />
-                  <ul>
-                      ...
-                  </ul>
-                    </div>
                     <div className= "participatedList">
-                        <h1>My Channels</h1>
                         <div className="channelsList">
                             <div class="searchFormCreated">
                                 <input
-                                    placeholder="Search for channels"
+                                    placeholder="Search Created Channels"
                                     value={this.state.query_participate}
-                                    onChange={this.handleInputChangeParticipated}
-                                />
-                                <input
-                                    type="text"
-                                    value={this.state.value}
-                                    onChange={this.handleInputChangeParticipated}
-                                />
+                                    onChange={this.handleInputChangeParticipated}/>
                             </div>
                             <List>
                                 {this.userCreatedChannels()}
                             </List>
+
                         </div>
+                    </div>
                     </div>
 
                 </div>
