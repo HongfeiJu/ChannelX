@@ -12,7 +12,7 @@ import Fire from "../../config/Fire";
 import AddChannelEntryForm from "./AddChannelEntryForm";
 import ChannelsList from "./ChannelsList"
 import PasscodeChecker from "../../services/PasscodeChecker";
-//import PrivatePasscodeGenerator from "../../services/PrivatePasscodeGenertor";
+import PrivatePasscodeGenerator from "../../services/PrivatePasscodeGenertor";
 
 
 
