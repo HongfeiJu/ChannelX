@@ -46,6 +46,7 @@ class Home extends Component {
         channels: null,
         data: [],
         filteredData: [],
+        filtered: [],
         userCreatedChannels: [],
         selectedChannel: null,
     };
@@ -75,25 +76,25 @@ class Home extends Component {
     };
 
     handleSelectChangeParticipated = event => {
-        const selectedChannel = event.target.value;
-        console.log(selectedChannel);
+        const selected = event.target.value;
+        console.log(selected);
         this.setState(() => {
             return {
-                selectedChannel
+                selected
             };
         });
     };
 
 
     handleInputChangeParticipated = event => {
-        const query = event.target.value;
+        const query_participate = event.target.value;
         this.setState(prevState => {
-            const filteredData = prevState.data.filter(element => {
-                return element.toLowerCase().includes(query.toLowerCase());
+            const filtered = prevState.data.filter(element => {
+                return element.toLowerCase().includes(query_participate.toLowerCase());
             });
             return {
-                query,
-                filteredData
+                query_participate,
+                filtered
             };
         });
     };
@@ -130,9 +131,16 @@ class Home extends Component {
                     .forEach(doc => {
                         userCreatedChannels.push(doc.get("channelTitle"));
                     });
+                    return userCreatedChannels;
+                })
+            .then(userCreatedChannels => {
+                const {query_participate} = this.state;
+                const filtered = userCreatedChannels;
                 this.setState({
-                    userCreatedChannels
+                    userCreatedChannels,
+                    filtered
                 });
+
             });
     };
 
@@ -239,13 +247,20 @@ class Home extends Component {
                     </button>
                     <hr>
                     </hr>
+                    </div>
+                    <div>
+                    <input type="text" className="input" placeholder="Search..." />
+                  <ul>
+                      ...
+                  </ul>
+                    </div>
                     <div className= "participatedList">
                         <h1>My Channels</h1>
                         <div className="channelsList">
                             <div class="searchFormCreated">
                                 <input
                                     placeholder="Search for channels"
-                                    value={this.state.query}
+                                    value={this.state.query_participate}
                                     onChange={this.handleInputChangeParticipated}
                                 />
                                 <input
@@ -261,7 +276,6 @@ class Home extends Component {
                     </div>
 
                 </div>
-            </div>
         );
     }
 }
