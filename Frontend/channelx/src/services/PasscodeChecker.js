@@ -5,7 +5,7 @@ date: 10/29/2019
  */
 
 import firebase from "firebase";
-import getCurrentUserUid from "./currentUuidGetter";
+import fire from "../config/Fire";
 
 class PasscodeChecker{
     checkOnetimePasscode(channelID, passcode){
@@ -39,19 +39,19 @@ class PasscodeChecker{
                 console.log('users: '+visitedUsers);
                 if(visitedUsers==null){
                     firebase.database().ref('channels/'+ channelID+'/passcodes/' + passcode +'/0')
-                        .set(getCurrentUserUid()).then(r  =>{
+                        .set(this.getCurrentUserUid()).then(r  =>{
                         console.log(r);
                     }).catch(e=>{
                         console.log(e)
                     });
                     return true;
                 }else{
-                    if(visitedUsers.includes(getCurrentUserUid())){
+                    if(visitedUsers.includes(this.getCurrentUserUid())){
                         alert('passcode is used');
                         return false;
                     }else{
                         firebase.database().ref('channels/'+ channelID+'/passcodes/' + passcode +'/'+visitedUsers.length)
-                            .set(getCurrentUserUid()).then(r  =>{
+                            .set(this.getCurrentUserUid()).then(r  =>{
                             console.log(r);
                         }).catch(e=>{
                             console.log(e)
@@ -60,6 +60,10 @@ class PasscodeChecker{
                     }
                 }
             })
+    }
+
+    getCurrentUserUid(){
+        return fire.auth().currentUser.uid;
     }
 }
 
