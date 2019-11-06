@@ -21,11 +21,9 @@ class CreatePrivateChannel extends Component {
         this.handlechannelChange = this.handlechannelChange.bind(this);
         this.state = {
             channelTitle: null,
-            privatePasscode: null,
             alert: null,
             errors: {
                 channelTitle: "",
-                privatePasscode: "",
             }
         }
     }
@@ -56,8 +54,6 @@ class CreatePrivateChannel extends Component {
         switch (name) {
             case 'channelTitle':
                 break;
-            case 'privatePasscode':
-                break;
             default:
                 break;
         }
@@ -69,7 +65,6 @@ class CreatePrivateChannel extends Component {
         const privateChannelCreator = new PrivateChannelCreator();
         privateChannelCreator.creatNewPrivateChannel(
             this.state.channelTitle,
-            this.state.privatePasscode,
             this.state.UUID);
         this.routeTo(ROUTES.HOME);
     }
@@ -93,15 +88,6 @@ class CreatePrivateChannel extends Component {
                                 required
                                 onChange={this.handlechannelChange}
                             ></input>
-                        </div>
-                        <div className="createChannel">
-                            <button
-                                type="button"
-                                id="cancelButton"
-                                className="generateButton"
-                                // onClick={() => this.routeTo(ROUTES.HOME)}
-                            >Generate passcode
-                            </button>
                         </div>
                         <div className="createChannel">
                             <button
