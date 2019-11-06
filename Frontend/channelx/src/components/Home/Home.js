@@ -29,7 +29,7 @@ class Home extends Component {
     authListener() {
         firebase.auth().onAuthStateChanged((user) => {
             console.log(user);
-            if(user) {
+            if (user) {
                 this.setState({
                     UUID: user.uid,
                     displayName: user.displayName,
@@ -186,6 +186,15 @@ class Home extends Component {
         })
     };
 
+    checkPrivatePasscode = () => {
+        // call function to check if the entered passcode exists
+        // if true then rout the user to that channel
+    }
+
+    handlePrivatePasscodeChange = e => {
+        this.setState({privatePasscode: e.target.value}, () => console.log(this.state));
+    }
+
 
     render() {
         const {filteredData} = this.state;
@@ -239,8 +248,21 @@ class Home extends Component {
                 >
                     Join
                 </button>
-                <hr>
-                </hr>
+                <br/>
+                <h1>Speak Easy</h1>
+                <div className="HomePrivateChannel">
+                    <form onSubmit={this.checkPrivatePasscode}>
+                        <input
+                            type="text"
+                            placeholder="Enter passcode"
+                            onChange={this.handlePrivatePasscodeChange}
+                            required/>
+                        <input
+                            type="submit"
+                            value="Submit"/>
+                    </form>
+                </div>
+                <br/>
                 <h1>My Channels</h1>
                 <div className="channelsList">
                     <List>
@@ -248,8 +270,8 @@ class Home extends Component {
                     </List>
                 </div>
             </div>
-        );
+    );
     }
-}
+    }
 
-export default Home;
+    export default Home;

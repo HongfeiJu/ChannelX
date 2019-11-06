@@ -59,13 +59,15 @@
     border: 2px solid #fff;
     width: 13%;
     margin-top: 1em;
-
-
     padding: 8px 0px;
     font-size: 1em;
     letter-spacing: 1px;
     margin-bottom: 0.25em;
     border-radius: 5px;
+}
+
+.HomePrivateChannel {
+
 }
 
 
