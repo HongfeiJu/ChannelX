@@ -15,16 +15,15 @@ import Moment from 'moment';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
-import {MuiPickersUtilsProvider,KeyboardTimePicker} from '@material-ui/pickers';
-import getCurrentUserUid from "../../services/currentUuidGetter";
+import {MuiPickersUtilsProvider, KeyboardTimePicker} from '@material-ui/pickers';
 import SweetAlert from "react-bootstrap-sweetalert";
+import firebase from "firebase";
 
 
-
-var channelStartDate = null;
-var channelEndDate = null;
-var channelStartTime = null;
-var channelEndTime = null;
+let channelStartDate = null;
+let channelEndDate = null;
+let channelStartTime = null;
+let channelEndTime = null;
 
 
 class CreateChannel extends Component {
@@ -33,17 +32,34 @@ class CreateChannel extends Component {
         super(props);
         this.createChannel = this.createChannel.bind(this);
         this.handlechannelChange = this.handlechannelChange.bind(this);
-    
         this.state = {
             channelTitle: null,
             channelPassword: null,
-            channelCreator: getCurrentUserUid(),
             alert: null,
             errors: {
                 channelTitle: "",
                 channelPassword: "",
             }
         }
+    }
+
+    componentDidMount() {
+        this.authListener();
+    }
+
+    authListener() {
+        firebase.auth().onAuthStateChanged((user) => {
+            console.log(user);
+            if (user) {
+                this.setState({
+                    UUID: user.uid,
+                    user
+                });
+            } else {
+                this.setState({user: null});
+                this.routeTo(ROUTES.LANDING);
+            }
+        });
     }
 
     handlechannelChange = e => {
@@ -63,33 +79,33 @@ class CreateChannel extends Component {
 
     showAlert() {
         const getAlert = () => (
-          <SweetAlert 
-            success
-            title="Channel Created Successfully!" 
-            onConfirm={() => this.hideAlert()}
-          >
-          </SweetAlert>
+            <SweetAlert
+                success
+                title="Channel Created Successfully!"
+                onConfirm={() => this.hideAlert()}
+            >
+            </SweetAlert>
         );
-    
+
         this.setState({
-          alert: getAlert()
+            alert: getAlert()
         });
-      }
-    
-      hideAlert() {
+    }
+
+    hideAlert() {
         console.log('Hiding alert...');
-        
+
         this.setState({
-          alert: null
+            alert: null
         });
 
         this.routeTo(ROUTES.HOME);
-      }
+    }
 
 
     createChannel(e) {
+
         e.preventDefault();
-        
         const channelCreator = new ChannelCreator();
         channelCreator.creatNewChannel(
             this.state.channelTitle,
@@ -98,15 +114,10 @@ class CreateChannel extends Component {
             channelEndDate,
             channelStartTime,
             channelEndTime,
-            this.state.channelCreator);
-
-            this.showAlert();
-            // this.setState({done: true})
-        // this.routeTo(ROUTES.HOME);
-    }
-
-
-
+            this.state.UUID);
+            this.routeTo(ROUTES.HOME);
+            // this.showAlert();
+        }
 
     routeTo = (path) => this.props.history.push(path);
 
@@ -117,9 +128,8 @@ class CreateChannel extends Component {
             <div className="wrapper">
                 <div className="form-wrapper">
                     <div className="FormTitle">
-                        <h1>Create your Channel</h1>
+                        <h1>Create your Public Channel</h1>
                     </div>
-                    
                     <form onSubmit={this.createChannel}>
                         <div className="channelTitle">
                             <input
@@ -180,15 +190,19 @@ class CreateChannel extends Component {
                                 type="submit"
                                 id="submitButton"
                                 className="createButton"
-                                // onClick={() => this.showAlert()}
-
-                                
                             >Create
                             </button>
                             {this.state.alert}
                         </div>
+                        <hr/>
+                        <div className="RedirectToOther">
+                            <a
+                                href="#"
+                                onClick={() => this.routeTo(ROUTES.CREATE_PRIVATE_CHANNEL)} >
+                                Want to create a private channel?
+                            </a>
+                        </div>
                     </form>
-                    
                 </div>
             </div>
         );

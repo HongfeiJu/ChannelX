@@ -14,19 +14,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import './Home.css';
-
-
 import * as ROUTES from "../../constants/routes";
-import getCurrentUserUid from '../../services/currentUuidGetter';
-
-
-function getUsername() {
-    var user = fire.auth().currentUser;
-
-    if (user) {
-        return user.displayName;
-    }
-}
 
 class Home extends Component {
     constructor(props) {
@@ -35,8 +23,25 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        this.getCreatedChannels();
-        this.getData();
+        this.authListener();
+    }
+
+    authListener() {
+        firebase.auth().onAuthStateChanged((user) => {
+            console.log(user);
+            if(user) {
+                this.setState({
+                    UUID: user.uid,
+                    displayName: user.displayName,
+                    user
+                });
+                this.getCreatedChannels();
+                this.getData();
+            } else {
+                this.setState({user: null});
+                this.routeTo(ROUTES.LANDING);
+            }
+        });
     }
 
     routeTo = (path) => this.props.history.push(path);
@@ -115,7 +120,7 @@ class Home extends Component {
     };
 
     getCreatedChannels = () => {
-        db.collection("channels").where("channelCreator", "==", getCurrentUserUid())
+        db.collection("channels").where("channelCreator", "==", this.state.UUID)
             .get()
             .then(snapshot => {
                 const userCreatedChannels = [];
@@ -192,7 +197,7 @@ class Home extends Component {
             }, this);
         return (
             <div className="Home">
-                <h1>Hello {getUsername()}</h1>
+                <h1>Hello {this.state.displayName}</h1>
                 <div className="HomeHeaderButtons">
                     <button id="HomeLogout"
                             type="button"

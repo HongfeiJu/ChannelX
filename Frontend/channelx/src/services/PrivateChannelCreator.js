@@ -26,7 +26,8 @@ class PrivateChannelCreator {
                     privateChannelsCreated: firebase.firestore.FieldValue.arrayUnion(messagingChannelID)
                 }
             );
-            messagingChannelCreator.createChannel(messagingChannelID, title, creator);
+            const type = 'private';
+            messagingChannelCreator.createChannel(messagingChannelID, title, creator,type);
             alert('channel created');
         }).catch(e=>{
             alert(e);
