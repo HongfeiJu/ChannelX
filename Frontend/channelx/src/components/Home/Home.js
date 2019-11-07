@@ -228,21 +228,32 @@ class Home extends Component {
     // written by Subhradeep
     userparticipatedChannels = () => {
         const currUser = fire.auth().currentUser.uid
-        const participatedChannelTitles = []
-        let participatedChannelIdList = []
-        db.collection("users").doc(currUser)
-        .get()
-        .then(snapshot => {
-            snapshot
-                .docs
-                .forEach(doc => {
-
-                    participatedChannelIdList = doc.get("channelsJoins")
-                    db.collection("channels").doc(currUser).get()
-                    participatedChannelTitles.push(doc.get("channelsJoins"))
-                })
+        const participatedChannelTitles = [];
+        let participatedChannelIdList = [];
+        var channelName;   
+        var userDoc = db.collection("users").doc(currUser)//.get("channelsJoined")
+        
+        userDoc.get().then(function(doc) {
+            if (doc.exists) {
+                console.log("Document data:", doc.get("channelsJoined"));
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
         });
-        return data.map((channelTitle) => {
+
+
+        participatedChannelIdList.forEach(channelId => {
+                         
+            channelName = db.collection("channels").doc(channelId).get("channelTitle")
+            participatedChannelTitles.push(channelName)
+
+        })
+
+
+        return participatedChannelTitles.map((channelTitle) => {
             return (
                 <ListItem button onClick={() => this.channelListItemClick(channelTitle)}>
                     <ListItemText primary={channelTitle}/>
@@ -332,7 +343,7 @@ class Home extends Component {
                     <form onSubmit={this.checkPrivatePasscode}>
                         <input
                             type="text"
-                            placeholder="Private chanel Passcode"
+                            placeholder="Enter Passcode"
                             onChange={this.handlePrivatePasscodeChange}
                             required/>
                         <input
@@ -354,9 +365,9 @@ class Home extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="ParticipatedList">
+                    <div className="CreatedList">
                         <div className="channelsList">
-                            <div className="searchFormParticipated">
+                            <div className="searchFormCreated">
                                 <input
                                     placeholder="Search participated Channels"
                                     value={this.state.query_participate}
