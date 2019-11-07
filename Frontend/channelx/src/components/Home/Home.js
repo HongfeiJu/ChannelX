@@ -1,29 +1,20 @@
 /*
 Description: Home page
-Authors: Darshan Prakash, Sami, Manisha 
+Authors: Darshan Prakash, Sami, Manisha, Subhradeep
 Date: 9/24/2019
+Updated: 10/31/2019
 */
 
 import React, {Component} from 'react';
+import firebase from "firebase";
 import fire from "../../config/Fire";
 import {db} from "../../config/Fire";
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider'
-import './Home.css'
-
+import Divider from '@material-ui/core/Divider';
+import './Home.css';
 import * as ROUTES from "../../constants/routes";
-import getCurrentUserUid from '../../services/currentUuidGetter';
-
-
-function getUsername() {
-    var user = fire.auth().currentUser;
-
-    if (user) {
-        return user.displayName;
-    }
-}
 
 class Home extends Component {
     constructor(props) {
@@ -32,8 +23,25 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        this.getCreatedChannels();
-        this.getData();
+        this.authListener();
+    }
+
+    authListener() {
+        firebase.auth().onAuthStateChanged((user) => {
+            console.log(user);
+            if(user) {
+                this.setState({
+                    UUID: user.uid,
+                    displayName: user.displayName,
+                    user
+                });
+                this.getCreatedChannels();
+                this.getData();
+            } else {
+                this.setState({user: null});
+                this.routeTo(ROUTES.LANDING);
+            }
+        });
     }
 
     routeTo = (path) => this.props.history.push(path);
@@ -53,6 +61,7 @@ class Home extends Component {
     };
 
     handleSelectChange = event => {
+        //event.target.blur()
         const selectedChannel = event.target.value;
         console.log(selectedChannel);
         this.setState(() => {
@@ -60,17 +69,23 @@ class Home extends Component {
                 selectedChannel
             };
         });
+        event.target.blur()
+        event.target.parentNode.blur();
     };
 
 
     handleInputChange = event => {
         const query = event.target.value;
+        console.log(query);
+        let filteredData = [];
         this.setState(prevState => {
-            console.log(prevState);
-            const filteredData = prevState.data.filter(element => {
-                return element.toLowerCase().includes(query.toLowerCase());
-                console.log(filteredData);
-            });
+            if (query == '') {
+                filteredData.push("Select Channel");
+            } else {
+                filteredData = prevState.data.filter(element => {
+                    return element.toLowerCase().includes(query.toLowerCase());
+                });
+            }
             return {
                 query,
                 filteredData
@@ -97,7 +112,7 @@ class Home extends Component {
             return ele.toLowerCase().startsWith(query_participate.toLowerCase())
         })
 
-        console.log("Original Lis: ", this.state.userCreatedChannels)
+        console.log("Original List: ", this.state.userCreatedChannels)
         console.log("Filtered List: ", filtered_list)
         this.setState({
             filtered: filtered_list
@@ -108,8 +123,8 @@ class Home extends Component {
     getChannelId = () => {
         console.log("Join Channel clicked");
         var selectedChannel = document.getElementById("channelDrop").value;
+        const currUser = fire.auth().currentUser.uid
         console.log(selectedChannel);
-
         if (selectedChannel == "Select Channel") {
             alert("Please select a channel to join");
         } else {
@@ -122,13 +137,19 @@ class Home extends Component {
                             console.log("channelId    => ");
                             console.log(doc.id);
                             this.routeTo("/channel/" + doc.id)
+                            fire.firestore().collection('users').doc(currUser).update(
+                                {
+                                    channelsJoined: firebase.firestore.FieldValue.arrayUnion(doc.id)
+                                }
+                            );
                         });
                 });
         }
+
     };
 
     getCreatedChannels = () => {
-        db.collection("channels").where("channelCreator", "==", getCurrentUserUid())
+        db.collection("channels").where("channelCreator", "==", this.state.UUID)
             .get()
             .then(snapshot => {
                 const userCreatedChannels = [];
@@ -171,7 +192,7 @@ class Home extends Component {
             })
             .then(data => {
                 const {query} = this.state;
-                const filteredData = data;
+                const filteredData = data.slice(0, 1);
                 this.setState({
                     data,
                     filteredData,
@@ -203,6 +224,7 @@ class Home extends Component {
         })
     };
 
+
     render() {
         const {filteredData} = this.state;
         let channelList = filteredData.length > 0
@@ -220,46 +242,54 @@ class Home extends Component {
                     )
                 }, this);         
         
-        return (
-            <div className="Home">
-                <div className="Header">
-                    <h1>Hello {getUsername()} </h1>
-                    <div className="HomeHeaderButtons">
-
-                        <button id="HomeLogout"
-                                type="button"
-                                className="HomeLogout"
-                                onClick={() => this.routeTo(ROUTES.LANDING)}
-                        > Logout
-                        </button>
-                        <button id="HomeCreateChannel"
-                                type="button"
-                                className="HomeCreateChannel"
-                                onClick={() => this.routeTo(ROUTES.CREATE_CHANNEL)}
-                        > Create New
-                        </button>
-                    </div>
-                </div>
-                <div className="HomeMain">
-                    <div className="searchForm">
-                        <input
-                            placeholder="Search for channels"
-                            value={this.state.query}
-                            onChange={this.handleInputChange}
-                        />
-                        <select id="channelDrop"
-                                onChange={this.handleSelectChange}>
-                            {channelList}
-                        </select>
-                    </div>
-                    <button id="HomeJoinChannel"
+            return (
+            <div>
+                <div className="Home">
+                    <h1>Hello {this.state.displayName}</h1>
+                        <div className="HomeHeaderButtons">
+                            <button id="HomeLogout"
                             type="button"
-                            className="HomeJoinChannel"
-                            onClick={this.getChannelId}
-                    >
-                        Join
+                            className="HomeLogout"
+                            onClick={() => this.routeTo(ROUTES.LANDING)}
+                    >Logout
                     </button>
-                    <div className= "participatedList">
+                    <button id="HomeCreateChannel"
+                            type="button"
+                            className="HomeCreateChannel"
+                            onClick={() => this.routeTo(ROUTES.CREATE_CHANNEL)}
+                    >Create New
+                    </button>
+                </div>
+                <hr>
+                </hr>
+                <div class="searchForm">
+                    <input
+                        placeholder="Search public channels"
+                        value={this.state.query}
+                        onChange={this.handleInputChange}
+                    />
+                    <select id="channelDrop"
+                            size={this.state.size} onFocus={() => {
+                        this.setState({size: 3})
+                    }}
+                            onBlur={() => {
+                                this.setState({size: 1})
+                            }} //onChange={(e)=>{e.target.blur()}}
+                            onChange={this.handleSelectChange}
+                    >
+                        {channelList}
+                    </select>
+                </div>
+                <button id="HomeJoinChannel"
+                        type="button"
+                        className="HomeJoinChannel"
+                        onClick={this.getChannelId}
+                >
+                    Join
+                </button>
+                <hr>
+                </hr>
+                <div className= "participatedList">
                         <div className="channelsList">
                             <div class="searchFormCreated">
                                 <input
@@ -273,9 +303,8 @@ class Home extends Component {
 
                         </div>
                     </div>
-                    </div>
-
-                </div>
+            </div>
+            </div>
         );
     }
 }

@@ -11,6 +11,8 @@ import MessagingChannelCreator from "../../services/MessagingChannelCreator";
 import Fire from "../../config/Fire";
 import AddChannelEntryForm from "./AddChannelEntryForm";
 import ChannelsList from "./ChannelsList"
+import PasscodeChecker from "../../services/PasscodeChecker";
+import PrivatePasscodeGenerator from "../../services/PrivatePasscodeGenertor";
 
 
 
@@ -20,6 +22,8 @@ class TestPage extends Component{
         this.passcodeGenerator=new PasscodeGenerator();
         this.channelIDCreator=new ChannelIDCreator();
         this.msgChannelCreator=new MessagingChannelCreator();
+        this.passcodeChecker=new PasscodeChecker();
+        this.privatePasscodeGenerator=new PrivatePasscodeGenerator();
     }
 
     showPasscode(){
@@ -27,11 +31,7 @@ class TestPage extends Component{
     }
 
     showChannelID(){
-        this.channelIDCreator.getNewChannelID().then(r=>{
-            alert(r.val());
-        }).catch(e=>{
-            alert(e);
-        })
+        alert(this.channelIDCreator.getNewChannelID());
     }
 
     createNewChannel(){
@@ -44,6 +44,25 @@ class TestPage extends Component{
         })
     }
 
+    checkUser(){
+        this.passcodeChecker.checkOnetimePasscode('1f7c4b3h1f9a6', 'RedPig').then(r=>{
+            alert('final:'+r);
+        });
+    }
+
+    getPrivatePasscode(){
+        this.privatePasscodeGenerator.generatePrivatePasscode('testID').then(r=>{
+            alert('get '+r);
+        })
+
+    }
+    /*
+    getChannelID(){
+        this.channelIDgetter.generateChannelID('2001SilverToyota').then(r=>{
+            alert(r.val());
+        })
+    }
+    */
 
     render() {
         return (
@@ -53,42 +72,47 @@ class TestPage extends Component{
                 <h1>
                     Test For Create Channel
                 </h1>
-                    <button id="onetimePasscode_botton"
-                            type="button"
-                            style={{ marginLeft: "auto" }}
-                            onClick={() => this.showPasscode()}
+                    <div>
+                        <button id="onetimePasscode_botton"
+                                type="button"
+                                style={{ marginLeft: "auto" }}
+                                onClick={() => this.showPasscode()}
 
-                    >show one time passcode</button>
-                    <button id="channelID_botton"
-                            type="button"
-                            style={{ marginLeft: "auto" }}
-                            onClick={() => this.showChannelID()}
+                        >show one time passcode</button>
+                        <button id="channelID_botton"
+                                type="button"
+                                style={{ marginLeft: "auto" }}
+                                onClick={() => this.showChannelID()}
 
-                    >get channel id</button>
-                    <button id="newChannel_btn"
-                            type="button"
-                            style={{ marginLeft: "auto" }}
-                            onClick={() => this.createNewChannel()}
+                        >get channel id</button>
+                        <button id="newChannel_btn"
+                                type="button"
+                                style={{ marginLeft: "auto" }}
+                                onClick={() => this.createNewChannel()}
 
-                    >create new channel</button>
+                        >create new channel</button>
+                        <button id="newChannel_btn"
+                                type="button"
+                                style={{ marginLeft: "auto" }}
+                                onClick={() => this.checkUser()}
+                        >check user</button>
+                        <button id="newChannel_btn"
+                                type="button"
+                                style={{ marginLeft: "auto" }}
+                                onClick={() => {
+                                    this.getPrivatePasscode()
+                                }}
+                        >private passcode</button>
+                    </div>
                     <ChannelsList/>
-
-                {/* <AddChannelEntryForm/>  */}
                 </div>
-               
-
-                
-                
                 <div className = "Main">
                 </div>
                 <div className = "Footer">
                 </div>
-                
-
             </div>
         );
     }
-
 }
 
 export default TestPage;
