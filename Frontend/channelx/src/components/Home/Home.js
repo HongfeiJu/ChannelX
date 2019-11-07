@@ -60,20 +60,6 @@ class Home extends Component {
         selectedChannel: null,
     };
 
-    handleSelectChange = event => {
-        //event.target.blur()
-        const selectedChannel = event.target.value;
-        console.log(selectedChannel);
-        this.setState(() => {
-            return {
-                selectedChannel
-            };
-        });
-        event.target.blur()
-        event.target.parentNode.blur();
-    };
-
-
     handleInputChange = event => {
         const query = event.target.value;
         console.log(query);
@@ -232,15 +218,7 @@ class Home extends Component {
                 return (
                     <option key={i} value={channel}>{channel}</option>
                 )
-            }, this);
-
-        const {filtered} = this.state;
-        let participatedList = filtered.length > 0
-            && filtered.map((channel, i) => {
-                return (
-                    <option key={i} value={channel}>{channel}</option>
-                    )
-                }, this);         
+            }, this);     
         
             return (
             <div>
@@ -289,18 +267,17 @@ class Home extends Component {
                 </button>
                 <hr>
                 </hr>
-                <div className= "participatedList">
+                <div className= "createdList">
                         <div className="channelsList">
                             <div class="searchFormCreated">
                                 <input
                                     placeholder="Search Created Channels"
                                     value={this.state.query_participate}
                                     onChange={this.handleInputChangeParticipated}/>
-                            </div>
                             <List>
-                                {this.userCreatedChannels()}
+                                    {this.userCreatedChannels()}
                             </List>
-
+                            </div>
                         </div>
                     </div>
             </div>
