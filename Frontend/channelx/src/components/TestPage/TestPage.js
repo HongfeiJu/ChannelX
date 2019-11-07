@@ -13,6 +13,7 @@ import AddChannelEntryForm from "./AddChannelEntryForm";
 import ChannelsList from "./ChannelsList"
 import PasscodeChecker from "../../services/PasscodeChecker";
 import PrivatePasscodeGenerator from "../../services/PrivatePasscodeGenertor";
+import ChannelIDGetter from "../../services/ChannelIDGetter";
 
 
 
@@ -24,6 +25,7 @@ class TestPage extends Component{
         this.msgChannelCreator=new MessagingChannelCreator();
         this.passcodeChecker=new PasscodeChecker();
         this.privatePasscodeGenerator=new PrivatePasscodeGenerator();
+        this.channelIDGetter=new ChannelIDGetter();
     }
 
     showPasscode(){
@@ -56,13 +58,13 @@ class TestPage extends Component{
         })
 
     }
-    /*
+
     getChannelID(){
-        this.channelIDgetter.generateChannelID('2001SilverToyota').then(r=>{
+        this.channelIDGetter.getChannelID('2001GreenBenzGasPickup').then(r=>{
             alert(r.val());
         })
     }
-    */
+
 
     render() {
         return (
@@ -103,6 +105,13 @@ class TestPage extends Component{
                                     this.getPrivatePasscode()
                                 }}
                         >private passcode</button>
+                        <button id="newChannel_btn"
+                                type="button"
+                                style={{ marginLeft: "auto" }}
+                                onClick={() => {
+                                    this.getChannelID()
+                                }}
+                        >get channel id</button>
                     </div>
                     <ChannelsList/>
                 </div>
