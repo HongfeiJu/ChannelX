@@ -96,7 +96,7 @@ class ChatRoom extends Component {
         const getAlert = () => (
             <SweetAlert
                 warning
-                title="Channel is not available for chat ritenow!"
+                title="Channel is not Active Now!"
                 onConfirm={() => this.hideAlert()}
             >
             </SweetAlert>
