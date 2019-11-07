@@ -26,6 +26,7 @@ class ChatRoom extends Component {
         this.state = {
             id: this.props.match.params.id,
             title: '',
+            type: '',
             creator: '',
             username: '',
             message: '',
@@ -52,6 +53,7 @@ class ChatRoom extends Component {
             if (channel != null) {
                 this.setState({
                     title: channel.title,
+                    type: channel.type,
                     creator: channel.creator,
                     messages: channel.messages,
                     passcodes: channel.passcodes
@@ -263,7 +265,7 @@ class ChatRoom extends Component {
     }
 
     getControlBar() {
-        if (this.state.UUID === this.state.creator) {
+        if (this.state.UUID === this.state.creator && this.state.type !== 'private') {
             return (<div className="control_bar">
                 <button className="control_button" onClick={this.addNewPasscode}>generate passcode</button>
                 <button className="control_button" onClick={this.showPasscodes}>show passcodes</button>
@@ -330,7 +332,9 @@ class ChatRoom extends Component {
                     />
                     <button
                         className="sendButton"
-                        onClick={this.state.isChatEnable ? this.submitMessage : () => ( this.showAlert())}
+                        onClick={
+                            this.state.type !== 'public' || this.state.isChatEnable ? this.submitMessage : () => ( this.showAlert())
+                        }
 
                     >send</button>
                     {this.state.alert}
