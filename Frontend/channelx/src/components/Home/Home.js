@@ -36,6 +36,7 @@ class Home extends Component {
                     user
                 });
                 this.getCreatedChannels();
+                this.getParticipatedChannels();
                 this.getData();
             } else {
                 this.setState({user: null});
@@ -58,6 +59,8 @@ class Home extends Component {
         filtered_List: [],
         userCreatedChannels: [],
         selectedChannel: null,
+        userParticipatedChannels: [],
+        filteredParticipated: [],
     };
 
     handleSelectChange = event => {
@@ -109,13 +112,28 @@ class Home extends Component {
         const query_participate = event.target.value;
 
         let filtered_list = this.state.userCreatedChannels.filter(ele => {
-            return ele.toLowerCase().startsWith(query_participate.toLowerCase())
+            return ele.toLowerCase().includes(query_participate.toLowerCase())
         })
 
         console.log("Original List: ", this.state.userCreatedChannels)
         console.log("Filtered List: ", filtered_list)
         this.setState({
             filtered: filtered_list
+        });
+
+    };
+
+    handleInputChangeParticipated = event => {
+        const query_participate1 = event.target.value;
+
+        let filtered_list1 = this.state.userParticipatedChannels.filter(ele => {
+            return ele.toLowerCase().includes(query_participate1.toLowerCase())
+        })
+
+        //console.log("Original List: ", this.state.userCreatedChannels)
+        //console.log("Filtered List: ", filtered_list)
+        this.setState({
+            filteredParticipated: filtered_list1
         });
 
     };
@@ -137,9 +155,9 @@ class Home extends Component {
                             console.log("channelId    => ");
                             console.log(doc.id);
                             this.routeTo("/channel/" + doc.id)
-                            fire.firestore().collection('users').doc(currUser).update(
+                            fire.firestore().collection("channels").doc(doc.id).update(
                                 {
-                                    channelsJoined: firebase.firestore.FieldValue.arrayUnion(doc.id)
+                                    participators: firebase.firestore.FieldValue.arrayUnion(currUser)
                                 }
                             );
                         });
@@ -212,6 +230,8 @@ class Home extends Component {
             });
     };
 
+
+
     userCreatedChannels = () => {
         let data = this.state.filtered
         return data.map((channelTitle) => {
@@ -226,41 +246,60 @@ class Home extends Component {
 
     // Begin: Function to fetch all channels the current user participated before
     // written by Subhradeep
-    userparticipatedChannels = () => {
-        const currUser = fire.auth().currentUser.uid
-        const participatedChannelTitles = [];
-        let participatedChannelIdList = [];
-        var channelName;   
-        var userDoc = db.collection("users").doc(currUser)//.get("channelsJoined")
-        
-        userDoc.get().then(function(doc) {
-            if (doc.exists) {
-                console.log("Document data:", doc.get("channelsJoined"));
-            } else {
-                // doc.data() will be undefined in this case
-                console.log("No such document!");
-            }
-        }).catch(function(error) {
-            console.log("Error getting document:", error);
-        });
 
+    participatedChannelListItemClick = (channelTitle) => {
+        db.collection("channels").where("channelTitle", "==", channelTitle)
+            .get()
+            .then(snapshot => {
+                snapshot
+                    .docs
+                    .forEach(doc => {
+                        this.routeTo("/channel/" + doc.id)
+                    })
+            });
+    };
 
-        participatedChannelIdList.forEach(channelId => {
-                         
-            channelName = db.collection("channels").doc(channelId).get("channelTitle")
-            participatedChannelTitles.push(channelName)
+    userParticipatedChannels = () => {
+        let data = this.state.filteredParticipated
 
-        })
-
-
-        return participatedChannelTitles.map((channelTitle) => {
+        return data.map((channelTitle) => {
             return (
-                <ListItem button onClick={() => this.channelListItemClick(channelTitle)}>
+                <ListItem button onClick={() => this.participatedChannelListItemClick(channelTitle)}>
                     <ListItemText primary={channelTitle}/>
                     <Divider/>
                 </ListItem>
             )
         })
+    };
+
+ 
+ 
+    getParticipatedChannels = () => {
+        db.collection("channels").where("participators", "array-contains", fire.auth().currentUser.uid)
+            .get()
+            .then(snapshot => {
+                const userParticipatedChannels = [];
+                let i = 0;
+                snapshot
+                    .docs
+                    .forEach(doc => {
+                        console.log(doc.get("channelTitle"));
+                        userParticipatedChannels.push(doc.get("channelTitle"));
+                    });
+                console.log(userParticipatedChannels)
+                return userParticipatedChannels;
+            })
+            .then(userParticipatedChannels => {
+                //const {query_participate} = this.state;
+                const filteredParticipated = userParticipatedChannels;
+                console.log("Participated Channels: ");
+                console.log(userParticipatedChannels);
+                this.setState({
+                    userParticipatedChannels,
+                    filteredParticipated
+                });
+
+            });
     };
     //End: user participated channels
 
@@ -370,10 +409,10 @@ class Home extends Component {
                             <div className="searchFormCreated">
                                 <input
                                     placeholder="Search participated Channels"
-                                    value={this.state.query_participate}
+                                    value={this.state.query_participate1}
                                     onChange={this.handleInputChangeParticipated}/>
                                 <List>
-                                    {this.userparticipatedChannels()}
+                                    {this.userParticipatedChannels()}
                                 </List>
                             </div>
                         </div>
