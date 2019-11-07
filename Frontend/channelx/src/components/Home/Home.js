@@ -224,6 +224,36 @@ class Home extends Component {
         })
     };
 
+    // Begin: Function to fetch all channels the current user participated before
+    // written by Subhradeep
+    userparticipatedChannels = () => {
+        const currUser = fire.auth().currentUser.uid
+        const participatedChannelTitles = []
+        let participatedChannelIdList = []
+        db.collection("users").doc(currUser)
+        .get()
+        .then(snapshot => {
+            snapshot
+                .docs
+                .forEach(doc => {
+
+                    participatedChannelIdList = doc.get("channelsJoins")
+                    db.collection("channels").doc(currUser).get()
+                    participatedChannelTitles.push(doc.get("channelsJoins"))
+                })
+        });
+        return data.map((channelTitle) => {
+            return (
+                <ListItem button onClick={() => this.channelListItemClick(channelTitle)}>
+                    <ListItemText primary={channelTitle}/>
+                    <Divider/>
+                </ListItem>
+            )
+        })
+    };
+    //End: user participated channels
+
+
     checkPrivatePasscode = () => {
         // call function to check if the entered passcode exists
         // if true then rout the user to that channel
@@ -302,7 +332,7 @@ class Home extends Component {
                     <form onSubmit={this.checkPrivatePasscode}>
                         <input
                             type="text"
-                            placeholder="Enter passcode"
+                            placeholder="Private chanel Passcode"
                             onChange={this.handlePrivatePasscodeChange}
                             required/>
                         <input
@@ -324,18 +354,18 @@ class Home extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="CreatedList">
-                        {/*<div className="channelsList">*/}
-                        {/*    <div className="searchFormCreated">*/}
-                        {/*        <input*/}
-                        {/*            placeholder="Search Created Channels"*/}
-                        {/*            value={this.state.query_participate}*/}
-                        {/*            onChange={this.handleInputChangeCreated}/>*/}
-                        {/*        <List>*/}
-                        {/*            {this.userCreatedChannels()}*/}
-                        {/*        </List>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
+                    <div className="ParticipatedList">
+                        <div className="channelsList">
+                            <div className="searchFormParticipated">
+                                <input
+                                    placeholder="Search participated Channels"
+                                    value={this.state.query_participate}
+                                    onChange={this.handleInputChangeParticipated}/>
+                                <List>
+                                    {this.userparticipatedChannels()}
+                                </List>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
