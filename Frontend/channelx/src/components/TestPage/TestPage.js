@@ -25,7 +25,7 @@ class TestPage extends Component{
         this.msgChannelCreator=new MessagingChannelCreator();
         this.passcodeChecker=new PasscodeChecker();
         this.privatePasscodeGenerator=new PrivatePasscodeGenerator();
-        this.channelIDCreator=new ChannelIDGetter();
+        this.channelIDGetter=new ChannelIDGetter();
     }
 
     showPasscode(){
@@ -60,7 +60,7 @@ class TestPage extends Component{
     }
 
     getChannelID(){
-        this.channelIDCreator.generateChannelID('2001GreenBenzGasPickup').then(r=>{
+        this.channelIDGetter.getChannelID('2001GreenBenzGasPickup').then(r=>{
             alert(r.val());
         })
     }

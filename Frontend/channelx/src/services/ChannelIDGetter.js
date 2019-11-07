@@ -8,7 +8,7 @@ import firebase from "firebase";
 
 class ChannelIDGetter{
 
-    generateChannelID(privatePasscode){
+    getChannelID(privatePasscode){
         return firebase.database().ref('privatePasscodes/'+privatePasscode).once('value', (r)=>{
             return r.val();
         })
