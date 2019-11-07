@@ -15,11 +15,13 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import './Home.css';
 import * as ROUTES from "../../constants/routes";
+import ChannelIDGetter from "../../services/ChannelIDGetter";
 
 class Home extends Component {
     constructor(props) {
         super(props);
         this.logout = this.logout.bind(this);
+        this.channelIDGetter = new ChannelIDGetter();
     }
 
     componentDidMount() {
@@ -225,13 +227,20 @@ class Home extends Component {
     };
 
     checkPrivatePasscode = () => {
-        // call function to check if the entered passcode exists
-        // if true then rout the user to that channel
-    }
-
-    handlePrivatePasscodeChange = e => {
-        this.setState({privatePasscode: e.target.value}, () => console.log(this.state));
-    }
+        let privatePasscode = document.getElementById('privatePasscodeText').value;
+        if (privatePasscode!==''){
+            this.channelIDGetter.getChannelID(privatePasscode).then(r => {
+                if (r.val() == null) {
+                    alert('Invalid passcode');
+                } else {
+                    this.routeTo("/channel/" + r.val());
+                }
+            });
+        }
+        else {
+            alert('Enter passcode');
+        }
+    };
 
 
     render() {
@@ -298,16 +307,22 @@ class Home extends Component {
                 <hr>
                 </hr>
                 <h1> Speak Easy </h1>
-                <div className="HomePrivateChannel">
-                    <form onSubmit={this.checkPrivatePasscode}>
+                <div class="HomePrivateChannel">
+                    <form>
                         <input
                             type="text"
+                            name="privatePasscodeText"
+                            id="privatePasscodeText"
                             placeholder="Enter passcode"
-                            onChange={this.handlePrivatePasscodeChange}
+
                             required/>
-                        <input
-                            type="submit"
-                            value="Submit"/>
+                        <button id="newChannel_btn"
+                                type="button"
+                                onClick={() => {
+                                    this.checkPrivatePasscode()
+                                }}
+                        >Go
+                        </button>
                     </form>
                 </div>
                 <div className="HomeLists">
