@@ -310,14 +310,21 @@ class Home extends Component {
                             value="Submit"/>
                     </form>
                 </div>
-                <div className="HomeLists">
-                    <div className="CreatedList">
-                        <div className="channelsList">
-                            <div className="searchFormCreated">
+
+                <div className="searchFormCreated">
                                 <input
                                     placeholder="Search Created Channels"
                                     value={this.state.query_participate}
                                     onChange={this.handleInputChangeCreated}/>
+                    </div>
+
+                <div className="HomeLists">
+                    <div className="CreatedList">
+
+                    
+                     <div>
+                        <div className="channelsList">
+                            
                                 <List>
                                     {this.userCreatedChannels()}
                                 </List>
