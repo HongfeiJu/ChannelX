@@ -29,7 +29,7 @@ class Home extends Component {
     authListener() {
         firebase.auth().onAuthStateChanged((user) => {
             console.log(user);
-            if(user) {
+            if (user) {
                 this.setState({
                     UUID: user.uid,
                     displayName: user.displayName,
@@ -93,7 +93,7 @@ class Home extends Component {
         });
     };
 
-    
+
     handleSelectChangeParticipated = event => {
         const selected = event.target.value;
         console.log(selected);
@@ -104,10 +104,10 @@ class Home extends Component {
         });
     };
 
-   
-    handleInputChangeParticipated = event => {
+
+    handleInputChangeCreated = event => {
         const query_participate = event.target.value;
-        
+
         let filtered_list = this.state.userCreatedChannels.filter(ele => {
             return ele.toLowerCase().startsWith(query_participate.toLowerCase())
         })
@@ -117,8 +117,8 @@ class Home extends Component {
         this.setState({
             filtered: filtered_list
         });
-    
-  };
+
+    };
 
     getChannelId = () => {
         console.log("Join Channel clicked");
@@ -160,8 +160,8 @@ class Home extends Component {
 
                         userCreatedChannels.push(doc.get("channelTitle"));
                     });
-                    return userCreatedChannels;
-                })
+                return userCreatedChannels;
+            })
             .then(userCreatedChannels => {
                 const {query_participate} = this.state;
                 const filtered = userCreatedChannels;
@@ -224,6 +224,15 @@ class Home extends Component {
         })
     };
 
+    checkPrivatePasscode = () => {
+        // call function to check if the entered passcode exists
+        // if true then rout the user to that channel
+    }
+
+    handlePrivatePasscodeChange = e => {
+        this.setState({privatePasscode: e.target.value}, () => console.log(this.state));
+    }
+
 
     render() {
         const {filteredData} = this.state;
@@ -239,15 +248,14 @@ class Home extends Component {
             && filtered.map((channel, i) => {
                 return (
                     <option key={i} value={channel}>{channel}</option>
-                    )
-                }, this);         
-        
-            return (
-            <div>
-                <div className="Home">
-                    <h1>Hello {this.state.displayName}</h1>
-                        <div className="HomeHeaderButtons">
-                            <button id="HomeLogout"
+                )
+            }, this);
+
+        return (
+            <div className="Home">
+                <h1>Hello {this.state.displayName}</h1>
+                <div className="HomeHeaderButtons">
+                    <button id="HomeLogout"
                             type="button"
                             className="HomeLogout"
                             onClick={() => this.routeTo(ROUTES.LANDING)}
@@ -289,21 +297,47 @@ class Home extends Component {
                 </button>
                 <hr>
                 </hr>
-                <div className= "participatedList">
+                <h1> Speak Easy </h1>
+                <div className="HomePrivateChannel">
+                    <form onSubmit={this.checkPrivatePasscode}>
+                        <input
+                            type="text"
+                            placeholder="Enter passcode"
+                            onChange={this.handlePrivatePasscodeChange}
+                            required/>
+                        <input
+                            type="submit"
+                            value="Submit"/>
+                    </form>
+                </div>
+                <div className="HomeLists">
+                    <div className="CreatedList">
                         <div className="channelsList">
-                            <div class="searchFormCreated">
+                            <div className="searchFormCreated">
                                 <input
                                     placeholder="Search Created Channels"
                                     value={this.state.query_participate}
-                                    onChange={this.handleInputChangeParticipated}/>
+                                    onChange={this.handleInputChangeCreated}/>
+                                <List>
+                                    {this.userCreatedChannels()}
+                                </List>
                             </div>
-                            <List>
-                                {this.userCreatedChannels()}
-                            </List>
-
                         </div>
                     </div>
-            </div>
+                    <div className="CreatedList">
+                        {/*<div className="channelsList">*/}
+                        {/*    <div className="searchFormCreated">*/}
+                        {/*        <input*/}
+                        {/*            placeholder="Search Created Channels"*/}
+                        {/*            value={this.state.query_participate}*/}
+                        {/*            onChange={this.handleInputChangeCreated}/>*/}
+                        {/*        <List>*/}
+                        {/*            {this.userCreatedChannels()}*/}
+                        {/*        </List>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
+                    </div>
+                </div>
             </div>
         );
     }
