@@ -105,25 +105,6 @@ class Home extends Component {
     
   };
 
-    // handleChange = event => {
-    //     //const query_participate = event.target.value;
-    //     let currentList = [];
-    //     let newList = [];
-    //     if (e.target.value !== "") {
-    //       currentList = this.userCreatedChannels;
-    //       newList = currentList.filter(item => {
-    //         const lc = item.toLowerCase();
-    //         const filter = e.target.value.toLowerCase();
-    //         return lc.includes(filter);
-    //       });
-    //     } else {
-    //       newList = this.userCreatedChannels;
-    //     }
-    //     this.setState({
-    //       filtered: newList
-    //     });
-    //   };
-
     getChannelId = () => {
         console.log("Join Channel clicked");
         var selectedChannel = document.getElementById("channelDrop").value;
@@ -270,21 +251,6 @@ class Home extends Component {
                                 onChange={this.handleSelectChange}>
                             {channelList}
                         </select>
-                        {/* <div className= "participatedList">
-                            <h1>My Channels</h1>
-                            <div className="channelsList">
-                                <div class="searchFormCreated">
-                                    <input
-                                        placeholder="Search for channels"
-                                        value={this.state.query_participate}
-                                        onChange={this.handleInputChangeParticipated}/>
-                                </div>
-                                <List>
-                                    {this.userCreatedChannels()}
-                                </List>
-
-                            </div>
-                        </div> */}
                     </div>
                     <button id="HomeJoinChannel"
                             type="button"

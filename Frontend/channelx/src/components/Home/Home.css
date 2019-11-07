@@ -121,6 +121,7 @@
 }
 
 .channelListItem {
+    width: 20%;
     border: 1px solid whitesmoke;
     border-radius: 5px;
 }
