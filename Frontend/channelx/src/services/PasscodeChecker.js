@@ -13,10 +13,12 @@ class PasscodeChecker{
         return firebase.database().ref('channels/' + channelID + '/passcodes')
             .once('value').then(snapshot=>{
             const passcodesObjects = snapshot.val();
-            console.log('passcode');
             console.log(passcode);
-            console.log('passcode object');
             console.log(passcodesObjects);
+            if(passcodesObjects === null){
+                alert('invalid passcode');
+                return false;
+            }
             let passcodes=Object.keys(passcodesObjects);
             console.log("passcodes: "+passcodes);
             if(passcodes==null||!passcodes.includes(passcode)){
@@ -75,7 +77,7 @@ class PasscodeChecker{
                 console.log('visited users');
                 console.log(visitedUsers);
                 if(visitedUsers==null){
-                    firebase.database().ref('channels/'+ channelID+'/passcodes/' + passcode +'/0')
+                    firebase.database().ref('channels/'+ channelID+'/passcodes/' + passcode +'/0/')
                         .set(this.getCurrentUserUid()).then(r  =>{
                         console.log(r);
                     }).catch(e=>{

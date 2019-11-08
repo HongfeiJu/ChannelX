@@ -221,7 +221,7 @@ class ChatRoom extends Component {
             alert("passcodes used out");
             return;
         }
-        firebase.database().ref('channels/' + this.state.id + '/passcodes/' + newPasscode).set('admin')
+        firebase.database().ref('channels/' + this.state.id + '/passcodes/' + newPasscode +'/0').set('admin')
             .then(r => {
                 console.log(r);
                 alert(newPasscode + " added");
@@ -232,7 +232,12 @@ class ChatRoom extends Component {
     }
 
     showPasscodes() {
-        alert(Object.keys(this.state.passcodes));
+        if(this.state.passcodes==null){
+            alert('empty');
+        }else{
+            alert(Object.keys(this.state.passcodes));
+        }
+
     }
 
     getControlBar() {
