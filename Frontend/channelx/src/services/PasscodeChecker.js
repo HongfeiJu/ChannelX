@@ -13,9 +13,9 @@ class PasscodeChecker{
         return firebase.database().ref('channels/' + channelID + '/passcodes')
             .once('value').then(snapshot=>{
             const passcodesObjects = snapshot.val();
-            console.log(passcode)
+            console.log(passcode);
             console.log(passcodesObjects);
-            let passcodes=passcodesObjects;
+            let passcodes=Object.keys();
             console.log("passcodes: "+passcodes);
             if(passcodes==null||!passcodes.includes(passcode)){
                 alert('invalid passcode');

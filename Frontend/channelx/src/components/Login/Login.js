@@ -83,7 +83,7 @@ class Login extends Component {
                 else {
                     this.setState({fireLoginErrors: "Kindly verify your email before you login"})
                 }
-            }, 500);
+            }, 800);
         }).catch((error) => {
           console.log(error);
           this.setState({fireLoginErrors : error.message})
