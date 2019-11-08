@@ -15,8 +15,8 @@ class PasscodeChecker{
             const passcodesObjects = snapshot.val();
             console.log(passcode)
             console.log(passcodesObjects);
-            let passcodes=Object.keys(passcodesObjects);
-            // console.log("passcodes: "+passcodes);
+            let passcodes=passcodesObjects;
+            console.log("passcodes: "+passcodes);
             if(passcodes==null||!passcodes.includes(passcode)){
                 alert('invalid passcode');
                 // console.log("nae mil raha");
@@ -36,36 +36,20 @@ class PasscodeChecker{
         })
     }
 
-
-    // checkOnetimePasscodefin(channelID, passcode){
+    // checkOnetimePasscodeFin(channelID, passcode){
     //     return firebase.database().ref('channels/' + channelID + '/passcodes')
     //         .once('value').then(snapshot=>{
     //         const passcodesObjects = snapshot.val();
     //         console.log(passcode)
     //         console.log(passcodesObjects);
     //         let passcodes=Object.keys(passcodesObjects);
-    //         // console.log("passcodes: "+passcodes);
-    //         if(passcodes!=null)
-    //         {
+    //         console.log("passcodes: "+passcodes);
+    //         if(passcodes != null && passcodesObjects.(passcode) >= 0){
     //             // alert('invalid passcode');
     //             // console.log("nae mil raha");
-    //             // return false;
-
-    //             // let filteredClasses = passcodesObjects.filter(passcode => passcodesObjects.includes(passcode));
-
-    //             console.log(passcodesObjects[0]);
+    //             return true;
                 
-                
-    //             if(passcodesObjects[1] === passcode) {
-    //                 return true;
-    //             } else {
-
-    //                 return false;
-                    
-    //             }
-
-                
-    //         }else{
+    //         }else {
     //             return false;
     //         }
     //     }).then(valid=>{
@@ -78,29 +62,6 @@ class PasscodeChecker{
     //         return valid;
     //     })
     // }
-
-
-    // checkOnetimePasscodefin = (channelID, passcode) => {
-    //     return firebase.database().ref('channels/' + channelID + '/passcodes')
-    //         .once('value').then(snapshot=>{
-    //         const passcodesObjects = snapshot.val();
-    //         console.log(passcode)
-    //         console.log(passcodesObjects);
-    //         let passcodes=Object.keys(passcodesObjects);
-    //         // console.log("passcodes: "+passcodes);
-    //         if(passcodes==null||!snapshot.val().(passcode)){
-    //             alert('invalid passcode');
-    //             console.log("nae mil raha");
-    //             return false;
-                
-    //         }else{
-    //             return true;
-    //         }
-    //     }
-    
-    //         )}
-
-
 
 
 
@@ -136,6 +97,7 @@ class PasscodeChecker{
     }
 
     getCurrentUserUid(){
+        console.log(fire.auth().currentUser.uid)
         return fire.auth().currentUser.uid;
     }
 }

@@ -212,7 +212,8 @@ class ChatRoom extends Component {
             let count = 0;
             console.log("passcodes " + this.state.passcodes);
             console.log("new" + newPasscode);
-            while (this.state.passcodes.includes(newPasscode) && count < 100) {
+            let passcodeKeys=Object.keys(this.state.passcodes);
+            while (passcodeKeys.includes(newPasscode) && count < 100) {
                 newPasscode = pg.generateOnetimePasscode();
                 count++;
             }
@@ -233,7 +234,7 @@ class ChatRoom extends Component {
     }
 
     showPasscodes() {
-        alert(this.state.passcodes);
+        alert(Object.keys(this.state.passcodes));
     }
 
     getControlBar() {

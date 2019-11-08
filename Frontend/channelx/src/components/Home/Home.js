@@ -493,7 +493,7 @@ class Home extends Component {
                     this.routeTo("/channel/" + id);
                     this.addJoinedChannel(id);
             } else {
-                // alert('Invalid passcode');
+                alert('Invalid passcode');
             }
                 
             }
@@ -585,7 +585,7 @@ class Home extends Component {
                         {channelList}
                     </select>
                 </div>
-                <button id="HomeJoinChannel"
+                {/* <button id="HomeJoinChannel"
                     type="button"
                     className="HomeJoinChannel"
                     onClick={this.getChannelId}
@@ -594,29 +594,8 @@ class Home extends Component {
 
                     Join
 
-                </button>
+                </button> */}
                 {this.state.alert}
-                <hr>
-                </hr>
-                <h1> Speak Easy </h1>
-                <div class="HomePrivateChannel">
-                    <form>
-                        <input
-                            type="text"
-                            name="privatePasscodeText"
-                            id="privatePasscodeText"
-                            placeholder="Enter passcode"
-
-                            required/>
-                        <button id="newChannel_btn"
-                                type="button"
-                                onClick={() => {
-                                    this.checkPrivatePasscode()
-                                }}
-                        >Go
-                        </button>
-                    </form>
-                </div>
 
                 <h1> Passcode Access </h1>
                 <div class="HomePublicChannel">
@@ -638,7 +617,33 @@ class Home extends Component {
                     </form>
                 </div>
 
-                <h1> One Time Passcode Access </h1>
+                <hr>
+                </hr>
+
+
+
+                <h1> Speak Easy </h1>
+                <div class="HomePrivateChannel">
+                    <form>
+                        <input
+                            type="text"
+                            name="privatePasscodeText"
+                            id="privatePasscodeText"
+                            placeholder="Enter passcode"
+
+                            required/>
+                        <button id="newChannel_btn"
+                                type="button"
+                                onClick={() => {
+                                    this.checkPrivatePasscode()
+                                }}
+                        >Go
+                        </button>
+                    </form>
+                </div>
+
+                
+                {/* <h1> One Time Passcode Access </h1>
                 <div class="HomeOneTimePublicChannel">
                     <form>
                         <input
@@ -656,7 +661,7 @@ class Home extends Component {
                         >Go
                         </button>
                     </form>
-                </div>
+                </div> */}
 
                 <div className="HomeLists">
                     <div className="CreatedList">
