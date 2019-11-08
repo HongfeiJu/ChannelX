@@ -15,7 +15,7 @@ class PasscodeChecker{
             const passcodesObjects = snapshot.val();
             console.log(passcode);
             console.log(passcodesObjects);
-            let passcodes=Object.keys();
+            let passcodes=Object.keys(passcodesObjects);
             console.log("passcodes: "+passcodes);
             if(passcodes==null||!passcodes.includes(passcode)){
                 alert('invalid passcode');
