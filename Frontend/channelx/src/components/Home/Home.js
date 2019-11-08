@@ -597,14 +597,14 @@ class Home extends Component {
                 </button> */}
                 {this.state.alert}
 
-                <h1> Passcode Access </h1>
+                <h2> Enter passcode to access the channel </h2>
                 <div class="HomePublicChannel">
                     <form>
                         <input
                             type="text"
                             name="publicPasscodeText"
                             id="publicPasscodeText"
-                            placeholder="Enter passcode"
+                            placeholder="passcode"
 
                             required/>
                         <button id="publicpasscodeChannel_btn"
@@ -616,13 +616,25 @@ class Home extends Component {
                         </button>
                     </form>
                 </div>
+                <div className="HomeOneTimePublicChannel">
+                    <form>
+                        <input
+                            type="text"
+                            name="OneTimePasscodeText"
+                            id="OneTimePasscodeText"
+                            placeholder="one time passcode"
 
-                <hr>
-                </hr>
-
-
-
-                <h1> Speak Easy </h1>
+                            required/>
+                        <button id="onetimeChannel_btn"
+                                type="button"
+                                onClick={() => {
+                                    this.getChannelIdforOneTimePasscode()
+                                }}
+                        >Go
+                        </button>
+                    </form>
+                </div>
+                <h1> Speak Easy Channel</h1>
                 <div class="HomePrivateChannel">
                     <form>
                         <input
@@ -641,28 +653,6 @@ class Home extends Component {
                         </button>
                     </form>
                 </div>
-
-                
-                {/* <h1> One Time Passcode Access </h1>
-                <div class="HomeOneTimePublicChannel">
-                    <form>
-                        <input
-                            type="text"
-                            name="OneTimePasscodeText"
-                            id="OneTimePasscodeText"
-                            placeholder="Enter passcode"
-
-                            required/>
-                        <button id="onetimeChannel_btn"
-                                type="button"
-                                onClick={() => {
-                                    this.getChannelIdforOneTimePasscode()
-                                }}
-                        >Go
-                        </button>
-                    </form>
-                </div> */}
-
                 <div className="HomeLists">
                     <div className="CreatedList">
                         <div className="channelsList">

@@ -145,7 +145,7 @@ class CreateChannel extends Component {
                             <input
                                 type="text"
                                 id="channelPassword"
-                                placeholder="Password"
+                                placeholder="Passcode"
                                 name="channelPassword"
                                 required
                                 onChange={this.handlechannelChange}

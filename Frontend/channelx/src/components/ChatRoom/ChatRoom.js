@@ -205,10 +205,8 @@ class ChatRoom extends Component {
     addNewPasscode() {
         const pg = new PasscodeGenerator();
         let newPasscode = pg.generateOnetimePasscode();
-        let id = 0;
         let useOut = false;
         if (this.state.passcodes !== undefined) {
-            id = this.state.passcodes.length;
             let count = 0;
             console.log("passcodes " + this.state.passcodes);
             console.log("new" + newPasscode);
@@ -223,7 +221,7 @@ class ChatRoom extends Component {
             alert("passcodes used out");
             return;
         }
-        firebase.database().ref('channels/' + this.state.id + '/passcodes/' + id).set(newPasscode)
+        firebase.database().ref('channels/' + this.state.id + '/passcodes/' + newPasscode +'/0').set('admin')
             .then(r => {
                 console.log(r);
                 alert(newPasscode + " added");
@@ -234,7 +232,12 @@ class ChatRoom extends Component {
     }
 
     showPasscodes() {
-        alert(Object.keys(this.state.passcodes));
+        if(this.state.passcodes==null){
+            alert('empty');
+        }else{
+            alert(Object.keys(this.state.passcodes));
+        }
+
     }
 
     getControlBar() {
