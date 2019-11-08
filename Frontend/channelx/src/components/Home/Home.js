@@ -171,12 +171,7 @@ class Home extends Component {
             // res: this.response
         });
 
-        
-
     }
-
-   
-
     onReceiveInput = (response) => {
         console.log(response);
         this.hideAlert();
@@ -465,8 +460,6 @@ class Home extends Component {
                     >Create New
                     </button>
                 </div>
-                <hr>
-                </hr>
                 <div class="searchForm">
                     <input
                         placeholder="Search public channels"
@@ -489,15 +482,9 @@ class Home extends Component {
                     type="button"
                     className="HomeJoinChannel"
                     onClick={this.getChannelId}
-
-                >
-
-                    Join
-
+                >Join
                 </button>
                 {this.state.alert}
-                <hr>
-                </hr>
                 <h1> Speak Easy </h1> 
                 <div class="HomePrivateChannel">
                     <form>
