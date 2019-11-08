@@ -5,16 +5,17 @@ Date: 9/24/2019
 Updated: 10/31/2019
 */
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import firebase from "firebase";
 import fire from "../../config/Fire";
-import {db} from "../../config/Fire";
+import { db } from "../../config/Fire";
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import './Home.css';
 import * as ROUTES from "../../constants/routes";
+import SweetAlert from "react-bootstrap-sweetalert";
 import ChannelIDGetter from "../../services/ChannelIDGetter";
 import { publicDecrypt } from 'crypto';
 
@@ -42,7 +43,7 @@ class Home extends Component {
                 this.getParticipatedChannels();
                 this.getData();
             } else {
-                this.setState({user: null});
+                this.setState({ user: null });
                 this.routeTo(ROUTES.LANDING);
             }
         });
@@ -62,6 +63,8 @@ class Home extends Component {
         filtered_List: [],
         userCreatedChannels: [],
         selectedChannel: null,
+        alert: null,
+        res: null,
         userParticipatedChannels: [],
         filteredParticipated: [],
     };
@@ -112,6 +115,109 @@ class Home extends Component {
 
     };
 
+
+    showAlert() {
+        const getAlert = () => (
+
+            <SweetAlert
+                // success
+                title="Public Channel Access!"
+                onConfirm={this.onConfirm}
+                onCancel={this.onCancel}
+                customButtons={
+                    <React.Fragment>
+                        <button onClick={() => this.hideAlert()}>Cancel</button>
+                        <button onClick={() => this.showOneTimePasscodeAlert()}>One Time Passcode</button>
+                        <button onClick={() => this.showPermanentPasscodeAlert() }>Passcode</button>
+                    </React.Fragment>
+                }
+            >
+                Join Channel using Passcode or One Time Passcode!
+            </SweetAlert>
+
+        );
+
+        this.setState({
+            alert: getAlert()
+        });
+    }
+
+    showOneTimePasscodeAlert() {
+
+        this.hideAlert();
+
+        const getAlert = () => (
+
+            <SweetAlert
+                input 
+                required
+                inputType="text"
+                title="Enter One Time Passcode"
+                validationMsg="You must enter your One Time passcode!"
+                onConfirm={(response) => this.onReceiveInput(response)}
+                onCancel={() => this.hideAlert()}  >
+             {/* Join Channel using Passcode or One Time Passcode! */}
+             
+            </SweetAlert >
+
+            
+        );
+
+        // console.log(this.response);
+        // console.log("sami");
+        
+        this.setState({
+            alert: getAlert(),
+            // res: this.response
+        });
+
+        
+
+    }
+
+   
+
+    onReceiveInput = (response) => {
+        console.log(response);
+        this.hideAlert();
+    };
+
+    showPermanentPasscodeAlert() {
+
+        this.hideAlert();
+
+        const getAlert = () => (
+
+            <SweetAlert
+                input
+                required
+                inputType="password"
+                title="Enter Passcode"
+                validationMsg="You must enter Passcode!"
+                onConfirm={this.onConfirm}
+                onCancel={() => this.hideAlert()}
+            >
+             {/* Join Channel using Passcode or One Time Passcode! */}
+            </SweetAlert >
+
+        );
+
+        this.setState({
+            alert: getAlert()
+        });
+
+    }
+
+
+
+    hideAlert() {
+        console.log('Hiding alert...');
+        this.setState({
+            alert: null
+        });
+    }
+
+
     handleInputChangeParticipated = event => {
         const query_participate1 = event.target.value;
 
@@ -135,6 +241,27 @@ class Home extends Component {
         if (selectedChannel == "Select Channel") {
             alert("Please select a channel to join");
         } else {
+
+            // this.showAlert();
+            // eslint-disable-next-line no-unused-expressions
+            // this.state.alert;
+
+            // db.collection("channels").where("channelTitle", "==", selectedChannel)
+            //     .get()
+            //     .then(snapshot => {
+            //         snapshot
+            //             .docs
+            //             .forEach(doc => {
+            //                 console.log("channelId    => ");
+            //                 console.log(doc.id);
+            //                 this.routeTo("/channel/" + doc.id)
+            //                 fire.firestore().collection('users').doc(currUser).update(
+            //                     {
+            //                         channelsJoined: firebase.firestore.FieldValue.arrayUnion(doc.id)
+            //                     }
+            //                 );
+            //             });
+            //     });
             db.collection("channels").where("channelTitle", "==", selectedChannel)
                 .get()
                 .then(snapshot => {
@@ -155,6 +282,7 @@ class Home extends Component {
 
     };
 
+
     getCreatedChannels = () => {
         db.collection("channels").where("channelCreator", "==", this.state.UUID)
             .get()
@@ -170,7 +298,7 @@ class Home extends Component {
                 return userCreatedChannels;
             })
             .then(userCreatedChannels => {
-                const {query_participate} = this.state;
+                const { query_participate } = this.state;
                 const filtered = userCreatedChannels;
                 this.setState({
                     userCreatedChannels,
@@ -198,7 +326,7 @@ class Home extends Component {
                 return data;
             })
             .then(data => {
-                const {query} = this.state;
+                const { query } = this.state;
                 const filteredData = data.slice(0, 1);
                 this.setState({
                     data,
@@ -226,8 +354,8 @@ class Home extends Component {
         return data.map((channelTitle) => {
             return (
                 <ListItem button onClick={() => this.channelListItemClick(channelTitle)}>
-                    <ListItemText primary={channelTitle}/>
-                    <Divider/>
+                    <ListItemText primary={channelTitle} />
+                    <Divider />
                 </ListItem>
             )
         })
@@ -311,7 +439,7 @@ class Home extends Component {
 
 
     render() {
-        const {filteredData} = this.state;
+        const { filteredData } = this.state;
         let channelList = filteredData.length > 0
             && filteredData.map((channel, i) => {
                 return (
@@ -331,9 +459,9 @@ class Home extends Component {
                     >Logout
                     </button>
                     <button id="HomeCreateChannel"
-                            type="button"
-                            className="HomeCreateChannel"
-                            onClick={() => this.routeTo(ROUTES.CREATE_CHANNEL)}
+                        type="button"
+                        className="HomeCreateChannel"
+                        onClick={() => this.routeTo(ROUTES.CREATE_CHANNEL)}
                     >Create New
                     </button>
                 </div>
@@ -346,24 +474,28 @@ class Home extends Component {
                         onChange={this.handleInputChange}
                     />
                     <select id="channelDrop"
-                            size={this.state.size} onFocus={() => {
-                        this.setState({size: 3})
-                    }}
-                            onBlur={() => {
-                                this.setState({size: 1})
-                            }} //onChange={(e)=>{e.target.blur()}}
-                            onChange={this.handleSelectChange}
+                        size={this.state.size} onFocus={() => {
+                            this.setState({ size: 3 })
+                        }}
+                        onBlur={() => {
+                            this.setState({ size: 1 })
+                        }} //onChange={(e)=>{e.target.blur()}}
+                        onChange={this.handleSelectChange}
                     >
                         {channelList}
                     </select>
                 </div>
                 <button id="HomeJoinChannel"
-                        type="button"
-                        className="HomeJoinChannel"
-                        onClick={this.getChannelId}
+                    type="button"
+                    className="HomeJoinChannel"
+                    onClick={this.getChannelId}
+
                 >
+
                     Join
+
                 </button>
+                {this.state.alert}
                 <hr>
                 </hr>
                 <h1> Speak Easy </h1> 
@@ -385,6 +517,7 @@ class Home extends Component {
                         </button>
                     </form>
                 </div>
+
                 <div className="HomeLists">
                     <div className="CreatedList">
                         <div className="channelsList">
@@ -412,6 +545,40 @@ class Home extends Component {
                             </div>
                         </div>
                     </div>
+
+                {/* <div className="searchFormCreated">
+                    <input
+                        placeholder="Search Created Channels"
+                        value={this.state.query_participate}
+                        onChange={this.handleInputChangeCreated} />
+                </div>
+
+                <div className="HomeLists">
+                    <div className="CreatedList">
+
+
+                        <div>
+                            <div className="channelsList">
+
+                                <List>
+                                    {this.userCreatedChannels()}
+                                </List>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="CreatedList">
+                        <div className="channelsList">
+                            <div className="searchFormCreated">
+                                <input
+                                    placeholder="Search participated Channels"
+                                    value={this.state.query_participate1}
+                                    onChange={this.handleInputChangeParticipated}/>
+                                <List>
+                                    {this.userParticipatedChannels()}
+                                </List>
+                            </div>
+                        </div>
+                    </div> */}
                 </div>
             </div>
             </div>

@@ -83,10 +83,13 @@
     width: 100%;
     display: flex;
     flex-direction: row;
+    
+
 }
 .CreatedList{
     width: 28%;
-    height: 30vh;
+    height: 40vh;
+    margin-top: 10px;
     margin: auto;
     color: #b3d7ff;
     background-color: darkslateblue;
@@ -96,6 +99,8 @@
     overflow-y: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
+
+    
 }
 
 .CreatedList::-webkit-scrollbar {

@@ -104,6 +104,7 @@ class CreateChannel extends Component {
 
 
     createChannel(e) {
+
         e.preventDefault();
         const channelCreator = new ChannelCreator();
         channelCreator.creatNewChannel(
@@ -115,7 +116,8 @@ class CreateChannel extends Component {
             channelEndTime,
             this.state.UUID);
             this.routeTo(ROUTES.HOME);
-    }
+            // this.showAlert();
+        }
 
     routeTo = (path) => this.props.history.push(path);
 
