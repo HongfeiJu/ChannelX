@@ -78,23 +78,27 @@
     display: flex;
     flex-direction: column;
 }
-.createdList{
-    width: 38%;
-    height: 50%;
+
+.HomeLists {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.CreatedList{
+    width: 28%;
+    height: 30vh;
+    margin: auto;
     color: #b3d7ff;
     background-color: darkslateblue;
-    margin-left: 2%;
-    margin-top: 10px;
-    margin-bottom: 100px;
-    margin-right: 950px;
     border: 1px solid darkslateblue;
+    margin-bottom: 100px;
     padding: 5px;
     overflow-y: scroll;
-    scrollbar-width: none; 
+    scrollbar-width: none;
     -ms-overflow-style: none;
 }
 
-.createdList::-webkit-scrollbar { 
+.CreatedList::-webkit-scrollbar {
     width: 0;
     height: 0;
 }
@@ -112,5 +116,4 @@
     width: 20%;
     border: 1px solid whitesmoke;
     border-radius: 5px;
-}
-
+}        
