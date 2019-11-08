@@ -73,17 +73,10 @@
 }
 
 .searchFormCreated{
-    width: 20%;
-    margin-left: -50%;
+    width: 480%;
+    margin-left: 50%;
     display: flex;
     flex-direction: column;
-
-    position: absolute;
-    /* /* left: -100px; */
-    top: 415px; 
-    left: 1050px;
-    z-index: 10;
-
 }
 
 .HomeLists {
