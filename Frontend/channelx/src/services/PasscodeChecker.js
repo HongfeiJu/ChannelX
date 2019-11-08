@@ -6,18 +6,22 @@ date: 10/29/2019
 
 import firebase from "firebase";
 import fire from "../config/Fire";
+import { debug } from "util";
 
 class PasscodeChecker{
     checkOnetimePasscode(channelID, passcode){
         return firebase.database().ref('channels/' + channelID + '/passcodes')
             .once('value').then(snapshot=>{
             const passcodesObjects = snapshot.val();
-            //console.log(passcodesObjects);
-            let passcodes=Object.keys(passcodesObjects);
-            //console.log("passcodes: "+passcodes);
+            console.log(passcode)
+            console.log(passcodesObjects);
+            let passcodes=passcodesObjects;
+            console.log("passcodes: "+passcodes);
             if(passcodes==null||!passcodes.includes(passcode)){
                 alert('invalid passcode');
+                // console.log("nae mil raha");
                 return false;
+                
             }else{
                 return true;
             }
@@ -31,6 +35,36 @@ class PasscodeChecker{
             return valid;
         })
     }
+
+    // checkOnetimePasscodeFin(channelID, passcode){
+    //     return firebase.database().ref('channels/' + channelID + '/passcodes')
+    //         .once('value').then(snapshot=>{
+    //         const passcodesObjects = snapshot.val();
+    //         console.log(passcode)
+    //         console.log(passcodesObjects);
+    //         let passcodes=Object.keys(passcodesObjects);
+    //         console.log("passcodes: "+passcodes);
+    //         if(passcodes != null && passcodesObjects.(passcode) >= 0){
+    //             // alert('invalid passcode');
+    //             // console.log("nae mil raha");
+    //             return true;
+                
+    //         }else {
+    //             return false;
+    //         }
+    //     }).then(valid=>{
+    //         if(valid){
+    //             return this.checkUser(channelID, passcode)
+    //         }else{
+    //             return false;
+    //         }
+    //     }).then(valid=>{
+    //         return valid;
+    //     })
+    // }
+
+
+
 
     checkUser(channelID, passcode){
         return firebase.database().ref('channels/' + channelID + '/passcodes/' + passcode)
@@ -63,6 +97,7 @@ class PasscodeChecker{
     }
 
     getCurrentUserUid(){
+        console.log(fire.auth().currentUser.uid)
         return fire.auth().currentUser.uid;
     }
 }
