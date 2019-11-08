@@ -13,7 +13,9 @@ class PasscodeChecker{
         return firebase.database().ref('channels/' + channelID + '/passcodes')
             .once('value').then(snapshot=>{
             const passcodesObjects = snapshot.val();
+            console.log('passcode');
             console.log(passcode);
+            console.log('passcode object');
             console.log(passcodesObjects);
             let passcodes=Object.keys(passcodesObjects);
             console.log("passcodes: "+passcodes);
@@ -69,8 +71,9 @@ class PasscodeChecker{
     checkUser(channelID, passcode){
         return firebase.database().ref('channels/' + channelID + '/passcodes/' + passcode)
             .once('value').then((snapshot)=>{
-                const visitedUsers=snapshot.val();
-                console.log('users: '+visitedUsers);
+                const visitedUsers=Object.values(snapshot.val());
+                console.log('visited users');
+                console.log(visitedUsers);
                 if(visitedUsers==null){
                     firebase.database().ref('channels/'+ channelID+'/passcodes/' + passcode +'/0')
                         .set(this.getCurrentUserUid()).then(r  =>{
@@ -80,7 +83,7 @@ class PasscodeChecker{
                     });
                     return true;
                 }else{
-                    if(visitedUsers.includes(this.getCurrentUserUid())){
+                    if(visitedUsers ===this.getCurrentUserUid() || visitedUsers.includes(this.getCurrentUserUid())){
                         alert('passcode is used');
                         return false;
                     }else{
