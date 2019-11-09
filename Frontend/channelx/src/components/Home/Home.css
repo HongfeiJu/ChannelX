@@ -1,4 +1,3 @@
-
 .Home {
     width: 100%;
     height: 100vh;
@@ -7,17 +6,10 @@
     flex-direction: column;
     margin: auto;
     background: #7678ED;
-}
-
-.Header {
-    width: 100%;
-    background: #7678ED;
+    align-items: center;
     padding: 1rem;
     font-size: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 20%;
+    min-height: 80vh;
     border-bottom: .5px solid black;
 }
 
@@ -65,8 +57,6 @@
     border: 2px solid #fff;
     width: 13%;
     margin-top: 1em;
-
-
     padding: 8px 0px;
     font-size: 1em;
     letter-spacing: 1px;
@@ -74,19 +64,7 @@
     border-radius: 5px;
 }
 
-.HomeMain {
-    align-items: center;
-    width: 100%;
-    background: #7678ED;
-    padding: 1rem;
-    font-size: 1rem;
-    display: flex;
-    flex-direction: column;
-    height: 80%;
-    min-height: 80vh;
-    margin: auto;
-    border-bottom: .5px solid black;
-}
+
 
 .searchForm {
     width: 20%;
@@ -94,18 +72,52 @@
     flex-direction: column;
 }
 
+.searchFormCreated{
+    width: 480%;
+    margin-left: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.HomeLists {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    
+
+}
+.CreatedList{
+    width: 28%;
+    height: 40vh;
+    margin-top: 10px;
+    margin: auto;
+    color: #b3d7ff;
+    background-color: darkslateblue;
+    border: 1px solid darkslateblue;
+    padding: 5px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    
+}
+
+.CreatedList::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
 .channelsList {
-    width: fit-content;
-    background-color: cornsilk;
+    width: 20%;
+    color: #b3d7ff;
+    background-color: darkslateblue;
     margin-left: 0px;
     margin-top: 10px;
-    border: 1px solid whitesmoke;
+    border: 1px solid darkslateblue;
     padding: 5px;
 }
 
 .channelListItem {
+    width: 20%;
     border: 1px solid whitesmoke;
     border-radius: 5px;
 }
-
-

@@ -9,12 +9,14 @@
 }
 
 .roomTitle{
+    color: white;
     width:80%;
     height:10%;
     position: absolute;
     top:0;
     background-color: rebeccapurple;
     text-align: center;
+    flex-direction: column;
 }
 
 h3{
@@ -30,11 +32,11 @@ h3{
 .control_bar{
     border-bottom: 3px solid rebeccapurple;
     background-color: white;
-    height: auto;
 }
 
 .control_button{
-    background-color: mediumpurple;
+    color: white;
+    background-color: rebeccapurple;
     margin: 1px;
     width: auto;
     height: auto;
