@@ -169,6 +169,7 @@ class CreateChannel extends Component {
                                 focusedInput={this.state.focusedInput}
                                 onFocusChange={focusedInput => this.setState({focusedInput})}
                                 required
+                                minimumNights={0}
                             />
                         </div>
                         <div className="channelStartTime">
