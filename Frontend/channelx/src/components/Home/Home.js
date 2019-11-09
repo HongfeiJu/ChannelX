@@ -483,12 +483,7 @@ class Home extends Component {
         console.log(oneTimePasscode);
 
         if (oneTimePasscode !== '') {
-            if (this.checkUser(id, oneTimePasscode)) {
-
-                this.routeTo("/channel/" + id);
-            } else {
-                // alert('Invalid passcode');
-            }
+            this.checkUser(id, oneTimePasscode)
         } else {
             alert('Enter passcode');
         }
@@ -497,8 +492,11 @@ class Home extends Component {
     checkUser(id, oneTimePasscode) {
         console.log(id);
         console.log(oneTimePasscode);
-        this.passcodeChecker.checkOnetimePasscode(id, oneTimePasscode.toString()).then(r => {
-            // alert('final:'+r);
+        this.passcodeChecker.checkOnetimePasscode(id, oneTimePasscode.toString()).then(response => {
+            // alert('final:' + response); // valid or not valid boolean value in response
+            if(response === true){
+                this.routeTo("/channel/" + id);
+            }
         });
     }
 
