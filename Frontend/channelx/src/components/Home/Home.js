@@ -17,13 +17,16 @@ import './Home.css';
 import * as ROUTES from "../../constants/routes";
 import SweetAlert from "react-bootstrap-sweetalert";
 import ChannelIDGetter from "../../services/ChannelIDGetter";
-import { publicDecrypt } from 'crypto';
+import ChannelDataGetter from "../../services/ChannelDataGetter";
+import { debug } from 'util';
+import PasscodeChecker from "../../services/PasscodeChecker";
 
 class Home extends Component {
     constructor(props) {
         super(props);
         this.logout = this.logout.bind(this);
         this.channelIDGetter = new ChannelIDGetter();
+        this.passcodeChecker=new PasscodeChecker();
     }
 
     componentDidMount() {
@@ -68,6 +71,20 @@ class Home extends Component {
         userParticipatedChannels: [],
         filteredParticipated: [],
     };
+
+    handleSelectChange = event => {
+        //event.target.blur()
+        const selectedChannel = event.target.value;
+        console.log(selectedChannel);
+        this.setState(() => {
+            return {
+                selectedChannel
+            };
+        });
+        event.target.blur()
+        event.target.parentNode.blur();
+    };
+
 
     handleInputChange = event => {
         const query = event.target.value;
@@ -116,101 +133,119 @@ class Home extends Component {
     };
 
 
-    showAlert() {
-        const getAlert = () => (
+    // showAlert() {
+    //     const getAlert = () => (
 
-            <SweetAlert
-                // success
-                title="Public Channel Access!"
-                onConfirm={this.onConfirm}
-                onCancel={this.onCancel}
-                customButtons={
-                    <React.Fragment>
-                        <button onClick={() => this.hideAlert()}>Cancel</button>
-                        <button onClick={() => this.showOneTimePasscodeAlert()}>One Time Passcode</button>
-                        <button onClick={() => this.showPermanentPasscodeAlert() }>Passcode</button>
-                    </React.Fragment>
-                }
-            >
-                Join Channel using Passcode or One Time Passcode!
-            </SweetAlert>
+    //         <SweetAlert
+    //             // success
+    //             title="Public Channel Access!"
+    //             // onConfirm={this.onConfirm}
+    //             onCancel={this.onCancel}
+    //             customButtons={
+    //                 <React.Fragment>
+    //                     <button onClick={() => this.hideAlert()}>Cancel</button>
+    //                     <button onClick={() => this.showOneTimePasscodeAlert()}>One Time Passcode</button>
+    //                     <button onClick={() => this.showPermanentPasscodeAlert() }>Passcode</button>
+    //                 </React.Fragment>
+    //             }
+    //         >
+    //             Join Channel using Passcode or One Time Passcode!
+    //         </SweetAlert>
 
-        );
+    //     );
 
-        this.setState({
-            alert: getAlert()
-        });
-    }
+    //     this.setState({
+    //         alert: getAlert()
+    //     });
+    // }
 
-    showOneTimePasscodeAlert() {
+    // showOneTimePasscodeAlert() {
 
-        this.hideAlert();
+    //     this.hideAlert();
+    //     var resp = null;
 
-        const getAlert = () => (
+    //     const getAlert = () => (
 
-            <SweetAlert
-                input 
-                required
-                inputType="text"
-                title="Enter One Time Passcode"
-                validationMsg="You must enter your One Time passcode!"
-                onConfirm={(response) => this.onReceiveInput(response)}
-                onCancel={() => this.hideAlert()}  >
-             {/* Join Channel using Passcode or One Time Passcode! */}
+    //         <SweetAlert
+    //             input 
+    //             required
+    //             // inputType="text"
+    //             title="Enter One Time Passcode"
+    //             validationMsg="You must enter your One Time passcode!"
+    //             onConfirm={(response) => this.onReceiveInput(response)}
+    //             // onCancel={() => this.hideAlert()}  
+    //             >
+    //          {/* Join Channel using Passcode or One Time Passcode! */}
              
-            </SweetAlert >
+    //         </SweetAlert >
+                        
+    //     );
 
-            
-        );
+    //     // resp = this.response;
+    //     // console.log(resp);
 
-        // console.log(this.response);
-        // console.log("sami");
+    //     // this.state.res.setState(response);
+    //     // console.log(this.response);
+    //     // console.log("sami");
         
-        this.setState({
-            alert: getAlert(),
-            // res: this.response
-        });
+    //     this.setState({
+    //         alert: getAlert(),
+    //         // res: this.response
+    //     });
 
-    }
-    onReceiveInput = (response) => {
-        console.log(response);
-        this.hideAlert();
-    };
+        
 
-    showPermanentPasscodeAlert() {
+    // }
 
-        this.hideAlert();
+    // onReceiveInput = (value) => {
 
-        const getAlert = () => (
+    //     console.log(value);
+    //     this.hideAlert();
 
-            <SweetAlert
-                input
-                required
-                inputType="password"
-                title="Enter Passcode"
-                validationMsg="You must enter Passcode!"
-                onConfirm={this.onConfirm}
-                onCancel={() => this.hideAlert()}
-            >
-             {/* Join Channel using Passcode or One Time Passcode! */}
-            </SweetAlert >
+		// this.setState({
+		// 	alert: (
+		// 		<SweetAlert success title="Nice!" onConfirm={this.hideAlert}>
+		// 			You wrote: {value}
+		// 		</SweetAlert>
+		// 	)
+        // });
+        
+	// }
 
-        );
+    // showPermanentPasscodeAlert() {
 
-        this.setState({
-            alert: getAlert()
-        });
+    //     this.hideAlert();
 
-    }
+    //     const getAlert = () => (
+
+    //         <SweetAlert
+    //             input
+    //             required
+    //             inputType="password"
+    //             title="Enter Passcode"
+    //             validationMsg="You must enter Passcode!"
+    //             // onConfirm={this.onConfirm}
+    //             onCancel={() => this.hideAlert()}
+    //         >
+    //          {/* Join Channel using Passcode or One Time Passcode! */}
+    //         </SweetAlert >
+
+    //     );
+
+    //     this.setState({
+    //         alert: getAlert()
+    //     });
+
+    // }
 
 
 
-    hideAlert() {
-        console.log('Hiding alert...');
-        this.setState({
-            alert: null
-        });
-    }
+    // hideAlert() {
+    //     console.log('Hiding alert...');
+    //     this.setState({
+    //         alert: null
+    //     });
+    // }
 
 
     handleInputChangeParticipated = event => {
@@ -237,26 +272,9 @@ class Home extends Component {
             alert("Please select a channel to join");
         } else {
 
-            // this.showAlert();
-            // eslint-disable-next-line no-unused-expressions
-            // this.state.alert;
+            var passcode = null;
+            let password = null;
 
-            // db.collection("channels").where("channelTitle", "==", selectedChannel)
-            //     .get()
-            //     .then(snapshot => {
-            //         snapshot
-            //             .docs
-            //             .forEach(doc => {
-            //                 console.log("channelId    => ");
-            //                 console.log(doc.id);
-            //                 this.routeTo("/channel/" + doc.id)
-            //                 fire.firestore().collection('users').doc(currUser).update(
-            //                     {
-            //                         channelsJoined: firebase.firestore.FieldValue.arrayUnion(doc.id)
-            //                     }
-            //                 );
-            //             });
-            //     });
             db.collection("channels").where("channelTitle", "==", selectedChannel)
                 .get()
                 .then(snapshot => {
@@ -265,17 +283,56 @@ class Home extends Component {
                         .forEach(doc => {
                             console.log("channelId    => ");
                             console.log(doc.id);
-                            this.routeTo("/channel/" + doc.id)
-                            fire.firestore().collection("channels").doc(doc.id).update(
-                                {
-                                    participators: firebase.firestore.FieldValue.arrayUnion(currUser)
-                                }
-                            );
+                            passcode = doc.get("channelPassword")
+                            // password = ChannelDataGetter.getPublicChannelPassword(doc.id);
+                            // console.log("ChannelDataGetter:" , password);
+                            this.checkPublicPasscode(doc.id,passcode );
                         });
                 });
+          
         }
 
     };
+
+
+
+    getChannelIdforOneTimePasscode = () => {
+        console.log("Join Channel clicked");
+        var selectedChannel = document.getElementById("channelDrop").value;
+        const currUser = fire.auth().currentUser.uid
+        console.log(selectedChannel);
+        if (selectedChannel == "Select Channel") {
+            alert("Please select a channel to join");
+        } else {
+
+            // var passcode = null;
+
+            db.collection("channels").where("channelTitle", "==", selectedChannel)
+                .get()
+                .then(snapshot => {
+                    snapshot
+                        .docs
+                        .forEach(doc => {
+                            console.log("channelId    => ");
+                            console.log(doc.id);
+                            // passcode = doc.get("channelPassword")
+                            this.checkOneTimePasscode(doc.id);
+                        });
+                });
+          
+        }
+
+    };
+
+
+    addJoinedChannel = (id) => {
+
+        fire.firestore().collection("channels").doc(id).update(
+            {
+                participators: firebase.firestore.FieldValue.arrayUnion(fire.auth().currentUser.uid)
+            }
+        );
+    }
 
 
     getCreatedChannels = () => {
@@ -341,8 +398,6 @@ class Home extends Component {
                     })
             });
     };
-
-
 
     userCreatedChannels = () => {
         let data = this.state.filtered
@@ -421,7 +476,7 @@ class Home extends Component {
         if (privatePasscode!==''){
             this.channelIDGetter.getChannelID(privatePasscode).then(r => {
                 if (r.val() == null) {
-                    alert('Invalid passcode');
+                    // alert('Invalid passcode');
                 } else {
                     this.routeTo("/channel/" + r.val());
                 }
@@ -433,6 +488,53 @@ class Home extends Component {
     };
 
 
+    checkPublicPasscode = (id, passcode) => {
+        let publicPasscode = document.getElementById('publicPasscodeText').value;
+
+        if (publicPasscode!==''){
+            if(passcode ===  publicPasscode) {
+                
+                    this.routeTo("/channel/" + id);
+                    this.addJoinedChannel(id);
+            } else {
+                alert('Invalid passcode');
+            }
+                
+            }
+        else {
+            alert('Enter passcode');
+        }
+    };
+
+    checkOneTimePasscode = (id) => {
+        let oneTimePasscode = document.getElementById('OneTimePasscodeText').value;
+
+        console.log(id);
+        console.log(oneTimePasscode);
+
+        if (oneTimePasscode!==''){
+            if(this.checkUser(id, oneTimePasscode)) {
+                
+                    this.routeTo("/channel/" + id);
+            } else {
+                // alert('Invalid passcode');
+            }
+                
+            }
+        else {
+            alert('Enter passcode');
+        }
+    };
+
+    checkUser(id,oneTimePasscode){
+        console.log(id);
+        console.log(oneTimePasscode);
+        this.passcodeChecker.checkOnetimePasscode(id, oneTimePasscode.toString()).then(r=>{
+            alert('final:'+r);
+        });
+    }
+
+
     render() {
         const { filteredData } = this.state;
         let channelList = filteredData.length > 0
@@ -440,17 +542,24 @@ class Home extends Component {
                 return (
                     <option key={i} value={channel}>{channel}</option>
                 )
-            }, this);     
-        
-            return (
-            <div>
-                <div className="Home">
-                    <h1>Hello {this.state.displayName}</h1>
-                        <div className="HomeHeaderButtons">
-                            <button id="HomeLogout"
-                            type="button"
-                            className="HomeLogout"
-                            onClick={() => this.routeTo(ROUTES.LANDING)}
+            }, this);
+
+        const { filtered } = this.state;
+        let participatedList = filtered.length > 0
+            && filtered.map((channel, i) => {
+                return (
+                    <option key={i} value={channel}>{channel}</option>
+                )
+            }, this);
+
+        return (
+            <div className="Home">
+                <h1>Hello {this.state.displayName}</h1>
+                <div className="HomeHeaderButtons">
+                    <button id="HomeLogout"
+                        type="button"
+                        className="HomeLogout"
+                        onClick={() => this.routeTo(ROUTES.LANDING)}
                     >Logout
                     </button>
                     <button id="HomeCreateChannel"
@@ -460,6 +569,8 @@ class Home extends Component {
                     >Create New
                     </button>
                 </div>
+                <hr>
+                </hr>
                 <div class="searchForm">
                     <input
                         placeholder="Search public channels"
@@ -478,14 +589,56 @@ class Home extends Component {
                         {channelList}
                     </select>
                 </div>
-                <button id="HomeJoinChannel"
+                {/* <button id="HomeJoinChannel"
                     type="button"
                     className="HomeJoinChannel"
                     onClick={this.getChannelId}
-                >Join
-                </button>
+
+                >
+
+                    Join
+
+                </button> */}
                 {this.state.alert}
-                <h1> Speak Easy </h1> 
+
+                <h2> Enter passcode to access the channel </h2>
+                <div class="HomePublicChannel">
+                    <form>
+                        <input
+                            type="text"
+                            name="publicPasscodeText"
+                            id="publicPasscodeText"
+                            placeholder="passcode"
+
+                            required/>
+                        <button id="publicpasscodeChannel_btn"
+                                type="button"
+                                onClick={() => {
+                                    this.getChannelId();
+                                }}
+                        >Go
+                        </button>
+                    </form>
+                </div>
+                <div className="HomeOneTimePublicChannel">
+                    <form>
+                        <input
+                            type="text"
+                            name="OneTimePasscodeText"
+                            id="OneTimePasscodeText"
+                            placeholder="one time passcode"
+
+                            required/>
+                        <button id="onetimeChannel_btn"
+                                type="button"
+                                onClick={() => {
+                                    this.getChannelIdforOneTimePasscode()
+                                }}
+                        >Go
+                        </button>
+                    </form>
+                </div>
+                <h1> Speak Easy Channel</h1>
                 <div class="HomePrivateChannel">
                     <form>
                         <input
@@ -504,7 +657,6 @@ class Home extends Component {
                         </button>
                     </form>
                 </div>
-
                 <div className="HomeLists">
                     <div className="CreatedList">
                         <div className="channelsList">
@@ -532,44 +684,9 @@ class Home extends Component {
                             </div>
                         </div>
                     </div>
-
-                {/* <div className="searchFormCreated">
-                    <input
-                        placeholder="Search Created Channels"
-                        value={this.state.query_participate}
-                        onChange={this.handleInputChangeCreated} />
-                </div>
-
-                <div className="HomeLists">
-                    <div className="CreatedList">
-
-
-                        <div>
-                            <div className="channelsList">
-
-                                <List>
-                                    {this.userCreatedChannels()}
-                                </List>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="CreatedList">
-                        <div className="channelsList">
-                            <div className="searchFormCreated">
-                                <input
-                                    placeholder="Search participated Channels"
-                                    value={this.state.query_participate1}
-                                    onChange={this.handleInputChangeParticipated}/>
-                                <List>
-                                    {this.userParticipatedChannels()}
-                                </List>
-                            </div>
-                        </div>
-                    </div> */}
                 </div>
             </div>
-            </div>
-        );
+       );
     }
 }
 
