@@ -127,6 +127,8 @@ class Home extends Component {
 
     };
 
+    //code for alerts
+
     // showAlert() {
     //     const getAlert = () => (
 
