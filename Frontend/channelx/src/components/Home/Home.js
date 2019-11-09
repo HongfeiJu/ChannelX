@@ -15,9 +15,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import './Home.css';
 import * as ROUTES from "../../constants/routes";
-import SweetAlert from "react-bootstrap-sweetalert";
+// import SweetAlert from "react-bootstrap-sweetalert";
 import ChannelIDGetter from "../../services/ChannelIDGetter";
-import {debug} from 'util';
+// import {debug} from 'util';
 import PasscodeChecker from "../../services/PasscodeChecker";
 
 class Home extends Component {
@@ -127,126 +127,12 @@ class Home extends Component {
 
     };
 
-    //code for alerts
-
-    // showAlert() {
-    //     const getAlert = () => (
-
-    //         <SweetAlert
-    //             // success
-    //             title="Public Channel Access!"
-    //             // onConfirm={this.onConfirm}
-    //             onCancel={this.onCancel}
-    //             customButtons={
-    //                 <React.Fragment>
-    //                     <button onClick={() => this.hideAlert()}>Cancel</button>
-    //                     <button onClick={() => this.showOneTimePasscodeAlert()}>One Time Passcode</button>
-    //                     <button onClick={() => this.showPermanentPasscodeAlert() }>Passcode</button>
-    //                 </React.Fragment>
-    //             }
-    //         >
-    //             Join Channel using Passcode or One Time Passcode!
-    //         </SweetAlert>
-
-    //     );
-
-    //     this.setState({
-    //         alert: getAlert()
-    //     });
-    // }
-
-    // showOneTimePasscodeAlert() {
-
-    //     this.hideAlert();
-    //     var resp = null;
-
-    //     const getAlert = () => (
-
-    //         <SweetAlert
-    //             input 
-    //             required
-    //             // inputType="text"
-    //             title="Enter One Time Passcode"
-    //             validationMsg="You must enter your One Time passcode!"
-    //             onConfirm={(response) => this.onReceiveInput(response)}
-    //             // onCancel={() => this.hideAlert()}  
-    //             >
-    //          {/* Join Channel using Passcode or One Time Passcode! */}
-
-    //         </SweetAlert >
-
-    //     );
-
-    //     // resp = this.response;
-    //     // console.log(resp);
-
-    //     // this.state.res.setState(response);
-    //     // console.log(this.response);
-    //     // console.log("sami");
-
-    //     this.setState({
-    //         alert: getAlert(),
-    //         // res: this.response
-    //     });
-
-
-    // }
-
-    // onReceiveInput = (value) => {
-
-    //     console.log(value);
-    //     this.hideAlert();
-
-    // this.setState({
-    // 	alert: (
-    // 		<SweetAlert success title="Nice!" onConfirm={this.hideAlert}>
-    // 			You wrote: {value}
-    // 		</SweetAlert>
-    // 	)
-    // });
-
-    // }
-
-    // showPermanentPasscodeAlert() {
-
-    //     this.hideAlert();
-
-    //     const getAlert = () => (
-
-    //         <SweetAlert
-    //             input
-    //             required
-    //             inputType="password"
-    //             title="Enter Passcode"
-    //             validationMsg="You must enter Passcode!"
-    //             // onConfirm={this.onConfirm}
-    //             onCancel={() => this.hideAlert()}
-    //         >
-    //          {/* Join Channel using Passcode or One Time Passcode! */}
-    //         </SweetAlert >
-
-    //     );
-
-    //     this.setState({
-    //         alert: getAlert()
-    //     });
-
-    // }
-
-    // hideAlert() {
-    //     console.log('Hiding alert...');
-    //     this.setState({
-    //         alert: null
-    //     });
-    // }
 
     handleInputChangeParticipated = event => {
         const query_participate1 = event.target.value;
         let filtered_list1 = this.state.userParticipatedChannels.filter(ele => {
             return ele.toLowerCase().includes(query_participate1.toLowerCase())
         });
-        //console.log("Original List: ", this.state.userCreatedChannels)
-        //console.log("Filtered List: ", filtered_list)
         this.setState({
             filteredParticipated: filtered_list1
         });
@@ -589,7 +475,7 @@ class Home extends Component {
                                         alert('Enter passcode');
                                     }
                                 }}
-                        >Go
+                        >Join
                         </button>
                     </form>
                 </div>
