@@ -70,6 +70,7 @@ class CreateChannel extends Component {
             case 'channelTitle':
                 break;
             case 'channelPassword':
+                formErrors.channelPassword = value.length < 10 ||  value.length >16 ? 'password length should be between 10 and 16 characters' : '';
                 break;
             default:
                 break;
@@ -144,12 +145,16 @@ class CreateChannel extends Component {
                         <div className="channelPassword">
                             <input
                                 type="text"
+                                pattern=".{10,16}"
                                 id="channelPassword"
-                                placeholder="Password"
+                                placeholder="Passcode"
                                 name="channelPassword"
                                 required
                                 onChange={this.handlechannelChange}
                             ></input>
+                            {this.state.errors.channelPassword.length > 0 && (
+                                <span className="errorMessage">{this.state.errors.channelPassword}</span>
+                            )}
                         </div>
                         <div className="datePicker">
                             <DateRangePicker
