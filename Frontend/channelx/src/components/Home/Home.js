@@ -393,13 +393,16 @@ class Home extends Component {
     
 
         let filtered_list = this.state.userCreatedChannels.filter(ele => ele != channelTitle)
-    
+        let filteredData = this.state.filteredData.filter(ele => ele != channelTitle)
+        let data = this.state.data.filter(ele => ele != channelTitle)
 
         console.log("Original List: ", this.state.userCreatedChannels)
         console.log("Filtered List: ", filtered_list)
         this.setState({
             userCreatedChannels: filtered_list,
-            filtered: filtered_list
+            filtered: filtered_list,
+            data: data,
+            filteredData: filteredData
         });
     };
 
