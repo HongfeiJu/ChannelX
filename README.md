@@ -20,6 +20,7 @@ Instructions to run the application
 9. Run ```npm install date-fns@next @date-io/date-fns``` .
 10. Run ```npm install --save react-dates moment``` . 
 11. Run ```npm install react-bootstrap-sweetalert``` . 
+12.  Run ```npm install sweetalert --save``` . 
 12. Run ```npm audit fix``` if there are any warnings or error with your version of npm.
 13. Run ```npm start``` to start the the application. It will open up in the browser at ```http://localhost:3000```.
 14. You will be taken to the landing page where you can select Register button which will take yoy to Signup Page.

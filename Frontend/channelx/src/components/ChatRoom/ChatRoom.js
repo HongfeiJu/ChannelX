@@ -142,7 +142,7 @@ class ChatRoom extends Component {
         var endTime;
         var time;
         var today = new Date(),
-            date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         time = Moment(today).format('HH:mm:ss').toString();
         console.log(date);
         console.log(time);
