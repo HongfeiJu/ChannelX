@@ -19,6 +19,7 @@ import * as ROUTES from "../../constants/routes";
 import ChannelIDGetter from "../../services/ChannelIDGetter";
 // import {debug} from 'util';
 import PasscodeChecker from "../../services/PasscodeChecker";
+import swal from 'sweetalert';
 
 class Home extends Component {
     constructor(props) {
@@ -139,12 +140,29 @@ class Home extends Component {
 
     };
 
+    showAlert() {
+
+        swal("Invalid Passcode!", "Please Enter a correct passcode", "warning");
+    }
+
+    enterPasscodeAlert() {
+
+        swal("Enter Passcode", "Please Enter a passcode to join channel", "warning");
+    }
+
+    selectChannelAlert() {
+
+        swal("Select Channel!", "Please Select a channel to join", "warning");
+    }
+
+
     getChannelId = () => {
         console.log("Join Channel clicked");
         var selectedChannel = document.getElementById("channelDrop").value;
         console.log(selectedChannel);
         if (selectedChannel == "Select Channel") {
-            alert("Please select a channel to join");
+            // alert("Please select a channel to join");
+            this.selectChannelAlert();
         } else {
             var passcode = null;
             db.collection("channels").where("channelTitle", "==", selectedChannel)
@@ -169,7 +187,8 @@ class Home extends Component {
         var selectedChannel = document.getElementById("channelDrop").value;
         console.log(selectedChannel);
         if (selectedChannel == "Select Channel") {
-            alert("Please select a channel to join");
+            // alert("Please select a channel to join");
+            this.selectChannelAlert();
         } else {
             // var passcode = null;
             db.collection("channels").where("channelTitle", "==", selectedChannel)
@@ -338,13 +357,15 @@ class Home extends Component {
         if (privatePasscode !== '') {
             this.channelIDGetter.getChannelID(privatePasscode).then(r => {
                 if (r.val() == null) {
-                    alert('Invalid passcode');
+                    // alert('Invalid passcode');
+                    this.showAlert();
                 } else {
                     this.routeTo("/channel/" + r.val());
                 }
             });
         } else {
-            alert('Enter passcode');
+            // alert('Enter passcode');
+            this.enterPasscodeAlert();
         }
     };
 
@@ -357,10 +378,12 @@ class Home extends Component {
                 this.routeTo("/channel/" + id);
                 this.addJoinedChannel(id);
             } else {
-                alert('Invalid passcode');
+                // alert('Invalid passcode');
+                this.showAlert();
             }
         } else {
-            alert('Enter passcode');
+            // alert('Enter passcode');
+            this.enterPasscodeAlert();
         }
     };
 
@@ -373,7 +396,8 @@ class Home extends Component {
         if (oneTimePasscode !== '') {
             this.checkUser(id, oneTimePasscode)
         } else {
-            alert('Enter passcode');
+            // alert('Enter passcode');
+            this.enterPasscodeAlert();
         }
     };
 
@@ -472,7 +496,8 @@ class Home extends Component {
                                             this.checkPrivatePasscode();
                                         }
                                     } else {
-                                        alert('Enter passcode');
+                                        // alert('Enter passcode');
+                                        this.enterPasscodeAlert();
                                     }
                                 }}
                         >Join

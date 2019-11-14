@@ -95,9 +95,6 @@ class CreateChannel extends Component {
         swal("Invalid Time!", "Please Select an appropriate time!", "warning");
     }
 
-
-
-
     createChannel(e) {
 
         e.preventDefault();
