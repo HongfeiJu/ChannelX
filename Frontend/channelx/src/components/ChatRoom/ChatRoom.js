@@ -2,7 +2,7 @@
 Description: Home page
 Authors: Hongfei Ju, Muhammad Sami, Darshan Prakash
 Date: 11/02/2019
-Last updated: 11/7/2019
+Last updated: 11/14/2019
 */
 
 import React, {Component} from 'react';
@@ -11,7 +11,6 @@ import './ChatRoom.css';
 import ChatMessage from "./ChatMessage/ChatMessage";
 import * as ROUTES from "../../constants/routes";
 import PasscodeGenerator from "../../services/PasscodeGenerator";
-import SweetAlert from "react-bootstrap-sweetalert";
 import {db} from "../../config/Fire";
 import Moment from 'moment';
 import swal from 'sweetalert';
@@ -158,7 +157,7 @@ class ChatRoom extends Component {
                 var s = startTime.split(':');
                 var e = endTime.split(':');
                 var dt2
-                if (parseInt(e[0]) - parseInt(s[0]) <= 0) {
+                if (parseInt(e[0]) - parseInt(s[0]) < 0) {
                     nextDay = true;
                 }
                 var dt1 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), parseInt(s[0]), parseInt(s[1]), parseInt(s[2]));
@@ -174,6 +173,15 @@ class ChatRoom extends Component {
                 } else {
                     this.setState({isChatEnable: false})
                 }
+
+                console.log(nextDay);
+
+                if (this.state.isChatEnable) {
+                this.submitMessage();
+            } else {
+                this.channelNotActiveAlert();
+            }
+
             }).catch(error => {
             console.log(`error is ${error}`);
         });
@@ -231,7 +239,6 @@ class ChatRoom extends Component {
                 // icon: "success",
               });
         }else{
-            // alert(Object.keys(this.state.passcodes));
             swal({
                 title: "Available Passcodes !",
                 text: "Available Passcodes:  "+ Object.keys(this.state.passcodes),
@@ -256,16 +263,17 @@ class ChatRoom extends Component {
     }
 
     handleKeyDown = (e) => {
-        console.log(this.state.isChatEnable);
         if (e.key === 'Enter') {
-            if (this.state.isChatEnable) {
-                this.submitMessage();
-            } else {
-                // this.showAlert();
-                this.channelNotActiveAlert();
-                // eslint-disable-next-line no-unused-expressions
-                this.state.alert;
-            }
+
+           if(this.state.type === 'private') {
+
+            this.submitMessage();
+               
+           } else {
+
+            this.getChannnelDatesandTimes();
+
+           }
         }
     };
 
@@ -305,12 +313,13 @@ class ChatRoom extends Component {
                     <button
                         className="sendButton"
                         onClick={
-                            this.state.type === 'private' ? this.state.isChatEnable = true :
-                                (this.state.isChatEnable ? this.submitMessage : () => (this.channelNotActiveAlert()))
+
+                            () => {this.state.type === 'private' ? this.submitMessage() :
+                            (this.getChannnelDatesandTimes())  }
                         }
                     >send
                     </button>
-                    {this.state.alert}
+
                 </div>
             </div>
         );
