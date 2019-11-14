@@ -217,7 +217,7 @@ class Home extends Component {
                 var s = startTime.split(':');
                 var e = endTime.split(':');
                 var dt2
-                if (parseInt(e[0]) - parseInt(s[0]) <= 0) {
+                if (parseInt(e[0]) - parseInt(s[0]) < 0) {
                     nextDay = true;
                 }
                 var dt1 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), parseInt(s[0]), parseInt(s[1]), parseInt(s[2]));
