@@ -7,6 +7,7 @@ date: 10/29/2019
 import firebase from "firebase";
 import fire from "../config/Fire";
 import { debug } from "util";
+import swal from 'sweetalert';
 
 class PasscodeChecker{
     checkOnetimePasscode(channelID, passcode){
@@ -16,13 +17,16 @@ class PasscodeChecker{
             console.log(passcode);
             console.log(passcodesObjects);
             if(passcodesObjects === null){
-                alert('invalid passcode');
+                // alert('invalid passcode');
+                this.showAlert();
                 return false;
             }
             let passcodes=Object.keys(passcodesObjects);
             console.log("passcodes: "+passcodes);
             if(passcodes==null||!passcodes.includes(passcode)){
-                alert('invalid passcode');
+                // alert('invalid passcode');
+                this.showAlert();
+
                 // console.log("nae mil raha");
                 return false;
                 
@@ -68,6 +72,15 @@ class PasscodeChecker{
     // }
 
 
+    showAlert() {
+
+        swal("Invalid Passcode!", "Please Enter a correct passcode", "warning");
+    }
+
+    usedPasscodeAlert() {
+
+        swal("Passcode Already Used!", "Please use another One Time Passcode", "warning");
+    }
 
 
     checkUser(channelID, passcode){
@@ -86,7 +99,8 @@ class PasscodeChecker{
                     return true;
                 }else{
                     if(visitedUsers ===this.getCurrentUserUid() || visitedUsers.includes(this.getCurrentUserUid())){
-                        alert('passcode is used');
+                        // alert('passcode is used');
+                        this.usedPasscodeAlert();
                         return false;
                     }else{
                         firebase.database().ref('channels/'+ channelID+'/passcodes/' + passcode +'/'+visitedUsers.length)
