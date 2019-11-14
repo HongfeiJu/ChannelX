@@ -107,17 +107,53 @@ class CreateChannel extends Component {
     createChannel(e) {
 
         e.preventDefault();
-        const channelCreator = new ChannelCreator();
-        channelCreator.creatNewChannel(
-            this.state.channelTitle,
-            this.state.channelPassword,
-            channelStartDate,
-            channelEndDate,
-            channelStartTime,
-            channelEndTime,
-            this.state.UUID);
-            this.routeTo(ROUTES.HOME);
-            // this.showAlert();
+
+        
+
+
+        console.log(channelStartTime);
+        console.log(channelEndTime);
+
+        var sameDay = false;
+
+        if(channelStartDate === channelEndDate) {
+
+            sameDay = true;
+        }
+
+        if(channelEndTime > channelStartTime && sameDay) {
+            // alert('channel created');
+
+            const channelCreator = new ChannelCreator();
+            channelCreator.creatNewChannel(
+                this.state.channelTitle,
+                this.state.channelPassword,
+                channelStartDate,
+                channelEndDate,
+                channelStartTime,
+                channelEndTime,
+                this.state.UUID);
+                this.routeTo(ROUTES.HOME);
+                // this.showAlert();
+
+        } else if(!sameDay) {
+
+            const channelCreator = new ChannelCreator();
+            channelCreator.creatNewChannel(
+                this.state.channelTitle,
+                this.state.channelPassword,
+                channelStartDate,
+                channelEndDate,
+                channelStartTime,
+                channelEndTime,
+                this.state.UUID);
+                this.routeTo(ROUTES.HOME);
+                // this.showAlert();
+
+        } else {
+            alert('Invalid Time')
+        }
+        
         }
 
     routeTo = (path) => this.props.history.push(path);

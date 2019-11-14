@@ -12,6 +12,7 @@ import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 import 'date-fns';
 import firebase from "firebase";
+import SweetAlert from "react-bootstrap-sweetalert";
 
 class CreatePrivateChannel extends Component {
 
@@ -67,7 +68,35 @@ class CreatePrivateChannel extends Component {
             this.state.channelTitle,
             this.state.UUID);
         this.routeTo(ROUTES.HOME);
+        // this.showAlert();
     }
+
+    showAlert() {
+        const getAlert = () => (
+            <SweetAlert
+                success
+                title="Channel Created Successfully!"
+                onConfirm={() => this.hideAlert()}
+            >
+            </SweetAlert>
+        );
+
+        this.setState({
+            alert: getAlert()
+        });
+    }
+
+    hideAlert() {
+        console.log('Hiding alert...');
+
+        this.setState({
+            alert: null
+        });
+
+        this.routeTo(ROUTES.HOME);
+    }
+
+
 
     routeTo = (path) => this.props.history.push(path);
 
@@ -103,6 +132,7 @@ class CreatePrivateChannel extends Component {
                                 className="createButton"
                             >Create
                             </button>
+                            {/* {this.state.alert} */}
                         </div>
                         <hr/>
                         <div className="RedirectToOther">
