@@ -1,7 +1,7 @@
 /*
 Description: Create Channel Page
 Authors: Darshan Prakash, Muhammad Sami
-Date: 11/01/2019
+Date: 11/14/2019
 */
 
 import React, {Component} from 'react';
@@ -16,7 +16,6 @@ import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider, KeyboardTimePicker} from '@material-ui/pickers';
-// import SweetAlert from "react-bootstrap-sweetalert";
 import firebase from "firebase";
 import swal from 'sweetalert';
 
@@ -98,10 +97,6 @@ class CreateChannel extends Component {
     createChannel(e) {
 
         e.preventDefault();
-
-        
-
-
         console.log(channelStartTime);
         console.log(channelEndTime);
 
@@ -124,7 +119,6 @@ class CreateChannel extends Component {
                 channelStartTime,
                 channelEndTime,
                 this.state.UUID);
-                // this.routeTo(ROUTES.HOME);
                 this.showAlert();
 
         } else if(!sameDay) {
@@ -138,7 +132,6 @@ class CreateChannel extends Component {
                 channelStartTime,
                 channelEndTime,
                 this.state.UUID);
-                // this.routeTo(ROUTES.HOME);
                 this.showAlert();
 
         } else {

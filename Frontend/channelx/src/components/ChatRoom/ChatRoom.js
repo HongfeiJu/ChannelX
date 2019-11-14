@@ -2,7 +2,7 @@
 Description: Home page
 Authors: Hongfei Ju, Muhammad Sami, Darshan Prakash
 Date: 11/02/2019
-Last updated: 11/7/2019
+Last updated: 11/14/2019
 */
 
 import React, {Component} from 'react';
@@ -11,7 +11,6 @@ import './ChatRoom.css';
 import ChatMessage from "./ChatMessage/ChatMessage";
 import * as ROUTES from "../../constants/routes";
 import PasscodeGenerator from "../../services/PasscodeGenerator";
-// import SweetAlert from "react-bootstrap-sweetalert";
 import {db} from "../../config/Fire";
 import Moment from 'moment';
 import swal from 'sweetalert';
