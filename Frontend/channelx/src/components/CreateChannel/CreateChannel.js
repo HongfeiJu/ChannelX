@@ -16,8 +16,9 @@ import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider, KeyboardTimePicker} from '@material-ui/pickers';
-import SweetAlert from "react-bootstrap-sweetalert";
+// import SweetAlert from "react-bootstrap-sweetalert";
 import firebase from "firebase";
+import swal from 'sweetalert';
 
 
 let channelStartDate = null;
@@ -79,29 +80,22 @@ class CreateChannel extends Component {
     };
 
     showAlert() {
-        const getAlert = () => (
-            <SweetAlert
-                success
-                title="Channel Created Successfully!"
-                onConfirm={() => this.hideAlert()}
-            >
-            </SweetAlert>
-        );
-
-        this.setState({
-            alert: getAlert()
-        });
-    }
-
-    hideAlert() {
-        console.log('Hiding alert...');
-
-        this.setState({
-            alert: null
+        swal({
+            title: "Good job!!",
+            text: "Channel Created Successfully!",
+            icon: "success",
+          }).then(function() {
+            window.location = ROUTES.HOME;
         });
 
-        this.routeTo(ROUTES.HOME);
+        }
+
+    showTimeAlert() {
+
+        swal("Invalid Time!", "Please Select an appropriate time!", "warning");
     }
+
+
 
 
     createChannel(e) {
@@ -133,8 +127,8 @@ class CreateChannel extends Component {
                 channelStartTime,
                 channelEndTime,
                 this.state.UUID);
-                this.routeTo(ROUTES.HOME);
-                // this.showAlert();
+                // this.routeTo(ROUTES.HOME);
+                this.showAlert();
 
         } else if(!sameDay) {
 
@@ -147,11 +141,12 @@ class CreateChannel extends Component {
                 channelStartTime,
                 channelEndTime,
                 this.state.UUID);
-                this.routeTo(ROUTES.HOME);
-                // this.showAlert();
+                // this.routeTo(ROUTES.HOME);
+                this.showAlert();
 
         } else {
-            alert('Invalid Time')
+            this.showTimeAlert();
+
         }
         
         }
@@ -304,3 +299,5 @@ function MaterialUIPickersEndTime() {
         </MuiPickersUtilsProvider>
     );
 }
+
+
