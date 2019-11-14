@@ -12,7 +12,7 @@ import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 import 'date-fns';
 import firebase from "firebase";
-import SweetAlert from "react-bootstrap-sweetalert";
+// import SweetAlert from "react-bootstrap-sweetalert";
 
 class CreatePrivateChannel extends Component {
 
@@ -67,34 +67,34 @@ class CreatePrivateChannel extends Component {
         privateChannelCreator.creatNewPrivateChannel(
             this.state.channelTitle,
             this.state.UUID);
-        this.routeTo(ROUTES.HOME);
+        // this.routeTo(ROUTES.HOME);
         // this.showAlert();
     }
 
-    showAlert() {
-        const getAlert = () => (
-            <SweetAlert
-                success
-                title="Channel Created Successfully!"
-                onConfirm={() => this.hideAlert()}
-            >
-            </SweetAlert>
-        );
+    // showAlert() {
+    //     const getAlert = () => (
+    //         <SweetAlert
+    //             success
+    //             title="Channel Created Successfully!"
+    //             onConfirm={() => this.hideAlert()}
+    //         >
+    //         </SweetAlert>
+    //     );
 
-        this.setState({
-            alert: getAlert()
-        });
-    }
+    //     this.setState({
+    //         alert: getAlert()
+    //     });
+    // }
 
-    hideAlert() {
-        console.log('Hiding alert...');
+    // hideAlert() {
+    //     console.log('Hiding alert...');
 
-        this.setState({
-            alert: null
-        });
+    //     this.setState({
+    //         alert: null
+    //     });
 
-        this.routeTo(ROUTES.HOME);
-    }
+    //     this.routeTo(ROUTES.HOME);
+    // }
 
 
 

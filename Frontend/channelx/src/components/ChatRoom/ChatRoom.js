@@ -14,6 +14,7 @@ import PasscodeGenerator from "../../services/PasscodeGenerator";
 import SweetAlert from "react-bootstrap-sweetalert";
 import {db} from "../../config/Fire";
 import Moment from 'moment';
+import swal from 'sweetalert';
 
 class ChatRoom extends Component {
     constructor(props, context) {
@@ -89,27 +90,57 @@ class ChatRoom extends Component {
         });
     }
 
+    channelNotActiveAlert() {
 
-    showAlert() {
-        const getAlert = () => (
-            <SweetAlert
-                warning
-                title="Channel is not Active Now!"
-                onConfirm={() => this.hideAlert()}
-            >
-            </SweetAlert>
-        );
-        this.setState({
-            alert: getAlert()
-        });
+        swal("Channel is not Active Now! ", "Please come back when channel is active", "warning");
     }
 
-    hideAlert() {
-        console.log('Hiding alert...');
-        this.setState({
-            alert: null
-        });
-    }
+    // showPasscodeAlert() {
+
+    //     swal({
+    //         title: "Available Passcodes !",
+    //         text: "Passcode:  "+ mypasscode,
+    //         icon: "success",
+    //       }).then(function() {
+    //         window.location = ROUTES.HOME;
+    //     });
+    // }
+
+
+    // Object.keys(this.state.passcodes)
+
+    // showAvailablePasscodesAlert() {
+
+    //     swal({
+    //         title: "Available Passcodes!",
+    //         text: "Passcode:  "+ mypasscode,
+    //         icon: "success",
+    //       }).then(function() {
+    //         window.location = ROUTES.HOME;
+    //     });
+    // }
+
+
+    // showAlert() {
+    //     const getAlert = () => (
+    //         <SweetAlert
+    //             warning
+    //             title="Channel is not Active Now!"
+    //             onConfirm={() => this.hideAlert()}
+    //         >
+    //         </SweetAlert>
+    //     );
+    //     this.setState({
+    //         alert: getAlert()
+    //     });
+    // }
+
+    // hideAlert() {
+    //     console.log('Hiding alert...');
+    //     this.setState({
+    //         alert: null
+    //     });
+    // }
 
     submitMessage() {
         console.log("submit " + this.state.message);
@@ -224,7 +255,12 @@ class ChatRoom extends Component {
         firebase.database().ref('channels/' + this.state.id + '/passcodes/' + newPasscode +'/0').set('admin')
             .then(r => {
                 console.log(r);
-                alert(newPasscode + " added");
+                // alert(newPasscode + " added");
+                swal({
+                    title: "New Passcode Generated Successfully !",
+                    text: "New Passcode:  "+ newPasscode,
+                    icon: "success",
+                  });
             }).catch(e => {
             console.log(e)
         });
@@ -233,9 +269,19 @@ class ChatRoom extends Component {
 
     showPasscodes() {
         if(this.state.passcodes==null){
-            alert('empty');
+            // alert('empty');
+            swal({
+                title: "No Passcodes available!",
+                text: "Please generate new passcodes ",
+                // icon: "success",
+              });
         }else{
-            alert(Object.keys(this.state.passcodes));
+            // alert(Object.keys(this.state.passcodes));
+            swal({
+                title: "Available Passcodes !",
+                text: "Available Passcodes:  "+ Object.keys(this.state.passcodes),
+                // icon: "success",
+              });
         }
 
     }
@@ -260,7 +306,8 @@ class ChatRoom extends Component {
             if (this.state.isChatEnable) {
                 this.submitMessage();
             } else {
-                this.showAlert();
+                // this.showAlert();
+                this.channelNotActiveAlert();
                 // eslint-disable-next-line no-unused-expressions
                 this.state.alert;
             }
@@ -304,7 +351,7 @@ class ChatRoom extends Component {
                         className="sendButton"
                         onClick={
                             this.state.type === 'private' ? this.state.isChatEnable = true :
-                                (this.state.isChatEnable ? this.submitMessage : () => (this.showAlert()))
+                                (this.state.isChatEnable ? this.submitMessage : () => (this.channelNotActiveAlert()))
                         }
                     >send
                     </button>
