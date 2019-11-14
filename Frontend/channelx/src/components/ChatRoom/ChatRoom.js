@@ -95,52 +95,7 @@ class ChatRoom extends Component {
         swal("Channel is not Active Now! ", "Please come back when channel is active", "warning");
     }
 
-    // showPasscodeAlert() {
 
-    //     swal({
-    //         title: "Available Passcodes !",
-    //         text: "Passcode:  "+ mypasscode,
-    //         icon: "success",
-    //       }).then(function() {
-    //         window.location = ROUTES.HOME;
-    //     });
-    // }
-
-
-    // Object.keys(this.state.passcodes)
-
-    // showAvailablePasscodesAlert() {
-
-    //     swal({
-    //         title: "Available Passcodes!",
-    //         text: "Passcode:  "+ mypasscode,
-    //         icon: "success",
-    //       }).then(function() {
-    //         window.location = ROUTES.HOME;
-    //     });
-    // }
-
-
-    // showAlert() {
-    //     const getAlert = () => (
-    //         <SweetAlert
-    //             warning
-    //             title="Channel is not Active Now!"
-    //             onConfirm={() => this.hideAlert()}
-    //         >
-    //         </SweetAlert>
-    //     );
-    //     this.setState({
-    //         alert: getAlert()
-    //     });
-    // }
-
-    // hideAlert() {
-    //     console.log('Hiding alert...');
-    //     this.setState({
-    //         alert: null
-    //     });
-    // }
 
     submitMessage() {
         console.log("submit " + this.state.message);

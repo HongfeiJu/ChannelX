@@ -20,6 +20,7 @@ import ChannelIDGetter from "../../services/ChannelIDGetter";
 // import {debug} from 'util';
 import PasscodeChecker from "../../services/PasscodeChecker";
 import swal from 'sweetalert';
+import Moment from 'moment';
 
 class Home extends Component {
     constructor(props) {
@@ -31,6 +32,7 @@ class Home extends Component {
 
     componentDidMount() {
         this.authListener();
+        // this.getChannnelDatesandTimes("100");
     }
 
     authListener() {
@@ -69,6 +71,8 @@ class Home extends Component {
         res: null,
         userParticipatedChannels: [],
         filteredParticipated: [],
+        isChatEnable: null,
+        isPublic: null,
     };
 
     handleSelectChange = event => {
@@ -155,6 +159,11 @@ class Home extends Component {
         swal("Select Channel!", "Please Select a channel to join", "warning");
     }
 
+    channelNotActiveAlert() {
+
+        swal("Channel is not Active Now! ", "Please come back when channel is active", "warning");
+    }
+
 
     getChannelId = () => {
         console.log("Join Channel clicked");
@@ -181,6 +190,68 @@ class Home extends Component {
         }
 
     };
+
+
+    getChannnelDatesandTimes = (chid) => {
+
+        console.log(chid);
+        var startDate;
+        var endDate;
+        var startTime;
+        var endTime;
+        var time;
+        var today = new Date(),
+        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        time = Moment(today).format('HH:mm:ss').toString();
+        console.log(date);
+        console.log(time);
+        db.collection("channels").doc(chid)
+            .get()
+            .then(doc => {
+                startDate = doc.get("channelStartDate");
+                endDate = doc.get("channelEndDate");
+                startTime = doc.get("channelStartTime");
+                endTime = doc.get("channelEndTime");
+                var nextDay = false;
+                var dt = new Date();
+                var s = startTime.split(':');
+                var e = endTime.split(':');
+                var dt2
+                if (parseInt(e[0]) - parseInt(s[0]) <= 0) {
+                    nextDay = true;
+                }
+                var dt1 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), parseInt(s[0]), parseInt(s[1]), parseInt(s[2]));
+                if (nextDay) {
+                    dt2 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate() + 1, parseInt(e[0]), parseInt(e[1]), parseInt(e[2]));
+                } else {
+                    dt2 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), parseInt(e[0]), parseInt(e[1]), parseInt(e[2]));
+                }
+                var validTime = Moment(dt).isBetween(dt1, dt2);
+                var validDate = Moment(date).isSameOrAfter(startDate) && Moment(date).isSameOrBefore(endDate);
+                if (validDate && validTime) {
+                    this.setState({isChatEnable: true})
+                } else {
+                    this.setState({isChatEnable: false})
+                }
+
+                console.log("valid state"+ this.state.isChatEnable);
+
+                if (this.state.isChatEnable) {
+                    this.routeTo("/channel/" + doc.id);
+                    if(this.state.isPublic){
+                    this.addJoinedChannel(doc.id);
+                    }
+                } else {
+                    this.channelNotActiveAlert();
+                    // this.setState({isChatEnable: false});
+                }
+
+                
+            }).catch(error => {
+            console.log(`error is ${error}`);
+        });
+    };
+
 
     getChannelIdforOneTimePasscode = () => {
         console.log("Join Channel clicked");
@@ -276,7 +347,9 @@ class Home extends Component {
                 snapshot
                     .docs
                     .forEach(doc => {
-                        this.routeTo("/channel/" + doc.id)
+
+                        this.getChannnelDatesandTimes(doc.id);
+
                     })
             });
     };
@@ -303,7 +376,16 @@ class Home extends Component {
                 snapshot
                     .docs
                     .forEach(doc => {
-                        this.routeTo("/channel/" + doc.id)
+                        // this.routeTo("/channel/" + doc.id)
+                        this.getChannnelDatesandTimes(doc.id);
+                        // console.log("inside participated"+this.state.isChatEnable);
+
+                        // if (this.state.isChatEnable) {
+                        //     this.routeTo("/channel/" + doc.id);
+                        // } else {
+                        //     this.channelNotActiveAlert();
+                        //     // this.setState({isChatEnable: false});
+                        // }
                     })
             });
     };
@@ -375,8 +457,12 @@ class Home extends Component {
         if (publicPasscode !== '') {
             if (passcode === publicPasscode) {
 
-                this.routeTo("/channel/" + id);
-                this.addJoinedChannel(id);
+                this.setState({isPublic: true})
+                this.getChannnelDatesandTimes(id);
+                // this.routeTo("/channel/" + id);
+                // if(this.state.isChatEnable) {
+                // this.addJoinedChannel(id);
+                // }
             } else {
                 // alert('Invalid passcode');
                 this.showAlert();
@@ -407,7 +493,9 @@ class Home extends Component {
         this.passcodeChecker.checkOnetimePasscode(id, oneTimePasscode.toString()).then(response => {
             // alert('final:' + response); // valid or not valid boolean value in response
             if(response === true){
-                this.routeTo("/channel/" + id);
+                this.setState({isPublic: false});
+                this.getChannnelDatesandTimes(id);
+                // this.routeTo("/channel/" + id);
             }
         });
     }
