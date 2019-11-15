@@ -17,6 +17,7 @@ import TestPage from "./components/TestPage/TestPage";
 import * as ROUTES from './constants/routes';
 import CreateChannel from "./components/CreateChannel/CreateChannel";
 import CreatePrivateChannel from "./components/CreateChannel/CreatePrivateChannel";
+import LandingV2 from "./components/LandingV2/LandingV2";
 
 
 
@@ -58,6 +59,7 @@ class App extends Component {
                         <Route path={ROUTES.TEST_PAGE}  exact component={TestPage}/>
                         <Route path={ROUTES.CREATE_CHANNEL} exact component={CreateChannel}/>
                         <Route path={ROUTES.CREATE_PRIVATE_CHANNEL} exact component={CreatePrivateChannel}/>
+                        <Route path={ROUTES.LANDINGV2} exact component={LandingV2}/>
                     </div>
                 </Router>
                 {/*{this.state.user ?(<Home />):(<Signup />)}*/}
