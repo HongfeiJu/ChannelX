@@ -12,6 +12,9 @@ import {db} from "../../config/Fire";
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Divider from '@material-ui/core/Divider';
 import './Home.css';
 import * as ROUTES from "../../constants/routes";
@@ -31,6 +34,8 @@ class Home extends Component {
 
     componentDidMount() {
         this.authListener();
+
+
     }
 
     authListener() {
@@ -330,14 +335,49 @@ class Home extends Component {
             });
     };
 
+    deleteChannelClicked = (channelTitle) => {
+        db.collection("channels").where("channelTitle", "==", channelTitle)
+            .get()
+            .then(snapshot => {
+                snapshot
+                    .docs
+                    .forEach(doc => {
+                        doc.ref.delete();
+                    })
+            });
+
+    
+
+        let filtered_list = this.state.userCreatedChannels.filter(ele => ele != channelTitle)
+        let filteredData = this.state.filteredData.filter(ele => ele != channelTitle)
+        let data = this.state.data.filter(ele => ele != channelTitle)
+
+        console.log("Original List: ", this.state.userCreatedChannels)
+        console.log("Filtered List: ", filtered_list)
+        this.setState({
+            userCreatedChannels: filtered_list,
+            filtered: filtered_list,
+            data: data,
+            filteredData: filteredData
+        });
+    };
+
+
     userCreatedChannels = () => {
         let data = this.state.filtered
         return data.map((channelTitle) => {
             return (
                 <ListItem button onClick={() => this.channelListItemClick(channelTitle)}>
                     <ListItemText primary={channelTitle}/>
+                    
                     <Divider/>
+                    <ListItemSecondaryAction  button onClick={() => this.deleteChannelClicked(channelTitle)}>
+                    <IconButton edge="end" aria-label="delete">
+                      <DeleteIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
                 </ListItem>
+                
             )
         })
     };
@@ -559,7 +599,7 @@ class Home extends Component {
                                     value={this.state.query_participate}
                                     onChange={this.handleInputChangeCreated}/>
                                 <List>
-                                    {this.userCreatedChannels()}
+                                    {this.userCreatedChannels()} 
                                 </List>
                             </div>
                         </div>
