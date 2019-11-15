@@ -11,6 +11,7 @@ Date: 11/12/2019
     flex-direction: column;
     background-image: url("https://pngimage.net/wp-content/uploads/2018/05/digital-earth-png-6.png");
     background-size:cover;
+    overflow: hidden;
 }
 
 .landing_header {
