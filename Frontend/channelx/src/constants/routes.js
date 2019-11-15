@@ -1,4 +1,5 @@
 export const LANDING = '/';
+export const LANDINGV2 = '/landingv2';
 // export const SIGN_UP = '/signup';
 // export const SIGN_IN = '/login';
 export const HOME = '/home';
