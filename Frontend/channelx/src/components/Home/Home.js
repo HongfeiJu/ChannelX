@@ -2,7 +2,7 @@
 Description: Home page
 Authors: Darshan Prakash, Sami, Manisha, Subhradeep
 Date: 9/24/2019
-Updated: 11/08/2019
+Updated: 11/14/2019
 */
 
 import React, {Component} from 'react';
@@ -31,7 +31,6 @@ class Home extends Component {
 
     componentDidMount() {
         this.authListener();
-        // this.getChannnelDatesandTimes("100");
     }
 
     authListener() {
@@ -75,7 +74,6 @@ class Home extends Component {
     };
 
     handleSelectChange = event => {
-        //event.target.blur()
         const selectedChannel = event.target.value;
         console.log(selectedChannel);
         this.setState(() => {
@@ -205,7 +203,7 @@ class Home extends Component {
                 var s = startTime.split(':');
                 var e = endTime.split(':');
                 var dt2
-                if (parseInt(e[0]) - parseInt(s[0]) <= 0) {
+                if (parseInt(e[0]) - parseInt(s[0]) < 0) {
                     nextDay = true;
                 }
                 var dt1 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), parseInt(s[0]), parseInt(s[1]), parseInt(s[2]));
@@ -231,7 +229,7 @@ class Home extends Component {
                     }
                 } else {
                     this.channelNotActiveAlert();
-                    // this.setState({isChatEnable: false});
+
                 }
             }).catch(error => {
             console.log(`error is ${error}`);
@@ -247,7 +245,6 @@ class Home extends Component {
             // alert("Please select a channel to join");
             this.selectChannelAlert();
         } else {
-            // var passcode = null;
             db.collection("channels").where("channelTitle", "==", selectedChannel)
                 .get()
                 .then(snapshot => {
@@ -429,10 +426,7 @@ class Home extends Component {
 
                 this.setState({isPublic: true})
                 this.getChannnelDatesandTimes(id);
-                // this.routeTo("/channel/" + id);
-                // if(this.state.isChatEnable) {
-                // this.addJoinedChannel(id);
-                // }
+                
             } else {
                 // alert('Invalid passcode');
                 this.showAlert();
