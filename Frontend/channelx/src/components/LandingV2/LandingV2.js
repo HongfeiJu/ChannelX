@@ -6,8 +6,9 @@ Date: 11/12/2019
 
 import React from 'react';
 import './LandingV2.css';
-import SignupForm from "./SignupForm/SignupForm";
-import LoginForm from "./LoginForm/LoginForm";
+// import SignupForm from "./SignupForm/SignupForm";
+// import LoginForm from "./LoginForm/LoginForm";
+// import LoginForm from "./LoginForm";
 
 class LandingV2 extends React.Component {
 
