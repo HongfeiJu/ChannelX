@@ -2,7 +2,7 @@
 Description: Home page
 Authors: Darshan Prakash, Sami, Manisha, Subhradeep
 Date: 9/24/2019
-Updated: 11/08/2019
+Updated: 11/14/2019
 */
 
 import React, {Component} from 'react';
@@ -18,10 +18,11 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Divider from '@material-ui/core/Divider';
 import './Home.css';
 import * as ROUTES from "../../constants/routes";
-import SweetAlert from "react-bootstrap-sweetalert";
 import ChannelIDGetter from "../../services/ChannelIDGetter";
-import {debug} from 'util';
 import PasscodeChecker from "../../services/PasscodeChecker";
+import swal from 'sweetalert';
+import Moment from 'moment';
+import SearchBar from "./SearchBar";
 
 class Home extends Component {
     constructor(props) {
@@ -73,10 +74,11 @@ class Home extends Component {
         res: null,
         userParticipatedChannels: [],
         filteredParticipated: [],
+        isChatEnable: null,
+        isPublic: null,
     };
 
     handleSelectChange = event => {
-        //event.target.blur()
         const selectedChannel = event.target.value;
         console.log(selectedChannel);
         this.setState(() => {
@@ -119,149 +121,50 @@ class Home extends Component {
 
     handleInputChangeCreated = event => {
         const query_participate = event.target.value;
-
         let filtered_list = this.state.userCreatedChannels.filter(ele => {
             return ele.toLowerCase().includes(query_participate.toLowerCase())
-        })
-
+        });
         console.log("Original List: ", this.state.userCreatedChannels)
         console.log("Filtered List: ", filtered_list)
         this.setState({
             filtered: filtered_list
         });
-
     };
 
-    // showAlert() {
-    //     const getAlert = () => (
-
-    //         <SweetAlert
-    //             // success
-    //             title="Public Channel Access!"
-    //             // onConfirm={this.onConfirm}
-    //             onCancel={this.onCancel}
-    //             customButtons={
-    //                 <React.Fragment>
-    //                     <button onClick={() => this.hideAlert()}>Cancel</button>
-    //                     <button onClick={() => this.showOneTimePasscodeAlert()}>One Time Passcode</button>
-    //                     <button onClick={() => this.showPermanentPasscodeAlert() }>Passcode</button>
-    //                 </React.Fragment>
-    //             }
-    //         >
-    //             Join Channel using Passcode or One Time Passcode!
-    //         </SweetAlert>
-
-    //     );
-
-    //     this.setState({
-    //         alert: getAlert()
-    //     });
-    // }
-
-    // showOneTimePasscodeAlert() {
-
-    //     this.hideAlert();
-    //     var resp = null;
-
-    //     const getAlert = () => (
-
-    //         <SweetAlert
-    //             input 
-    //             required
-    //             // inputType="text"
-    //             title="Enter One Time Passcode"
-    //             validationMsg="You must enter your One Time passcode!"
-    //             onConfirm={(response) => this.onReceiveInput(response)}
-    //             // onCancel={() => this.hideAlert()}  
-    //             >
-    //          {/* Join Channel using Passcode or One Time Passcode! */}
-
-    //         </SweetAlert >
-
-    //     );
-
-    //     // resp = this.response;
-    //     // console.log(resp);
-
-    //     // this.state.res.setState(response);
-    //     // console.log(this.response);
-    //     // console.log("sami");
-
-    //     this.setState({
-    //         alert: getAlert(),
-    //         // res: this.response
-    //     });
-
-
-    // }
-
-    // onReceiveInput = (value) => {
-
-    //     console.log(value);
-    //     this.hideAlert();
-
-    // this.setState({
-    // 	alert: (
-    // 		<SweetAlert success title="Nice!" onConfirm={this.hideAlert}>
-    // 			You wrote: {value}
-    // 		</SweetAlert>
-    // 	)
-    // });
-
-    // }
-
-    // showPermanentPasscodeAlert() {
-
-    //     this.hideAlert();
-
-    //     const getAlert = () => (
-
-    //         <SweetAlert
-    //             input
-    //             required
-    //             inputType="password"
-    //             title="Enter Passcode"
-    //             validationMsg="You must enter Passcode!"
-    //             // onConfirm={this.onConfirm}
-    //             onCancel={() => this.hideAlert()}
-    //         >
-    //          {/* Join Channel using Passcode or One Time Passcode! */}
-    //         </SweetAlert >
-
-    //     );
-
-    //     this.setState({
-    //         alert: getAlert()
-    //     });
-
-    // }
-
-    // hideAlert() {
-    //     console.log('Hiding alert...');
-    //     this.setState({
-    //         alert: null
-    //     });
-    // }
 
     handleInputChangeParticipated = event => {
         const query_participate1 = event.target.value;
         let filtered_list1 = this.state.userParticipatedChannels.filter(ele => {
             return ele.toLowerCase().includes(query_participate1.toLowerCase())
         });
-        //console.log("Original List: ", this.state.userCreatedChannels)
-        //console.log("Filtered List: ", filtered_list)
         this.setState({
             filteredParticipated: filtered_list1
         });
-
     };
+
+    showAlert() {
+        swal("Invalid Passcode!", "Please Enter a correct passcode", "warning");
+    }
+
+    enterPasscodeAlert() {
+        swal("Enter Passcode", "Please Enter a passcode to join channel", "warning");
+    }
+
+    selectChannelAlert() {
+        swal("Select Channel!", "Please Select a channel to join", "warning");
+    }
+
+    channelNotActiveAlert() {
+        swal("Channel is not Active Now! ", "Please come back when channel is active", "warning");
+    }
 
     getChannelId = () => {
         console.log("Join Channel clicked");
         var selectedChannel = document.getElementById("channelDrop").value;
         console.log(selectedChannel);
         if (selectedChannel == "Select Channel") {
-            alert("Please select a channel to join");
+            // alert("Please select a channel to join");
+            this.selectChannelAlert();
         } else {
             var passcode = null;
             db.collection("channels").where("channelTitle", "==", selectedChannel)
@@ -276,19 +179,77 @@ class Home extends Component {
                             this.checkPublicPasscode(doc.id, passcode);
                         });
                 });
-
         }
-
     };
+
+
+    getChannnelDatesandTimes = (chid) => {
+
+        console.log(chid);
+        var startDate;
+        var endDate;
+        var startTime;
+        var endTime;
+        var time;
+        var today = new Date(),
+        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        time = Moment(today).format('HH:mm:ss').toString();
+        console.log(date);
+        console.log(time);
+        db.collection("channels").doc(chid)
+            .get()
+            .then(doc => {
+                startDate = doc.get("channelStartDate");
+                endDate = doc.get("channelEndDate");
+                startTime = doc.get("channelStartTime");
+                endTime = doc.get("channelEndTime");
+                var nextDay = false;
+                var dt = new Date();
+                var s = startTime.split(':');
+                var e = endTime.split(':');
+                var dt2
+                if (parseInt(e[0]) - parseInt(s[0]) < 0) {
+                    nextDay = true;
+                }
+                var dt1 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), parseInt(s[0]), parseInt(s[1]), parseInt(s[2]));
+                if (nextDay) {
+                    dt2 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate() + 1, parseInt(e[0]), parseInt(e[1]), parseInt(e[2]));
+                } else {
+                    dt2 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), parseInt(e[0]), parseInt(e[1]), parseInt(e[2]));
+                }
+                var validTime = Moment(dt).isBetween(dt1, dt2);
+                var validDate = Moment(date).isSameOrAfter(startDate) && Moment(date).isSameOrBefore(endDate);
+                if (validDate && validTime) {
+                    this.setState({isChatEnable: true})
+                } else {
+                    this.setState({isChatEnable: false})
+                }
+
+                console.log("valid state"+ this.state.isChatEnable);
+
+                if (this.state.isChatEnable) {
+                    this.routeTo("/channel/" + doc.id);
+                    if(this.state.isPublic){
+                    this.addJoinedChannel(doc.id);
+                    }
+                } else {
+                    this.channelNotActiveAlert();
+
+                }
+            }).catch(error => {
+            console.log(`error is ${error}`);
+        });
+    };
+
 
     getChannelIdforOneTimePasscode = () => {
         console.log("Join Channel clicked");
         var selectedChannel = document.getElementById("channelDrop").value;
         console.log(selectedChannel);
         if (selectedChannel == "Select Channel") {
-            alert("Please select a channel to join");
+            // alert("Please select a channel to join");
+            this.selectChannelAlert();
         } else {
-            // var passcode = null;
             db.collection("channels").where("channelTitle", "==", selectedChannel)
                 .get()
                 .then(snapshot => {
@@ -301,13 +262,9 @@ class Home extends Component {
                             this.checkOneTimePasscode(doc.id);
                         });
                 });
-
         }
-
     };
-
     addJoinedChannel = (id) => {
-
         fire.firestore().collection("channels").doc(id).update(
             {
                 participators: firebase.firestore.FieldValue.arrayUnion(fire.auth().currentUser.uid)
@@ -324,7 +281,6 @@ class Home extends Component {
                 snapshot
                     .docs
                     .forEach(doc => {
-
                         userCreatedChannels.push(doc.get("channelTitle"));
                     });
                 return userCreatedChannels;
@@ -374,7 +330,7 @@ class Home extends Component {
                 snapshot
                     .docs
                     .forEach(doc => {
-                        this.routeTo("/channel/" + doc.id)
+                        this.getChannnelDatesandTimes(doc.id);
                     })
             });
     };
@@ -436,7 +392,7 @@ class Home extends Component {
                 snapshot
                     .docs
                     .forEach(doc => {
-                        this.routeTo("/channel/" + doc.id)
+                        this.getChannnelDatesandTimes(doc.id);
                     })
             });
     };
@@ -490,13 +446,15 @@ class Home extends Component {
         if (privatePasscode !== '') {
             this.channelIDGetter.getChannelID(privatePasscode).then(r => {
                 if (r.val() == null) {
-                    alert('Invalid passcode');
+                    // alert('Invalid passcode');
+                    this.showAlert();
                 } else {
                     this.routeTo("/channel/" + r.val());
                 }
             });
         } else {
-            alert('Enter passcode');
+            // alert('Enter passcode');
+            this.enterPasscodeAlert();
         }
     };
 
@@ -506,13 +464,16 @@ class Home extends Component {
         if (publicPasscode !== '') {
             if (passcode === publicPasscode) {
 
-                this.routeTo("/channel/" + id);
-                this.addJoinedChannel(id);
+                this.setState({isPublic: true})
+                this.getChannnelDatesandTimes(id);
+                
             } else {
-                alert('Invalid passcode');
+                // alert('Invalid passcode');
+                this.showAlert();
             }
         } else {
-            alert('Enter passcode');
+            // alert('Enter passcode');
+            this.enterPasscodeAlert();
         }
     };
 
@@ -525,7 +486,8 @@ class Home extends Component {
         if (oneTimePasscode !== '') {
             this.checkUser(id, oneTimePasscode)
         } else {
-            alert('Enter passcode');
+            // alert('Enter passcode');
+            this.enterPasscodeAlert();
         }
     };
 
@@ -535,7 +497,9 @@ class Home extends Component {
         this.passcodeChecker.checkOnetimePasscode(id, oneTimePasscode.toString()).then(response => {
             // alert('final:' + response); // valid or not valid boolean value in response
             if(response === true){
-                this.routeTo("/channel/" + id);
+                this.setState({isPublic: false});
+                this.getChannnelDatesandTimes(id);
+                // this.routeTo("/channel/" + id);
             }
         });
     }
@@ -594,15 +558,9 @@ class Home extends Component {
                         {channelList}
                     </select>
                 </div>
-                {/* <button id="HomeJoinChannel"
-                    type="button"
-                    className="HomeJoinChannel"
-                    onClick={this.getChannelId}
-                >
-                    Join
-                </button> */}
-                <hr>
-                </hr>
+                <div className="SearchBarComponent">
+                    <SearchBar/>
+                </div>
                 <div className="HomePrivateChannel">
                     <form>
                         <input
@@ -624,10 +582,11 @@ class Home extends Component {
                                             this.checkPrivatePasscode();
                                         }
                                     } else {
-                                        alert('Enter passcode');
+                                        // alert('Enter passcode');
+                                        this.enterPasscodeAlert();
                                     }
                                 }}
-                        >Go
+                        >Join
                         </button>
                     </form>
                 </div>
@@ -645,7 +604,7 @@ class Home extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="CreatedList">
+                    <div className="ParticipatedList">
                         <div className="channelsList">
                             <div className="searchFormCreated">
                                 <input

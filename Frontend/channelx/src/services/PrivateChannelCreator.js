@@ -9,7 +9,11 @@ import ChannelIDCreator from "./ChannelIDCreator";
 import MessagingChannelCreator from "./MessagingChannelCreator";
 import PrivatePasscodeGenerator from "../services/PrivatePasscodeGenertor";
 import fire from "../config/Fire";
+import swal from 'sweetalert';
+import * as ROUTES from "../constants/routes";
 
+
+var mypasscode = null;
 class PrivateChannelCreator {
 
     creatNewPrivateChannel(title,creator){
@@ -27,10 +31,24 @@ class PrivateChannelCreator {
                     privateChannelsCreated: firebase.firestore.FieldValue.arrayUnion(messagingChannelID)
                 }
             );
-            alert('Private channel '+ title + ' created with passcode ' + privatePasscode);
+            // alert('Private channel '+ title + ' created with passcode ' + privatePasscode);
+            
+            mypasscode = privatePasscode;
+            this.showAlert();
         });
         const type = 'private';
         messagingChannelCreator.createChannel(messagingChannelID, title, creator,type);
+    }
+
+    showAlert() {
+
+        swal({
+            title: "Private Channel Created Successfully!",
+            text: "Passcode:  "+ mypasscode,
+            icon: "success",
+          }).then(function() {
+            window.location = ROUTES.HOME;
+        });
     }
 }
 

@@ -14,7 +14,7 @@ Instructions to run the application
 3. Clone the repository and run ```npm install``` to install node modules in Frontend/channelx/ which is the project root directory.
 4. Run ```npm install --save firebase``` to save firebase modules.
 5. Run ```npm install --save @material-ui/core``` to save modal modules.
-6. Run ```npm install @material-ui/icons``` to save delete/edit icons. modules
+6. Run ```npm install @material-ui/icons``` to save delete/edit icons.
 7. Run ```npm install --save react-dates moment@>=#.## react@>=#.## react-dom@>=#.##```.
 8. Run ```npm install @material-ui/pickers``` .
 9. Run ```npm install @date-io/date-fns``` .

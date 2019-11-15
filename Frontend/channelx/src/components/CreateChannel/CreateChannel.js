@@ -1,7 +1,7 @@
 /*
 Description: Create Channel Page
 Authors: Darshan Prakash, Muhammad Sami
-Date: 11/01/2019
+Date: 11/14/2019
 */
 
 import React, {Component} from 'react';
@@ -16,8 +16,8 @@ import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider, KeyboardTimePicker} from '@material-ui/pickers';
-import SweetAlert from "react-bootstrap-sweetalert";
 import firebase from "firebase";
+import swal from 'sweetalert';
 
 
 let channelStartDate = null;
@@ -79,45 +79,66 @@ class CreateChannel extends Component {
     };
 
     showAlert() {
-        const getAlert = () => (
-            <SweetAlert
-                success
-                title="Channel Created Successfully!"
-                onConfirm={() => this.hideAlert()}
-            >
-            </SweetAlert>
-        );
-
-        this.setState({
-            alert: getAlert()
-        });
-    }
-
-    hideAlert() {
-        console.log('Hiding alert...');
-
-        this.setState({
-            alert: null
+        swal({
+            title: "Good job!!",
+            text: "Channel Created Successfully!",
+            icon: "success",
+          }).then(function() {
+            window.location = ROUTES.HOME;
         });
 
-        this.routeTo(ROUTES.HOME);
-    }
+        }
 
+    showTimeAlert() {
+
+        swal("Invalid Time!", "Please Select an appropriate time!", "warning");
+    }
 
     createChannel(e) {
 
         e.preventDefault();
-        const channelCreator = new ChannelCreator();
-        channelCreator.creatNewChannel(
-            this.state.channelTitle,
-            this.state.channelPassword,
-            channelStartDate,
-            channelEndDate,
-            channelStartTime,
-            channelEndTime,
-            this.state.UUID);
-            this.routeTo(ROUTES.HOME);
-            // this.showAlert();
+        console.log(channelStartTime);
+        console.log(channelEndTime);
+
+        var sameDay = false;
+
+        if(channelStartDate === channelEndDate) {
+
+            sameDay = true;
+        }
+
+        if(channelEndTime > channelStartTime && sameDay) {
+            // alert('channel created');
+
+            const channelCreator = new ChannelCreator();
+            channelCreator.creatNewChannel(
+                this.state.channelTitle,
+                this.state.channelPassword,
+                channelStartDate,
+                channelEndDate,
+                channelStartTime,
+                channelEndTime,
+                this.state.UUID);
+                this.showAlert();
+
+        } else if(!sameDay) {
+
+            const channelCreator = new ChannelCreator();
+            channelCreator.creatNewChannel(
+                this.state.channelTitle,
+                this.state.channelPassword,
+                channelStartDate,
+                channelEndDate,
+                channelStartTime,
+                channelEndTime,
+                this.state.UUID);
+                this.showAlert();
+
+        } else {
+            this.showTimeAlert();
+
+        }
+        
         }
 
     routeTo = (path) => this.props.history.push(path);
@@ -169,6 +190,7 @@ class CreateChannel extends Component {
                                 focusedInput={this.state.focusedInput}
                                 onFocusChange={focusedInput => this.setState({focusedInput})}
                                 required
+                                minimumNights={0}
                             />
                         </div>
                         <div className="channelStartTime">
@@ -267,3 +289,5 @@ function MaterialUIPickersEndTime() {
         </MuiPickersUtilsProvider>
     );
 }
+
+

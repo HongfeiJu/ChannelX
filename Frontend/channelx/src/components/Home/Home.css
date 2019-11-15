@@ -5,7 +5,7 @@
     display: flex;
     flex-direction: column;
     margin: auto;
-    background: #7678ED;
+    background: #ffffff;
     align-items: center;
     padding: 1rem;
     font-size: 1rem;
@@ -34,7 +34,6 @@
     border-radius: 5px;
 }
 
-
 .HomeCreateChannel {
     float: right;
     background-color: darkseagreen;
@@ -50,21 +49,12 @@
     border-radius: 5px;
 }
 
-
-.HomeJoinChannel {
-    background-color: goldenrod;
-    color: #000000;
-    border: 2px solid #fff;
-    width: 13%;
-    margin-top: 1em;
-    padding: 8px 0px;
-    font-size: 1em;
-    letter-spacing: 1px;
-    margin-bottom: 0.25em;
-    border-radius: 5px;
+.SearchBarComponent {
+    height: 7%;
+    width: 30%;
+    margin-top: 2%;
+    margin-bottom: 2%;
 }
-
-
 
 .searchForm {
     width: 20%;
@@ -90,7 +80,8 @@
     width: 28%;
     height: 40vh;
     margin-top: 10px;
-    margin: auto;
+    margin-right: 35%;
+    margin-left: auto;
     color: #b3d7ff;
     background-color: darkslateblue;
     border: 1px solid darkslateblue;
@@ -98,14 +89,32 @@
     overflow-y: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
-
-    
 }
 
 .CreatedList::-webkit-scrollbar {
     width: 0;
     height: 0;
 }
+
+.ParticipatedList {
+    width: 28%;
+    height: 40vh;
+    margin-top: 10px;
+    margin-right: auto;
+    color: #b3d7ff;
+    background-color: darkslateblue;
+    border: 1px solid darkslateblue;
+    padding: 5px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.ParticipatedList::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
 .channelsList {
     width: 20%;
     color: #b3d7ff;
