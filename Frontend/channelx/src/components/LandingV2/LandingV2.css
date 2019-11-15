@@ -1,0 +1,93 @@
+/*
+Description: styling code for landing page
+Authors: Hongfei Ju
+Date: 11/12/2019
+*/
+
+.landing_wrapper {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-image: url("https://pngimage.net/wp-content/uploads/2018/05/digital-earth-png-6.png");
+    background-size:cover;
+    overflow: hidden;
+}
+
+.landing_header {
+    height: 10%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.landing_header_title {
+    width: 50%;
+    margin-left: 1%;
+}
+
+.landing_header_title > img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+    margin-top: 18%;
+}
+
+.landing_header_links {
+    width: 50%;
+    flex-direction: column;
+    justify-content: right;
+}
+
+.landing_header_links > a {
+    width: 20%;
+    color: white;
+    margin-right: 2%;
+    margin-top:2%;
+    float: right;
+}
+
+.landing_body {
+    height: 89%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.landing_left {
+    width: 50%;
+}
+
+.landing_left_description{
+    height: 80%;
+    width: 80%;
+    margin-top: 28%;
+    margin-left: 15%;
+    color: white;
+    font-size: 1.2em;
+    text-align: justify;
+}
+
+.landing_right {
+    width: 50%;
+}
+
+.landing_right_form {
+    margin-top: 10%;
+}
+
+.landing_right_form_btn{
+    width: 30%;
+    height: 50%;
+    background-color: white;
+    border-bottom: 0px solid white;
+    border-right: 1px solid grey;
+    border-left: 1px solid grey;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
