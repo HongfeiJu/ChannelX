@@ -11,7 +11,6 @@ import './ChatRoom.css';
 import ChatMessage from "./ChatMessage/ChatMessage";
 import * as ROUTES from "../../constants/routes";
 import PasscodeGenerator from "../../services/PasscodeGenerator";
-import SweetAlert from "react-bootstrap-sweetalert";
 import {db} from "../../config/Fire";
 import Moment from 'moment';
 import swal from 'sweetalert';

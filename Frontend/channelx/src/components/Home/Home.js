@@ -15,12 +15,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import './Home.css';
 import * as ROUTES from "../../constants/routes";
-// import SweetAlert from "react-bootstrap-sweetalert";
 import ChannelIDGetter from "../../services/ChannelIDGetter";
-// import {debug} from 'util';
 import PasscodeChecker from "../../services/PasscodeChecker";
 import swal from 'sweetalert';
 import Moment from 'moment';
+import SearchBar from "./SearchBar";
 
 class Home extends Component {
     constructor(props) {
@@ -119,17 +118,14 @@ class Home extends Component {
 
     handleInputChangeCreated = event => {
         const query_participate = event.target.value;
-
         let filtered_list = this.state.userCreatedChannels.filter(ele => {
             return ele.toLowerCase().includes(query_participate.toLowerCase())
-        })
-
+        });
         console.log("Original List: ", this.state.userCreatedChannels)
         console.log("Filtered List: ", filtered_list)
         this.setState({
             filtered: filtered_list
         });
-
     };
 
 
@@ -141,29 +137,23 @@ class Home extends Component {
         this.setState({
             filteredParticipated: filtered_list1
         });
-
     };
 
     showAlert() {
-
         swal("Invalid Passcode!", "Please Enter a correct passcode", "warning");
     }
 
     enterPasscodeAlert() {
-
         swal("Enter Passcode", "Please Enter a passcode to join channel", "warning");
     }
 
     selectChannelAlert() {
-
         swal("Select Channel!", "Please Select a channel to join", "warning");
     }
 
     channelNotActiveAlert() {
-
         swal("Channel is not Active Now! ", "Please come back when channel is active", "warning");
     }
-
 
     getChannelId = () => {
         console.log("Join Channel clicked");
@@ -186,9 +176,7 @@ class Home extends Component {
                             this.checkPublicPasscode(doc.id, passcode);
                         });
                 });
-
         }
-
     };
 
 
@@ -245,8 +233,6 @@ class Home extends Component {
                     this.channelNotActiveAlert();
                     // this.setState({isChatEnable: false});
                 }
-
-                
             }).catch(error => {
             console.log(`error is ${error}`);
         });
@@ -274,13 +260,9 @@ class Home extends Component {
                             this.checkOneTimePasscode(doc.id);
                         });
                 });
-
         }
-
     };
-
     addJoinedChannel = (id) => {
-
         fire.firestore().collection("channels").doc(id).update(
             {
                 participators: firebase.firestore.FieldValue.arrayUnion(fire.auth().currentUser.uid)
@@ -297,7 +279,6 @@ class Home extends Component {
                 snapshot
                     .docs
                     .forEach(doc => {
-
                         userCreatedChannels.push(doc.get("channelTitle"));
                     });
                 return userCreatedChannels;
@@ -347,9 +328,7 @@ class Home extends Component {
                 snapshot
                     .docs
                     .forEach(doc => {
-
                         this.getChannnelDatesandTimes(doc.id);
-
                     })
             });
     };
@@ -376,16 +355,7 @@ class Home extends Component {
                 snapshot
                     .docs
                     .forEach(doc => {
-                        // this.routeTo("/channel/" + doc.id)
                         this.getChannnelDatesandTimes(doc.id);
-                        // console.log("inside participated"+this.state.isChatEnable);
-
-                        // if (this.state.isChatEnable) {
-                        //     this.routeTo("/channel/" + doc.id);
-                        // } else {
-                        //     this.channelNotActiveAlert();
-                        //     // this.setState({isChatEnable: false});
-                        // }
                     })
             });
     };
@@ -554,15 +524,9 @@ class Home extends Component {
                         {channelList}
                     </select>
                 </div>
-                {/* <button id="HomeJoinChannel"
-                    type="button"
-                    className="HomeJoinChannel"
-                    onClick={this.getChannelId}
-                >
-                    Join
-                </button> */}
-                <hr>
-                </hr>
+                <div className="SearchBarComponent">
+                    <SearchBar/>
+                </div>
                 <div className="HomePrivateChannel">
                     <form>
                         <input
@@ -606,7 +570,7 @@ class Home extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="CreatedList">
+                    <div className="ParticipatedList">
                         <div className="channelsList">
                             <div className="searchFormCreated">
                                 <input
