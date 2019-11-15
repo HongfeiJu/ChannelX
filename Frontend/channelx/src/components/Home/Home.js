@@ -158,6 +158,8 @@ class Home extends Component {
         swal("Channel is not Active Now! ", "Please come back when channel is active", "warning");
     }
 
+   
+
     getChannelId = () => {
         console.log("Join Channel clicked");
         var selectedChannel = document.getElementById("channelDrop").value;
@@ -336,17 +338,69 @@ class Home extends Component {
     };
 
     deleteChannelClicked = (channelTitle) => {
-        db.collection("channels").where("channelTitle", "==", channelTitle)
-            .get()
-            .then(snapshot => {
-                snapshot
-                    .docs
-                    .forEach(doc => {
-                        doc.ref.delete();
-                    })
-            });
 
-    
+        const channelTitleLocal = channelTitle;
+
+        swal("Confirmation", "A wild Pikachu appeared! What do you want to do?", "warning", {
+            buttons: {
+                cancel: "Run away!",
+                catch: {
+                    text: "Confirm",
+                    value: "catch",
+                },
+                defeat: true,
+            }
+        }).then(function(inputValue) {
+           //if (inputValue) {
+              // the user didn't hit cancel
+           //}
+           if (inputValue){
+            
+                db.collection("channels").where("channelTitle", "==", channelTitleLocal)
+                .get()
+                .then(snapshot => {
+                    snapshot
+                        .docs
+                        .forEach(doc => {
+                            doc.ref.delete();
+                        })
+                });
+
+                console.log("Channel: ", channelTitleLocal)
+                console.log("Original List: ", this.state.userCreatedChannels)
+
+                let filtered_list = this.state.userCreatedChannels.filter(ele => ele != channelTitleLocal)
+                let filteredData = this.state.filteredData.filter(ele => ele != channelTitleLocal)
+                let data = this.state.data.filter(ele => ele != channelTitleLocal)
+
+                console.log("Original List: ", this.state.userCreatedChannels)
+                console.log("Filtered List: ", filtered_list)
+                this.setState({
+                    userCreatedChannels: filtered_list,
+                    filtered: filtered_list,
+                    data: data,
+                    filteredData: filteredData
+                });
+            
+                //swal("Deleted!", "The channel has been deleted", "success");
+       
+           } 
+        });
+
+    };
+
+    /*deleteChannelClicked = (channelTitle) => {
+
+        db.collection("channels").where("channelTitle", "==", channelTitle)
+        .get()
+        .then(snapshot => {
+            snapshot
+                .docs
+                .forEach(doc => {
+                    doc.ref.delete();
+                })
+        });
+
 
         let filtered_list = this.state.userCreatedChannels.filter(ele => ele != channelTitle)
         let filteredData = this.state.filteredData.filter(ele => ele != channelTitle)
@@ -360,7 +414,7 @@ class Home extends Component {
             data: data,
             filteredData: filteredData
         });
-    };
+    }*/
 
 
     userCreatedChannels = () => {
