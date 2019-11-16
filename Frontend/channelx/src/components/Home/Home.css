@@ -1,16 +1,18 @@
 .Home {
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     font: 16px 'Roboto', Helvetica, sans-serif;
     display: flex;
     flex-direction: column;
     margin: auto;
-    background: #ffffff;
     align-items: center;
     padding: 1rem;
     font-size: 1rem;
     min-height: 80vh;
     border-bottom: .5px solid black;
+    background: url("Abstract-Envelope.svg");
+    background-size: cover;
+    background-position: center;
 }
 
 .HomeHeaderButtons {
@@ -83,13 +85,14 @@
     margin-top: 10px;
     margin-right: 35%;
     margin-left: auto;
-    color: #b3d7ff;
-    background-color: darkslateblue;
-    border: 1px solid darkslateblue;
+    color: #000000;
+    background-color: white;
     padding: 5px;
     overflow-y: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    border-radius: 10px;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, .1), 0 2px 4px 1px rgba(0, 0, 0, .18);
 }
 
 .CreatedList::-webkit-scrollbar {
@@ -102,13 +105,14 @@
     height: 40vh;
     margin-top: 10px;
     margin-right: auto;
-    color: #b3d7ff;
-    background-color: darkslateblue;
-    border: 1px solid darkslateblue;
+    color: #000000;
+    background-color: white;
     padding: 5px;
     overflow-y: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    border-radius: 10px;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, .1), 0 2px 4px 1px rgba(0, 0, 0, .18);
 }
 
 .ParticipatedList::-webkit-scrollbar {
@@ -118,11 +122,8 @@
 
 .channelsList {
     width: 20%;
-    color: #b3d7ff;
-    background-color: darkslateblue;
     margin-left: 0px;
     margin-top: 10px;
-    border: 1px solid darkslateblue;
     padding: 5px;
 }
 

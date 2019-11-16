@@ -44,7 +44,7 @@ export  default class SearchBar extends React.Component {
             return null;
         } else {
             return (
-                <ul>
+                <ul aria-setsize = "3">
                     {suggestions.map((item) => <li onClick={()=>this.suggestionSelected(item)}>{item}</li>)}
                 </ul>
             )
