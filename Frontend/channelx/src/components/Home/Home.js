@@ -23,6 +23,7 @@ import PasscodeChecker from "../../services/PasscodeChecker";
 import swal from 'sweetalert';
 import Moment from 'moment';
 import SearchBar from "./SearchBar";
+import MessagingChannelDeleter from "../../services/MessagingChannelDeleter";
 
 class Home extends Component {
     constructor(props) {
@@ -76,6 +77,7 @@ class Home extends Component {
         filteredParticipated: [],
         isChatEnable: null,
         isPublic: null,
+        deleteConfirm : false,
     };
 
     handleSelectChange = event => {
@@ -157,6 +159,31 @@ class Home extends Component {
     channelNotActiveAlert() {
         swal("Channel is not Active Now! ", "Please come back when channel is active", "warning");
     }
+
+    deleteChannelAlert(channelTitle) {
+
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this channel !",
+            icon: "warning",
+            buttons: ["Cancel", "Yes Delete it!"],
+
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+
+              swal("Poof! Your channel has been deleted!", {
+                icon: "success",
+              });
+
+              this.deleteChannelClicked(channelTitle);
+            } 
+
+          });
+    }
+
+   
 
     getChannelId = () => {
         console.log("Join Channel clicked");
@@ -298,30 +325,31 @@ class Home extends Component {
 
     getData = () => {
         db.collection("channels")
-            .get()
-            .then(snapshot => {
-                const data = [];
-                let i = 0;
-                snapshot
-                    .docs
-                    .forEach(doc => {
-                        if (i == 0) {
-                            data.push("Select Channel");
-                        }
-                        i = i + 1;
-                        data.push(doc.get("channelTitle"));
-                    });
-                return data;
-            })
-            .then(data => {
-                const {query} = this.state;
-                const filteredData = data.slice(0, 1);
-                this.setState({
-                    data,
-                    filteredData,
+        .get()
+        .then(snapshot => {
+            const data = [];
+            let i = 0;
+            snapshot
+                .docs
+                .forEach(doc => {
+                    if (i == 0) {
+                        data.push("Select Channel");
+                    }
+                    i = i + 1;
+                    data.push(doc.get("channelTitle"));
                 });
+            return data;
+        })
+        .then(data => {
+            const {query} = this.state;
+            const filteredData = data.slice(0, 1);
+            this.setState({
+                data,
+                filteredData,
             });
+        });
     };
+
 
     channelListItemClick = (channelTitle) => {
         db.collection("channels").where("channelTitle", "==", channelTitle)
@@ -335,14 +363,22 @@ class Home extends Component {
             });
     };
 
+
+
     deleteChannelClicked = (channelTitle) => {
+
+        const messagingChannelDeleter = new MessagingChannelDeleter();
+        
         db.collection("channels").where("channelTitle", "==", channelTitle)
             .get()
             .then(snapshot => {
                 snapshot
                     .docs
                     .forEach(doc => {
+                        
                         doc.ref.delete();
+                        messagingChannelDeleter.deleteChannel(doc.id);
+                        // MessagingChannelDeleter.deletech
                     })
             });
 
@@ -363,6 +399,7 @@ class Home extends Component {
     };
 
 
+
     userCreatedChannels = () => {
         let data = this.state.filtered
         return data.map((channelTitle) => {
@@ -371,7 +408,7 @@ class Home extends Component {
                     <ListItemText primary={channelTitle}/>
                     
                     <Divider/>
-                    <ListItemSecondaryAction  button onClick={() => this.deleteChannelClicked(channelTitle)}>
+                    <ListItemSecondaryAction  button onClick={() => this.deleteChannelAlert(channelTitle)}>
                     <IconButton edge="end" aria-label="delete">
                       <DeleteIcon />
                     </IconButton>
