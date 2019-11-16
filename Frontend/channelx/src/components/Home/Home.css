@@ -63,7 +63,10 @@
     display: flex;
     flex-direction: column;
 }
-
+.HomePrivateChannel{
+    box-sizing: border-box;
+    margin-top: -5px;
+}
 .searchFormCreated{
     width: 480%;
     margin-left: 50%;
