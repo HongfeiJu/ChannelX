@@ -23,6 +23,7 @@ import PasscodeChecker from "../../services/PasscodeChecker";
 import swal from 'sweetalert';
 import Moment from 'moment';
 import SearchBar from "./SearchBar";
+// import MessagingChannelDeleter from "../../services/MessagingChannelDeleter";
 
 class Home extends Component {
     constructor(props) {
@@ -34,8 +35,6 @@ class Home extends Component {
 
     componentDidMount() {
         this.authListener();
-
-
     }
 
     authListener() {
@@ -157,6 +156,7 @@ class Home extends Component {
     channelNotActiveAlert() {
         swal("Channel is not Active Now! ", "Please come back when channel is active", "warning");
     }
+   
 
     getChannelId = () => {
         console.log("Join Channel clicked");
@@ -335,14 +335,18 @@ class Home extends Component {
             });
     };
 
+   
     deleteChannelClicked = (channelTitle) => {
+        
         db.collection("channels").where("channelTitle", "==", channelTitle)
             .get()
             .then(snapshot => {
                 snapshot
                     .docs
                     .forEach(doc => {
+                        
                         doc.ref.delete();
+
                     })
             });
 
@@ -372,6 +376,9 @@ class Home extends Component {
                     
                     <Divider/>
                     <ListItemSecondaryAction  button onClick={() => this.deleteChannelClicked(channelTitle)}>
+                   
+
+                    
                     <IconButton edge="end" aria-label="delete">
                       <DeleteIcon />
                     </IconButton>
