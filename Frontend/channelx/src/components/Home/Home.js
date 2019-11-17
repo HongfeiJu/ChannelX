@@ -212,6 +212,7 @@ class Home extends Component {
     getChannnelDatesandTimes = (chid) => {
 
         console.log(chid);
+        var channelCreator;
         var startDate;
         var endDate;
         var startTime;
@@ -225,6 +226,7 @@ class Home extends Component {
         db.collection("channels").doc(chid)
             .get()
             .then(doc => {
+                channelCreator = doc.get("channelCreator");
                 startDate = doc.get("channelStartDate");
                 endDate = doc.get("channelEndDate");
                 startTime = doc.get("channelStartTime");
@@ -255,8 +257,8 @@ class Home extends Component {
 
                 if (this.state.isChatEnable) {
                     this.routeTo("/channel/" + doc.id);
-                    if(this.state.isPublic){
-                    this.addJoinedChannel(doc.id);
+                    if(this.state.isPublic && (channelCreator != fire.auth().currentUser.uid)){
+                        this.addJoinedChannel(doc.id);
                     }
                 } else {
                     this.channelNotActiveAlert();
