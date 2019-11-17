@@ -6,9 +6,8 @@ Date: 11/12/2019
 
 import React from 'react';
 import './LandingV2.css';
-// import SignupForm from "./SignupForm/SignupForm";
-// import LoginForm from "./LoginForm/LoginForm";
-// import LoginForm from "./LoginForm";
+import SignupForm from "./SignupForm/SignupForm";
+//import LoginForm from "./LoginForm/LoginForm";
 
 class LandingV2 extends React.Component {
 
@@ -49,8 +48,8 @@ class LandingV2 extends React.Component {
             return <h1 style={{color:'white'}}>login form</h1>
             //return <LoginForm/>;
         }else{
-            return <h1 style={{color:'white'}}>signup form</h1>
-            //return <SignupForm/>;
+            //return <h1 style={{color:'white'}}>signup form</h1>
+            return <SignupForm/>;
         }
     }
 
