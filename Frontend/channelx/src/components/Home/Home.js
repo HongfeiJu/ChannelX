@@ -34,9 +34,8 @@ class Home extends Component {
     }
 
     componentDidMount() {
+        this.deleteExpiredChannels();
         this.authListener();
-
-
     }
 
     authListener() {
@@ -363,7 +362,31 @@ class Home extends Component {
             });
     };
 
+    deleteExpiredChannels = () => {
+        const messagingChannelDeleter = new MessagingChannelDeleter();
+        
+        console.log("Inside DeleteExpiredChannel");
 
+        var time;
+        var today = new Date(),
+        date = (today.getMonth()+1)+'/'+today.getDate()+'/'+today.getFullYear();
+        time = Moment(today).format('HH:mm:ss').toString();
+
+        console.log(date);
+        db.collection("channels").where("channelEndDate", "<", date)
+            .get()
+            .then(snapshot => {
+                snapshot
+                    .docs
+                    .forEach(doc => {
+                        //console.log("Expired Channel id: " + doc.id);
+                        doc.ref.delete();
+                        messagingChannelDeleter.deleteChannel(doc.id);
+                        
+                    })
+            });
+
+    }
 
     deleteChannelClicked = (channelTitle) => {
 
