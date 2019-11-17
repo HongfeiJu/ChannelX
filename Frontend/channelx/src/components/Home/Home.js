@@ -34,8 +34,9 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        this.deleteExpiredChannels();
         this.authListener();
+        this.deleteExpiredChannels();
+        this.getChannelsforSearch();
     }
 
     authListener() {
@@ -77,6 +78,7 @@ class Home extends Component {
         isChatEnable: null,
         isPublic: null,
         deleteConfirm : false,
+        channelsForSearch : []
     };
 
     handleSelectChange = event => {
@@ -186,9 +188,9 @@ class Home extends Component {
 
     getChannelId = () => {
         console.log("Join Channel clicked");
-        var selectedChannel = document.getElementById("channelDrop").value;
+        var selectedChannel = document.getElementById("SearchChannelText").value;
         console.log(selectedChannel);
-        if (selectedChannel == "Select Channel") {
+        if (selectedChannel == '') {
             // alert("Please select a channel to join");
             this.selectChannelAlert();
         } else {
@@ -270,9 +272,9 @@ class Home extends Component {
 
     getChannelIdforOneTimePasscode = () => {
         console.log("Join Channel clicked");
-        var selectedChannel = document.getElementById("channelDrop").value;
+        var selectedChannel = document.getElementById("SearchChannelText").value;
         console.log(selectedChannel);
-        if (selectedChannel == "Select Channel") {
+        if (selectedChannel == '') {
             // alert("Please select a channel to join");
             this.selectChannelAlert();
         } else {
@@ -349,6 +351,13 @@ class Home extends Component {
         });
     };
 
+    getChannelsforSearch = () => {
+        db.collection("channels").get().then( ref =>{
+            ref.docs.forEach(doc => {
+                this.state.channelsForSearch.push(doc.get("channelTitle"));
+            });
+        });
+    };
 
     channelListItemClick = (channelTitle) => {
         db.collection("channels").where("channelTitle", "==", channelTitle)
@@ -364,7 +373,7 @@ class Home extends Component {
 
     deleteExpiredChannels = () => {
         const messagingChannelDeleter = new MessagingChannelDeleter();
-        
+
         console.log("Inside DeleteExpiredChannel");
 
         var time;
@@ -382,7 +391,7 @@ class Home extends Component {
                         //console.log("Expired Channel id: " + doc.id);
                         doc.ref.delete();
                         messagingChannelDeleter.deleteChannel(doc.id);
-                        
+
                     })
             });
 
@@ -600,26 +609,26 @@ class Home extends Component {
                 </div>
                 <hr>
                 </hr>
-                <div className="searchForm">
-                    <input
-                        placeholder="Search public channels"
-                        value={this.state.query}
-                        onChange={this.handleInputChange}
-                    />
-                    <select id="channelDrop"
-                            size={this.state.size} onFocus={() => {
-                        this.setState({size: 3})
-                    }}
-                            onBlur={() => {
-                                this.setState({size: 1})
-                            }} //onChange={(e)=>{e.target.blur()}}
-                            onChange={this.handleSelectChange}
-                    >
-                        {channelList}
-                    </select>
-                </div>
+                {/*<div className="searchForm">*/}
+                {/*    <input*/}
+                {/*        placeholder="Search public channels"*/}
+                {/*        value={this.state.query}*/}
+                {/*        onChange={this.handleInputChange}*/}
+                {/*    />*/}
+                {/*    <select id="channelDrop"*/}
+                {/*            size={this.state.size} onFocus={() => {*/}
+                {/*        this.setState({size: 3})*/}
+                {/*    }}*/}
+                {/*            onBlur={() => {*/}
+                {/*                this.setState({size: 1})*/}
+                {/*            }} //onChange={(e)=>{e.target.blur()}}*/}
+                {/*            onChange={this.handleSelectChange}*/}
+                {/*    >*/}
+                {/*        {channelList}*/}
+                {/*    </select>*/}
+                {/*</div>*/}
                 <div className="SearchBarComponent">
-                    <SearchBar/>
+                    <SearchBar items={this.state.channelsForSearch}/>
                 </div>
                 <div className="HomePrivateChannel">
                     <form>
