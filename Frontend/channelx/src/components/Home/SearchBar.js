@@ -4,17 +4,6 @@ import './SearchBar.css'
 export  default class SearchBar extends React.Component {
     constructor (props) {
         super(props);
-        this.items = [
-            'Home',
-            'Office',
-            'School',
-            'Project',
-            'channel 1',
-            'channel 2',
-            'channel 3',
-            'channel 4',
-            'channel 5',
-            'channel 6'];
         this.state = {
             suggestions: [],
             text: '',
@@ -22,11 +11,12 @@ export  default class SearchBar extends React.Component {
     }
 
     onTextChanged = (e) =>{
+        const {items} = this.props;
         const value = e.target.value;
         let suggestions = [];
         if (value.length > 0) {
             const regex = new RegExp(`^${value}`, 'i');
-            suggestions = this.items.sort().filter(v => regex.test(v));
+            suggestions = items.sort().filter(v => regex.test(v));
         }
         this.setState(() => ({suggestions, text : value}));
     };
@@ -44,7 +34,7 @@ export  default class SearchBar extends React.Component {
             return null;
         } else {
             return (
-                <ul>
+                <ul aria-setsize = "3">
                     {suggestions.map((item) => <li onClick={()=>this.suggestionSelected(item)}>{item}</li>)}
                 </ul>
             )
@@ -56,6 +46,7 @@ export  default class SearchBar extends React.Component {
         return (
             <div className="SearchBar">
                 <input
+                    id = "SearchChannelText"
                     value = {text}
                     onChange={this.onTextChanged}
                     type = "text"
