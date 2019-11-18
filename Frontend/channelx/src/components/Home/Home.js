@@ -15,6 +15,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import Divider from '@material-ui/core/Divider';
 import './Home.css';
 import * as ROUTES from "../../constants/routes";
@@ -158,6 +159,29 @@ class Home extends Component {
 
     channelNotActiveAlert() {
         swal("Channel is not Active Now! ", "Please come back when channel is active", "warning");
+    }
+
+    editChannelAlert(channelTitle) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this channel !",
+            icon: "warning",
+            buttons: ["Cancel", "Edit"],
+
+            dangerMode: true,
+          }).then((edit) => {
+            if (edit) {
+
+                swal("What change do you want to make? Type Date or time", {
+                    content: "input",
+                  }).then((value) => {
+                    swal(`You want to edit : ${value}`);
+                  });
+                  this.routeTo(ROUTES.EDIT_CHANNEL)
+              //this.deleteChannelClicked(channelTitle);
+            } 
+
+          });   
     }
 
     deleteChannelAlert(channelTitle) {
@@ -404,17 +428,24 @@ class Home extends Component {
         let data = this.state.filtered
         return data.map((channelTitle) => {
             return (
+    
+              
                 <ListItem button onClick={() => this.channelListItemClick(channelTitle)}>
-                    <ListItemText primary={channelTitle}/>
-                    
-                    <Divider/>
-                    <ListItemSecondaryAction  button onClick={() => this.deleteChannelAlert(channelTitle)}>
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
+                <ListItemText primary={channelTitle}/>
                 
+                <Divider/>
+                <ListItemSecondaryAction  button onClick={() => this.deleteChannelAlert(channelTitle)}>
+                <IconButton edge="end" aria-label="delete">
+                  <DeleteIcon />
+                </IconButton>
+              </ListItemSecondaryAction>    
+                <Divider/>
+                <ListItemSecondaryAction  button onClick={() => this.editChannelAlert(channelTitle)}>
+                <IconButton edge="start" aria-label="edit">
+                    <EditIcon />
+                </IconButton>
+                </ListItemSecondaryAction>
+                </ListItem>
             )
         })
     };
