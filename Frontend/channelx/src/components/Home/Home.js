@@ -188,7 +188,7 @@ class Home extends Component {
 
         swal({
             title: "Channel is not Active Now!",
-            text: "Channel Availablitiy Dates\n\n"+ startDate + "  to  "+ endDate+"\n\n" + "Channel Availability Times\n\n"+ 
+            text: "Availablitiy Dates"+" : "+ startDate + "  to  "+ endDate+"\n\n" + "Availability Time"+" : "+ 
             s[0]+":"+s[1]+" "+startTimeFormat+"  to  "+ e[0]+":"+e[1]+" "+endTimeFormat,
             icon: "warning",
           })
