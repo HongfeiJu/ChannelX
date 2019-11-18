@@ -186,6 +186,23 @@ class Home extends Component {
           });
     }
 
+
+    alreadyDelectedChannelAccessAlert() {
+
+        swal({
+            title: "Channel Already Deleted !",
+            text: "Channel creator has deleted this channel",
+            icon: "warning",
+          })
+          .then((refresh) => {
+            if (refresh) {
+
+                window.location.reload(false);
+            } 
+
+          });
+    }
+
    
 
     getChannelId = () => {
@@ -459,15 +476,31 @@ class Home extends Component {
     // written by Subhradeep
 
     participatedChannelListItemClick = (channelTitle) => {
-        db.collection("channels").where("channelTitle", "==", channelTitle)
-            .get()
+
+        var docRef =  db.collection("channels").where("channelTitle", "==", channelTitle);
+        var docExits = false;
+
+        docRef.get()
             .then(snapshot => {
                 snapshot
                     .docs
                     .forEach(doc => {
+                        docExits = true;
+                        console.log(doc.id);
                         this.getChannnelDatesandTimes(doc.id);
                     })
+
+                    if(!docExits) {
+
+                        this.alreadyDelectedChannelAccessAlert();
+                    //  swal("Channel Not Available!", "This channel has already been deleted by the channel creator", "warning");
+                    // console.log("here as sam");
+
+                    }
             });
+
+
+            
     };
 
     userParticipatedChannels = () => {

@@ -108,6 +108,9 @@ class ChatRoom extends Component {
         };
 
         if (this.state.message.length > 0) {
+
+            console.log(this.state.id);
+
             firebase.database().ref('channels/' + this.state.id + '/messages/' + newMessage.id).set(newMessage)
                 .then(r => {
                     console.log(r);
@@ -132,9 +135,28 @@ class ChatRoom extends Component {
         });
     }
 
+    alreadyDelectedChannelAccessAlert() {
+
+        swal({
+            title: "Channel Already Deleted !",
+            text: "Channel creator has deleted this channel",
+            icon: "warning",
+          })
+          .then((refresh) => {
+            if (refresh) {
+
+                this.routeTo(ROUTES.HOME)
+
+                // window.location.reload(false);
+            } 
+
+          });
+    }
+
 
     getChannnelDatesandTimes = () => {
 
+        
         var startDate;
         var endDate;
         var startTime;
@@ -145,9 +167,12 @@ class ChatRoom extends Component {
         time = Moment(today).format('HH:mm:ss').toString();
         console.log(date);
         console.log(time);
+        console.log(this.state.id);
+        // var docExits = false;
         db.collection("channels").doc(this.state.id)
             .get()
             .then(doc => {
+                // docExits = true;
                 startDate = doc.get("channelStartDate");
                 endDate = doc.get("channelEndDate");
                 startTime = doc.get("channelStartTime");
@@ -183,8 +208,12 @@ class ChatRoom extends Component {
             }
 
             }).catch(error => {
+                // console.log("deleted");
+            this.alreadyDelectedChannelAccessAlert();
             console.log(`error is ${error}`);
         });
+
+        
     };
 
     scrollToBottom() {
