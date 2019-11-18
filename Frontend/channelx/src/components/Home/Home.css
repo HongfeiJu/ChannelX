@@ -21,6 +21,10 @@
     flex-direction: row;
 }
 
+.swal-modal .swal-text {
+    text-align: center;
+}
+
 .HomeLogout {
     float :left;
     background-color: lightgrey;
