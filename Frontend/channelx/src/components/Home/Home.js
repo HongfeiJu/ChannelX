@@ -25,6 +25,7 @@ import Moment from 'moment';
 import SearchBar from "./SearchBar";
 import MessagingChannelDeleter from "../../services/MessagingChannelDeleter";
 
+
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -157,9 +158,42 @@ class Home extends Component {
         swal("Select Channel!", "Please Select a channel to join", "warning");
     }
 
-    channelNotActiveAlert() {
-        swal("Channel is not Active Now! ", "Please come back when channel is active", "warning");
+     tConvert(time) {
+        // Check correct time format and split into components
+        time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+    
+        if (time.length > 1) { // If time format correct
+          time = time.slice(1); // Remove full string match value
+          time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+          time[0] = +time[0] % 12 || 12; // Adjust hours
+        }
+        return time.join(''); // return adjusted time or original string
+      }
+
+    channelNotActiveAlert(startDate,endDate,startTime,endTime) {
+
+        startTime = this.tConvert(startTime);
+        endTime = this.tConvert(endTime);
+
+       console.log(this.tConvert(startTime));
+       console.log(this.tConvert(endTime));
+
+       var s = startTime.split(':');
+       var e = endTime.split(':');
+
+       var startTimeFormat = s[2].substring(2, 4);
+       var endTimeFormat = e[2].substring(2, 4);
+       
+
+
+        swal({
+            title: "Channel is not Active Now!",
+            text: "Availablitiy Dates"+" : "+ startDate + "  to  "+ endDate+"\n\n" + "Availability Time"+" : "+ 
+            s[0]+":"+s[1]+" "+startTimeFormat+"  to  "+ e[0]+":"+e[1]+" "+endTimeFormat,
+            icon: "warning",
+          })
     }
+   
 
     deleteChannelAlert(channelTitle) {
 
@@ -179,6 +213,23 @@ class Home extends Component {
               });
 
               this.deleteChannelClicked(channelTitle);
+            } 
+
+          });
+    }
+
+
+    alreadyDelectedChannelAccessAlert() {
+
+        swal({
+            title: "Channel Already Deleted !",
+            text: "Channel creator has deleted this channel",
+            icon: "warning",
+          })
+          .then((refresh) => {
+            if (refresh) {
+
+                window.location.reload(false);
             } 
 
           });
@@ -211,8 +262,9 @@ class Home extends Component {
     };
 
 
-    getChannnelDatesandTimes = (chid) => {
+    getChannnelDatesandTimes = (chid,role) => {
 
+        console.log(role);
         console.log(chid);
         var channelCreator;
         var startDate;
@@ -263,9 +315,15 @@ class Home extends Component {
                         this.addJoinedChannel(doc.id);
                     }
                 } else {
-                    this.channelNotActiveAlert();
 
-                }
+
+                        this.channelNotActiveAlert(startDate,endDate,startTime,endTime);
+
+                        
+                    }
+                    
+
+                
             }).catch(error => {
             console.log(`error is ${error}`);
         });
@@ -362,13 +420,14 @@ class Home extends Component {
     };
 
     channelListItemClick = (channelTitle) => {
+        var role = "creator";
         db.collection("channels").where("channelTitle", "==", channelTitle)
             .get()
             .then(snapshot => {
                 snapshot
                     .docs
                     .forEach(doc => {
-                        this.getChannnelDatesandTimes(doc.id);
+                        this.getChannnelDatesandTimes(doc.id,role);
                     })
             });
     };
@@ -457,15 +516,30 @@ class Home extends Component {
     // written by Subhradeep
 
     participatedChannelListItemClick = (channelTitle) => {
-        db.collection("channels").where("channelTitle", "==", channelTitle)
-            .get()
+
+        var docRef =  db.collection("channels").where("channelTitle", "==", channelTitle);
+        var docExits = false;
+        var role  = "participent";
+
+        docRef.get()
             .then(snapshot => {
                 snapshot
                     .docs
                     .forEach(doc => {
-                        this.getChannnelDatesandTimes(doc.id);
+                        docExits = true;
+                        console.log(doc.id);
+                        this.getChannnelDatesandTimes(doc.id , role);
                     })
+
+                    if(!docExits) {
+
+                        this.alreadyDelectedChannelAccessAlert();
+
+                    }
             });
+
+
+            
     };
 
     userParticipatedChannels = () => {
