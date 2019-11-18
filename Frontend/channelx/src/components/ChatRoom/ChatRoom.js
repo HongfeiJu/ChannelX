@@ -40,7 +40,7 @@ class ChatRoom extends Component {
     componentDidMount() {
 
         this.authListener();
-        this.getChannnelDatesandTimes();
+        // this.getChannnelDatesandTimes();
         this.setState({
             username: this.fetchUsername()
         });
