@@ -50,6 +50,10 @@ class Landing extends React.Component {
             <div className="wrapper">
                 <header>
                     <h1> Welcome to ChannelX </h1>
+                    <div className="landing_header_links">
+                        <a href="AboutUs">about us</a>
+                        <a href="url">user guidance</a>
+                    </div>
                 </header>
                 <div className="LandingLogin">
                     <button

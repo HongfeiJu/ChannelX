@@ -12,6 +12,7 @@ import Landing from './components/Landing/Landing';
 import EmailSent from './components/VerificationEmailPage/EmailSent';
 import Fire from "./config/Fire";
 import Home from "./components/Home/Home";
+import AboutUs from "./components/Landing/AboutUs";
 import ChatRoom from "./components/ChatRoom/ChatRoom";
 import TestPage from "./components/TestPage/TestPage";
 import * as ROUTES from './constants/routes';
@@ -57,6 +58,7 @@ class App extends Component {
                         <Route path={ROUTES.EMAIL_SENT}  exact component={EmailSent}/>
                         <Route path={ROUTES.CHAT_PAGE}  exact component={ChatRoom}/>
                         <Route path={ROUTES.TEST_PAGE}  exact component={TestPage}/>
+                        <Route path={ROUTES.ABOUTUS}  exact component={AboutUs}/>
                         <Route path={ROUTES.CREATE_CHANNEL} exact component={CreateChannel}/>
                         <Route path={ROUTES.CREATE_PRIVATE_CHANNEL} exact component={CreatePrivateChannel}/>
                         <Route path={ROUTES.LANDINGV2} exact component={LandingV2}/>
