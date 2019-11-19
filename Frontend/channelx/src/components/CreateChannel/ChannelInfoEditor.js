@@ -13,6 +13,7 @@ import {DateRangePicker} from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 import Moment from 'moment';
 import 'date-fns';
+import {db} from "../../config/Fire";
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider, KeyboardTimePicker} from '@material-ui/pickers';
@@ -62,6 +63,20 @@ class ChannelInfoEditor extends Component {
         });
     }
 
+    editChannelInformation(channelID){ 
+
+        console.log("id:", channelID);
+        db.collection("channels").where("id", "==", channelID)
+            .get()
+            .then(snapshot => {
+                snapshot
+                .docs
+                .forEach(doc => {
+                    console.log("ChannelEndTime:", doc.channelEndTime);
+                    console.log("ChannelStartTime:", doc.channelStartTime);
+                   })
+                });
+    }
     handlechannelChange = e => {
         e.preventDefault();
         const {name, value} = e.target;

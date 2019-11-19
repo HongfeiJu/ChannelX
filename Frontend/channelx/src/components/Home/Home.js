@@ -25,6 +25,7 @@ import swal from 'sweetalert';
 import Moment from 'moment';
 import SearchBar from "./SearchBar";
 import MessagingChannelDeleter from "../../services/MessagingChannelDeleter";
+import ChannelInfoEditor from '../CreateChannel/ChannelInfoEditor';
 
 class Home extends Component {
     constructor(props) {
@@ -177,12 +178,29 @@ class Home extends Component {
                   }).then((value) => {
                     swal(`You want to edit : ${value}`);
                   });
-                  this.routeTo(ROUTES.EDIT_CHANNEL)
-              //this.deleteChannelClicked(channelTitle);
+                 // this.routeTo(ROUTES.EDIT_CHANNEL);
+              this.editChannelClicked(channelTitle);
             } 
 
           });   
     }
+
+    editChannelClicked = (channelTitle) => {
+
+        const editChannelInfo = new ChannelInfoEditor();
+        
+        db.collection("channels").where("channelTitle", "==", channelTitle)
+            .get()
+            .then(snapshot => {
+                snapshot
+                .docs
+                .forEach(doc => {
+                    console.log("channelId    => ");
+                    console.log(doc.id);
+                editChannelInfo.editChannelInformation(doc.id);
+                   })
+                });
+        }
 
     deleteChannelAlert(channelTitle) {
 
@@ -399,13 +417,11 @@ class Home extends Component {
                 snapshot
                     .docs
                     .forEach(doc => {
-                        
                         doc.ref.delete();
                         messagingChannelDeleter.deleteChannel(doc.id);
                         // MessagingChannelDeleter.deletech
                     })
             });
-
     
 
         let filtered_list = this.state.userCreatedChannels.filter(ele => ele != channelTitle)
@@ -421,8 +437,6 @@ class Home extends Component {
             filteredData: filteredData
         });
     };
-
-
 
     userCreatedChannels = () => {
         let data = this.state.filtered
@@ -507,7 +521,6 @@ class Home extends Component {
             });
     };
     //End: user participated channels
-
 
     checkPrivatePasscode = () => {
         let privatePasscode = document.getElementById('passcodeText').value;
