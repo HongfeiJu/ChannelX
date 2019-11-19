@@ -80,7 +80,7 @@ class CreateChannel extends Component {
 
     showAlert() {
         swal({
-            title: "Good job!!",
+            title: "Channel Created !!",
             text: "Channel Created Successfully!",
             icon: "success",
           }).then(function() {

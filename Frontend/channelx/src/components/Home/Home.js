@@ -27,6 +27,7 @@ import SearchBar from "./SearchBar";
 import MessagingChannelDeleter from "../../services/MessagingChannelDeleter";
 import ChannelInfoEditor from '../CreateChannel/ChannelInfoEditor';
 
+
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -37,8 +38,8 @@ class Home extends Component {
 
     componentDidMount() {
         this.authListener();
-
-
+        this.deleteExpiredChannels();
+        this.getChannelsforSearch();
     }
 
     authListener() {
@@ -80,6 +81,7 @@ class Home extends Component {
         isChatEnable: null,
         isPublic: null,
         deleteConfirm : false,
+        channelsForSearch : []
     };
 
     handleSelectChange = event => {
@@ -158,9 +160,42 @@ class Home extends Component {
         swal("Select Channel!", "Please Select a channel to join", "warning");
     }
 
-    channelNotActiveAlert() {
-        swal("Channel is not Active Now! ", "Please come back when channel is active", "warning");
+     tConvert(time) {
+        // Check correct time format and split into components
+        time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+    
+        if (time.length > 1) { // If time format correct
+          time = time.slice(1); // Remove full string match value
+          time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+          time[0] = +time[0] % 12 || 12; // Adjust hours
+        }
+        return time.join(''); // return adjusted time or original string
+      }
+
+    channelNotActiveAlert(startDate,endDate,startTime,endTime) {
+
+        startTime = this.tConvert(startTime);
+        endTime = this.tConvert(endTime);
+
+       console.log(this.tConvert(startTime));
+       console.log(this.tConvert(endTime));
+
+       var s = startTime.split(':');
+       var e = endTime.split(':');
+
+       var startTimeFormat = s[2].substring(2, 4);
+       var endTimeFormat = e[2].substring(2, 4);
+       
+
+
+        swal({
+            title: "Channel is not Active Now!",
+            text: "Availablitiy Dates"+" : "+ startDate + "  to  "+ endDate+"\n\n" + "Availability Time"+" : "+ 
+            s[0]+":"+s[1]+" "+startTimeFormat+"  to  "+ e[0]+":"+e[1]+" "+endTimeFormat,
+            icon: "warning",
+          })
     }
+   
 
     editChannelAlert(channelTitle) {
         swal({
@@ -225,13 +260,30 @@ class Home extends Component {
           });
     }
 
+
+    alreadyDelectedChannelAccessAlert() {
+
+        swal({
+            title: "Channel Already Deleted !",
+            text: "Channel creator has deleted this channel",
+            icon: "warning",
+          })
+          .then((refresh) => {
+            if (refresh) {
+
+                window.location.reload(false);
+            } 
+
+          });
+    }
+
    
 
     getChannelId = () => {
         console.log("Join Channel clicked");
-        var selectedChannel = document.getElementById("channelDrop").value;
+        var selectedChannel = document.getElementById("SearchChannelText").value;
         console.log(selectedChannel);
-        if (selectedChannel == "Select Channel") {
+        if (selectedChannel == '') {
             // alert("Please select a channel to join");
             this.selectChannelAlert();
         } else {
@@ -252,9 +304,11 @@ class Home extends Component {
     };
 
 
-    getChannnelDatesandTimes = (chid) => {
+    getChannnelDatesandTimes = (chid,role) => {
 
+        console.log(role);
         console.log(chid);
+        var channelCreator;
         var startDate;
         var endDate;
         var startTime;
@@ -268,6 +322,7 @@ class Home extends Component {
         db.collection("channels").doc(chid)
             .get()
             .then(doc => {
+                channelCreator = doc.get("channelCreator");
                 startDate = doc.get("channelStartDate");
                 endDate = doc.get("channelEndDate");
                 startTime = doc.get("channelStartTime");
@@ -298,13 +353,19 @@ class Home extends Component {
 
                 if (this.state.isChatEnable) {
                     this.routeTo("/channel/" + doc.id);
-                    if(this.state.isPublic){
-                    this.addJoinedChannel(doc.id);
+                    if(this.state.isPublic && (channelCreator != fire.auth().currentUser.uid)){
+                        this.addJoinedChannel(doc.id);
                     }
                 } else {
-                    this.channelNotActiveAlert();
 
-                }
+
+                        this.channelNotActiveAlert(startDate,endDate,startTime,endTime);
+
+                        
+                    }
+                    
+
+                
             }).catch(error => {
             console.log(`error is ${error}`);
         });
@@ -313,9 +374,9 @@ class Home extends Component {
 
     getChannelIdforOneTimePasscode = () => {
         console.log("Join Channel clicked");
-        var selectedChannel = document.getElementById("channelDrop").value;
+        var selectedChannel = document.getElementById("SearchChannelText").value;
         console.log(selectedChannel);
-        if (selectedChannel == "Select Channel") {
+        if (selectedChannel == '') {
             // alert("Please select a channel to join");
             this.selectChannelAlert();
         } else {
@@ -392,20 +453,52 @@ class Home extends Component {
         });
     };
 
+    getChannelsforSearch = () => {
+        db.collection("channels").get().then( ref =>{
+            ref.docs.forEach(doc => {
+                this.state.channelsForSearch.push(doc.get("channelTitle"));
+            });
+        });
+    };
 
     channelListItemClick = (channelTitle) => {
+        var role = "creator";
         db.collection("channels").where("channelTitle", "==", channelTitle)
             .get()
             .then(snapshot => {
                 snapshot
                     .docs
                     .forEach(doc => {
-                        this.getChannnelDatesandTimes(doc.id);
+                        this.getChannnelDatesandTimes(doc.id,role);
                     })
             });
     };
 
+    deleteExpiredChannels = () => {
+        const messagingChannelDeleter = new MessagingChannelDeleter();
 
+        console.log("Inside DeleteExpiredChannel");
+
+        var time;
+        var today = new Date(),
+        date = (today.getMonth()+1)+'/'+today.getDate()+'/'+today.getFullYear();
+        time = Moment(today).format('HH:mm:ss').toString();
+
+        console.log(date);
+        db.collection("channels").where("channelEndDate", "<", date)
+            .get()
+            .then(snapshot => {
+                snapshot
+                    .docs
+                    .forEach(doc => {
+                        //console.log("Expired Channel id: " + doc.id);
+                        doc.ref.delete();
+                        messagingChannelDeleter.deleteChannel(doc.id);
+
+                    })
+            });
+
+    }
 
     deleteChannelClicked = (channelTitle) => {
 
@@ -468,15 +561,30 @@ class Home extends Component {
     // written by Subhradeep
 
     participatedChannelListItemClick = (channelTitle) => {
-        db.collection("channels").where("channelTitle", "==", channelTitle)
-            .get()
+
+        var docRef =  db.collection("channels").where("channelTitle", "==", channelTitle);
+        var docExits = false;
+        var role  = "participent";
+
+        docRef.get()
             .then(snapshot => {
                 snapshot
                     .docs
                     .forEach(doc => {
-                        this.getChannnelDatesandTimes(doc.id);
+                        docExits = true;
+                        console.log(doc.id);
+                        this.getChannnelDatesandTimes(doc.id , role);
                     })
+
+                    if(!docExits) {
+
+                        this.alreadyDelectedChannelAccessAlert();
+
+                    }
             });
+
+
+            
     };
 
     userParticipatedChannels = () => {
@@ -621,26 +729,26 @@ class Home extends Component {
                 </div>
                 <hr>
                 </hr>
-                <div className="searchForm">
-                    <input
-                        placeholder="Search public channels"
-                        value={this.state.query}
-                        onChange={this.handleInputChange}
-                    />
-                    <select id="channelDrop"
-                            size={this.state.size} onFocus={() => {
-                        this.setState({size: 3})
-                    }}
-                            onBlur={() => {
-                                this.setState({size: 1})
-                            }} //onChange={(e)=>{e.target.blur()}}
-                            onChange={this.handleSelectChange}
-                    >
-                        {channelList}
-                    </select>
-                </div>
+                {/*<div className="searchForm">*/}
+                {/*    <input*/}
+                {/*        placeholder="Search public channels"*/}
+                {/*        value={this.state.query}*/}
+                {/*        onChange={this.handleInputChange}*/}
+                {/*    />*/}
+                {/*    <select id="channelDrop"*/}
+                {/*            size={this.state.size} onFocus={() => {*/}
+                {/*        this.setState({size: 3})*/}
+                {/*    }}*/}
+                {/*            onBlur={() => {*/}
+                {/*                this.setState({size: 1})*/}
+                {/*            }} //onChange={(e)=>{e.target.blur()}}*/}
+                {/*            onChange={this.handleSelectChange}*/}
+                {/*    >*/}
+                {/*        {channelList}*/}
+                {/*    </select>*/}
+                {/*</div>*/}
                 <div className="SearchBarComponent">
-                    <SearchBar/>
+                    <SearchBar items={this.state.channelsForSearch}/>
                 </div>
                 <div className="HomePrivateChannel">
                     <form>
