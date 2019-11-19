@@ -76,6 +76,17 @@ class ChannelInfoEditor extends Component {
                     console.log("ChannelStartTime:", doc.channelStartTime);
                    })
                 });
+
+                // db.collection("channels").where("channelTitle", "==", channelTitle)
+                // .get()
+                // .then(snapshot => {
+                //     snapshot
+                //     .docs
+                //     .forEach(doc => {
+                //         console.log("ChannelEndTime:", doc.channelEndTime);
+                //         console.log("ChannelStartTime:", doc.channelStartTime);
+                //        })
+                //     });
     }
     handlechannelChange = e => {
         e.preventDefault();
