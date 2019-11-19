@@ -26,7 +26,7 @@ import Moment from 'moment';
 import SearchBar from "./SearchBar";
 import MessagingChannelDeleter from "../../services/MessagingChannelDeleter";
 import ChannelInfoEditor from '../CreateChannel/ChannelInfoEditor';
-import ChannelEdit from '../CreateChannel/ChannelInfoEditor';
+// import ChannelEdit from '../CreateChannel/ChannelInfoEditor';
 
 
 // var  test = 5;
@@ -234,7 +234,8 @@ class Home extends Component {
                     console.log(doc.id);
                     this.setState({editChannelId: doc.id});
                 // editChannelInfo.editChannelInformation(doc.id);
-                console.log(this.state.editChannelId);
+                console.log("inside edit button"+this.state.editChannelId);
+                // 1f7e1e3a8a6e8
                 this.routeTo(ROUTES.EDIT_CHANNEL);
 
                    })
@@ -535,6 +536,37 @@ class Home extends Component {
         });
     };
 
+
+    editChannelInformation(){ 
+
+        // console.log("id in edit channel:", this.state.editChannelId);
+        var x = 5;
+
+        return x;
+
+    
+        // db.collection("channels").doc(this.state.editChannelId)
+        //     .get()
+        //     .then(doc => {
+
+        //         // this.setState({channelTitle: doc.get("channelTitle")});
+        //         // channelTitle = doc.get("channelTitle");
+
+        //         console.log(doc.get("channelStartDate"));
+        //         console.log(doc.get("channelEndDate"));
+
+        //         console.log(doc.get("channelTitle"));
+        //         console.log(doc.get("channelPassword"));
+
+        //         console.log(doc.get("channelStartTime"));
+        //         console.log(doc.get("channelEndTime"));    
+    
+        //     }).catch(error => {
+        //     console.log(`error is ${error}`);
+        // });
+
+    }
+
     userCreatedChannels = () => {
         let data = this.state.filtered
         return data.map((channelTitle) => {
@@ -544,12 +576,12 @@ class Home extends Component {
                 <ListItem button onClick={() => this.channelListItemClick(channelTitle)}>
                 <ListItemText primary={channelTitle}/>
                 
-                <Divider/>
+                {/* <Divider/>
                 <ListItemSecondaryAction  button onClick={() => this.deleteChannelAlert(channelTitle)}>
                 <IconButton edge="end" aria-label="delete">
                   <DeleteIcon />
                 </IconButton>
-              </ListItemSecondaryAction>    
+              </ListItemSecondaryAction>     */}
                 <Divider/>
                 <ListItemSecondaryAction  button onClick={() => this.editChannelAlert(channelTitle)}>
                 <IconButton edge="start" aria-label="edit">
@@ -763,9 +795,9 @@ class Home extends Component {
                     <SearchBar items={this.state.channelsForSearch}/>
                 </div>
 
-                <div className="ChannelInfoEditor">
+                {/* <div className="ChannelInfoEditor">
                     <ChannelInfoEditor items={this.state.editChannelId} ></ChannelInfoEditor>
-                </div>
+                </div> */}
 
                 {/* <div className="EditComponent">
                     <ChannelInfoEditor items={this.state.editChannelId}/>

@@ -30,7 +30,7 @@ let channelEndTime = null;
 // var channelTitle ;
 
 
-
+var id  = null;
 class ChannelInfoEditor extends Component {
 
     constructor(props) {
@@ -42,6 +42,7 @@ class ChannelInfoEditor extends Component {
             channelTitle: null,
             channelPassword: null,
             editChannelId: null,
+            editChannelTitle: null,
             alert: null,
             errors: {
                 channelTitle: "",
@@ -53,30 +54,12 @@ class ChannelInfoEditor extends Component {
     componentDidMount() {
         this.authListener();
 
+        id = '1f7e1e3a8a6e8';
 
-        const items = this.props.items;
+        console.log(id);
 
-        console.log(items);
+        this.editChannelInformation(id);
 
-        // console.log("test");
-        // this.editChannelInformation();
-
-        // this.setState({editChannelId: this.props.items});
-
-        // console.log(this.state.editChannelId);
-
-        // this.editChannelInformation(this.state.editChannelId);
-        // this.setState({insideEdit: true});
-        // this.setState(this.state.insideEdit,true);
-
-        // const items = this.props.items;
-
-        // console.log(items);
-
-        // const home1 = new Home();
-        
-        // console.log(home1.state.editChannelId);
-        // console.log(this.state.channelTitle);
     }
 
     authListener() {
@@ -95,64 +78,40 @@ class ChannelInfoEditor extends Component {
     }
 
 
-    editChannelInformation(){ 
+    editChannelInformation(channelID){ 
 
         // console.log("id in edit channel:", channelID);
 
         console.log(this.props.items);
     
-        // db.collection("channels").doc(channelID)
-        //     .get()
-        //     .then(doc => {
+        db.collection("channels").doc(channelID)
+            .get()
+            .then(doc => {
 
-        //         // this.setState({channelTitle: doc.get("channelTitle")});
-        //         // channelTitle = doc.get("channelTitle");
+                this.setState({channelTitle: doc.get("channelTitle")});
+                this.setState({channelPassword: doc.get("channelPassword")});
 
-        //         console.log(doc.get("channelStartDate"));
-        //         console.log(doc.get("channelEndDate"));
+                channelStartTime = doc.get("channelStartTime");
+                channelEndTime = doc.get("channelEndTime");
 
-        //         console.log(doc.get("channelTitle"));
-        //         console.log(doc.get("channelPassword"));
 
-        //         console.log(doc.get("channelStartTime"));
-        //         console.log(doc.get("channelEndTime"));    
+
+                console.log(doc.get("channelStartDate"));
+                console.log(doc.get("channelEndDate"));
+
+                console.log(doc.get("channelTitle"));
+                console.log(doc.get("channelPassword"));
+
+                console.log(doc.get("channelStartTime"));
+                console.log(doc.get("channelEndTime"));    
     
-        //     }).catch(error => {
-        //     console.log(`error is ${error}`);
-        // });
+            }).catch(error => {
+            console.log(`error is ${error}`);
+        });
 
     }
 
 
-
-    // editChannelInformation(channelID){ 
-
-    //     console.log("id in edit channel:", channelID);
-
-
-
-    
-    //     db.collection("channels").doc(channelID)
-    //         .get()
-    //         .then(doc => {
-
-    //             // this.setState({channelTitle: doc.get("channelTitle")});
-    //             // channelTitle = doc.get("channelTitle");
-
-    //             console.log(doc.get("channelStartDate"));
-    //             console.log(doc.get("channelEndDate"));
-
-    //             console.log(doc.get("channelTitle"));
-    //             console.log(doc.get("channelPassword"));
-
-    //             console.log(doc.get("channelStartTime"));
-    //             console.log(doc.get("channelEndTime"));    
-    
-    //         }).catch(error => {
-    //         console.log(`error is ${error}`);
-    //     });
-
-    // }
 
 
     handlechannelChange = e => {
@@ -255,7 +214,9 @@ class ChannelInfoEditor extends Component {
                     <form onSubmit={this.editChannel}>
                         <div className="channelTitle">
                             <input
+                                // value={variable_name}
                                 type="text"
+                                value={this.state.channelTitle}
                                 id="channelTitle"
                                 placeholder="Title"
                                 name="channelTitle"
@@ -266,6 +227,7 @@ class ChannelInfoEditor extends Component {
                         <div className="channelPassword">
                             <input
                                 type="text"
+                                value={this.state.channelPassword}
                                 pattern=".{10,16}"
                                 id="channelPassword"
                                 placeholder="Passcode"
@@ -342,7 +304,11 @@ export default ChannelInfoEditor;
 
 function MaterialUIPickersStartTime() {
 
-    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T10:00:00'));
+    console.log(channelStartTime);
+
+    var date = '2014-08-18T'+ channelStartTime ;
+
+    const [selectedDate, setSelectedDate] = React.useState(new Date(date));
     channelStartTime = Moment(selectedDate).format('HH:mm:ss').toString();
     const handleDateChange = date => {
         setSelectedDate(date);
@@ -367,7 +333,11 @@ function MaterialUIPickersStartTime() {
 
 function MaterialUIPickersEndTime() {
 
-    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-09-18T17:00:00'));
+    console.log(channelEndTime);
+
+    var date = '2014-08-18T'+ channelEndTime ;
+
+    const [selectedDate, setSelectedDate] = React.useState(new Date(date));
     channelEndTime = Moment(selectedDate).format('HH:mm:ss').toString();
     const handleDateChange = date => {
         setSelectedDate(date);
