@@ -26,7 +26,10 @@ import Moment from 'moment';
 import SearchBar from "./SearchBar";
 import MessagingChannelDeleter from "../../services/MessagingChannelDeleter";
 import ChannelInfoEditor from '../CreateChannel/ChannelInfoEditor';
+import ChannelEdit from '../CreateChannel/ChannelInfoEditor';
 
+
+// var  test = 5;
 
 class Home extends Component {
     constructor(props) {
@@ -81,6 +84,7 @@ class Home extends Component {
         isChatEnable: null,
         isPublic: null,
         deleteConfirm : false,
+        editChannelId : null,
         channelsForSearch : []
     };
 
@@ -208,13 +212,8 @@ class Home extends Component {
           }).then((edit) => {
             if (edit) {
 
-                swal("What change do you want to make? Type Date or time", {
-                    content: "input",
-                  }).then((value) => {
-                    swal(`You want to edit : ${value}`);
-                  });
-                 // this.routeTo(ROUTES.EDIT_CHANNEL);
-              this.editChannelClicked(channelTitle);
+                this.editChannelClicked(channelTitle);
+
             } 
 
           });   
@@ -223,6 +222,7 @@ class Home extends Component {
     editChannelClicked = (channelTitle) => {
 
         const editChannelInfo = new ChannelInfoEditor();
+        console.log(channelTitle);
         
         db.collection("channels").where("channelTitle", "==", channelTitle)
             .get()
@@ -232,7 +232,11 @@ class Home extends Component {
                 .forEach(doc => {
                     console.log("channelId    => ");
                     console.log(doc.id);
-                editChannelInfo.editChannelInformation(doc.id);
+                    this.setState({editChannelId: doc.id});
+                // editChannelInfo.editChannelInformation(doc.id);
+                console.log(this.state.editChannelId);
+                this.routeTo(ROUTES.EDIT_CHANNEL);
+
                    })
                 });
         }
@@ -694,6 +698,10 @@ class Home extends Component {
     }
 
     render() {
+
+        
+        // var chId = null;
+        // <ChannelInfoEditor chId ={this.state.editChannelId} />
         const {filteredData} = this.state;
         let channelList = filteredData.length > 0
             && filteredData.map((channel, i) => {
@@ -711,7 +719,11 @@ class Home extends Component {
             }, this);
 
         return (
+
+            
+
             <div className="Home">
+                
                 <h1>Hello {this.state.displayName}</h1>
                 <div className="HomeHeaderButtons">
                     <button id="HomeLogout"
@@ -750,6 +762,15 @@ class Home extends Component {
                 <div className="SearchBarComponent">
                     <SearchBar items={this.state.channelsForSearch}/>
                 </div>
+
+                <div className="ChannelInfoEditor">
+                    <ChannelInfoEditor items={this.state.editChannelId} ></ChannelInfoEditor>
+                </div>
+
+                {/* <div className="EditComponent">
+                    <ChannelInfoEditor items={this.state.editChannelId}/>
+                </div> */}
+
                 <div className="HomePrivateChannel">
                     <form>
                         <input

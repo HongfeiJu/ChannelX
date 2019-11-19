@@ -19,12 +19,16 @@ import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider, KeyboardTimePicker} from '@material-ui/pickers';
 import firebase from "firebase";
 import swal from 'sweetalert';
+import Home from "../Home/Home";
 
 
 let channelStartDate = null;
 let channelEndDate = null;
 let channelStartTime = null;
 let channelEndTime = null;
+
+// var channelTitle ;
+
 
 
 class ChannelInfoEditor extends Component {
@@ -34,8 +38,10 @@ class ChannelInfoEditor extends Component {
         this.editChannel = this.editChannel.bind(this);
         this.handlechannelChange = this.handlechannelChange.bind(this);
         this.state = {
+            insideEdit: false,
             channelTitle: null,
             channelPassword: null,
+            editChannelId: null,
             alert: null,
             errors: {
                 channelTitle: "",
@@ -46,6 +52,31 @@ class ChannelInfoEditor extends Component {
 
     componentDidMount() {
         this.authListener();
+
+
+        const items = this.props.items;
+
+        console.log(items);
+
+        // console.log("test");
+        // this.editChannelInformation();
+
+        // this.setState({editChannelId: this.props.items});
+
+        // console.log(this.state.editChannelId);
+
+        // this.editChannelInformation(this.state.editChannelId);
+        // this.setState({insideEdit: true});
+        // this.setState(this.state.insideEdit,true);
+
+        // const items = this.props.items;
+
+        // console.log(items);
+
+        // const home1 = new Home();
+        
+        // console.log(home1.state.editChannelId);
+        // console.log(this.state.channelTitle);
     }
 
     authListener() {
@@ -63,20 +94,67 @@ class ChannelInfoEditor extends Component {
         });
     }
 
-    editChannelInformation(channelID){ 
 
-        console.log("id:", channelID);
-        db.collection("channels").where("id", "==", channelID)
-            .get()
-            .then(snapshot => {
-                snapshot
-                .docs
-                .forEach(doc => {
-                    console.log("ChannelEndTime:", doc.channelEndTime);
-                    console.log("ChannelStartTime:", doc.channelStartTime);
-                   })
-                });
+    editChannelInformation(){ 
+
+        // console.log("id in edit channel:", channelID);
+
+        console.log(this.props.items);
+    
+        // db.collection("channels").doc(channelID)
+        //     .get()
+        //     .then(doc => {
+
+        //         // this.setState({channelTitle: doc.get("channelTitle")});
+        //         // channelTitle = doc.get("channelTitle");
+
+        //         console.log(doc.get("channelStartDate"));
+        //         console.log(doc.get("channelEndDate"));
+
+        //         console.log(doc.get("channelTitle"));
+        //         console.log(doc.get("channelPassword"));
+
+        //         console.log(doc.get("channelStartTime"));
+        //         console.log(doc.get("channelEndTime"));    
+    
+        //     }).catch(error => {
+        //     console.log(`error is ${error}`);
+        // });
+
     }
+
+
+
+    // editChannelInformation(channelID){ 
+
+    //     console.log("id in edit channel:", channelID);
+
+
+
+    
+    //     db.collection("channels").doc(channelID)
+    //         .get()
+    //         .then(doc => {
+
+    //             // this.setState({channelTitle: doc.get("channelTitle")});
+    //             // channelTitle = doc.get("channelTitle");
+
+    //             console.log(doc.get("channelStartDate"));
+    //             console.log(doc.get("channelEndDate"));
+
+    //             console.log(doc.get("channelTitle"));
+    //             console.log(doc.get("channelPassword"));
+
+    //             console.log(doc.get("channelStartTime"));
+    //             console.log(doc.get("channelEndTime"));    
+    
+    //         }).catch(error => {
+    //         console.log(`error is ${error}`);
+    //     });
+
+    // }
+
+
     handlechannelChange = e => {
         e.preventDefault();
         const {name, value} = e.target;
@@ -159,6 +237,13 @@ class ChannelInfoEditor extends Component {
     routeTo = (path) => this.props.history.push(path);
 
     render() {
+
+        
+
+        console.log(this.props.items );
+
+        
+
         channelStartDate = Moment(this.state.startDate).format('MM/DD/YYYY').toString();
         channelEndDate = Moment(this.state.endDate).format('MM/DD/YYYY').toString();
         return (
@@ -251,6 +336,7 @@ class ChannelInfoEditor extends Component {
     }
 }
 
+
 export default ChannelInfoEditor;
 
 
@@ -304,5 +390,9 @@ function MaterialUIPickersEndTime() {
         </MuiPickersUtilsProvider>
     );
 }
+
+
+
+
 
 
