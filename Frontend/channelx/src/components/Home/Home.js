@@ -15,6 +15,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import Divider from '@material-ui/core/Divider';
 import './Home.css';
 import * as ROUTES from "../../constants/routes";
@@ -24,6 +25,7 @@ import swal from 'sweetalert';
 import Moment from 'moment';
 import SearchBar from "./SearchBar";
 import MessagingChannelDeleter from "../../services/MessagingChannelDeleter";
+import ChannelInfoEditor from '../CreateChannel/ChannelInfoEditor';
 
 
 class Home extends Component {
@@ -194,6 +196,46 @@ class Home extends Component {
           })
     }
    
+
+    editChannelAlert(channelTitle) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this channel !",
+            icon: "warning",
+            buttons: ["Cancel", "Edit"],
+
+            dangerMode: true,
+          }).then((edit) => {
+            if (edit) {
+
+                swal("What change do you want to make? Type Date or time", {
+                    content: "input",
+                  }).then((value) => {
+                    swal(`You want to edit : ${value}`);
+                  });
+                 // this.routeTo(ROUTES.EDIT_CHANNEL);
+              this.editChannelClicked(channelTitle);
+            } 
+
+          });   
+    }
+
+    editChannelClicked = (channelTitle) => {
+
+        const editChannelInfo = new ChannelInfoEditor();
+        
+        db.collection("channels").where("channelTitle", "==", channelTitle)
+            .get()
+            .then(snapshot => {
+                snapshot
+                .docs
+                .forEach(doc => {
+                    console.log("channelId    => ");
+                    console.log(doc.id);
+                editChannelInfo.editChannelInformation(doc.id);
+                   })
+                });
+        }
 
     deleteChannelAlert(channelTitle) {
 
@@ -468,13 +510,11 @@ class Home extends Component {
                 snapshot
                     .docs
                     .forEach(doc => {
-                        
                         doc.ref.delete();
                         messagingChannelDeleter.deleteChannel(doc.id);
                         // MessagingChannelDeleter.deletech
                     })
             });
-
     
 
         let filtered_list = this.state.userCreatedChannels.filter(ele => ele != channelTitle)
@@ -491,23 +531,28 @@ class Home extends Component {
         });
     };
 
-
-
     userCreatedChannels = () => {
         let data = this.state.filtered
         return data.map((channelTitle) => {
             return (
+    
+              
                 <ListItem button onClick={() => this.channelListItemClick(channelTitle)}>
-                    <ListItemText primary={channelTitle}/>
-                    
-                    <Divider/>
-                    <ListItemSecondaryAction  button onClick={() => this.deleteChannelAlert(channelTitle)}>
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
+                <ListItemText primary={channelTitle}/>
                 
+                <Divider/>
+                <ListItemSecondaryAction  button onClick={() => this.deleteChannelAlert(channelTitle)}>
+                <IconButton edge="end" aria-label="delete">
+                  <DeleteIcon />
+                </IconButton>
+              </ListItemSecondaryAction>    
+                <Divider/>
+                <ListItemSecondaryAction  button onClick={() => this.editChannelAlert(channelTitle)}>
+                <IconButton edge="start" aria-label="edit">
+                    <EditIcon />
+                </IconButton>
+                </ListItemSecondaryAction>
+                </ListItem>
             )
         })
     };
@@ -584,7 +629,6 @@ class Home extends Component {
             });
     };
     //End: user participated channels
-
 
     checkPrivatePasscode = () => {
         let privatePasscode = document.getElementById('passcodeText').value;
