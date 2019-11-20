@@ -1,18 +1,19 @@
 /*
 Description: Home page
-Authors: Hongfei Ju, Muhammad Sami
+Authors: Hongfei Ju, Muhammad Sami, Darshan Prakash
 Date: 11/02/2019
+Last updated: 11/14/2019
 */
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import firebase from "firebase";
 import './ChatRoom.css';
 import ChatMessage from "./ChatMessage/ChatMessage";
 import * as ROUTES from "../../constants/routes";
 import PasscodeGenerator from "../../services/PasscodeGenerator";
-import SweetAlert from "react-bootstrap-sweetalert";
-import { db } from "../../config/Fire";
+import {db} from "../../config/Fire";
 import Moment from 'moment';
+import swal from 'sweetalert';
 
 class ChatRoom extends Component {
     constructor(props, context) {
@@ -22,10 +23,10 @@ class ChatRoom extends Component {
         this.clearMessage = this.clearMessage.bind(this);
         this.addNewPasscode = this.addNewPasscode.bind(this);
         this.showPasscodes = this.showPasscodes.bind(this);
-
         this.state = {
             id: this.props.match.params.id,
             title: '',
+            type: '',
             creator: '',
             username: '',
             message: '',
@@ -39,26 +40,23 @@ class ChatRoom extends Component {
     componentDidMount() {
 
         this.authListener();
-
         this.getChannnelDatesandTimes();
-
         this.setState({
             username: this.fetchUsername()
         });
-
         firebase.database().ref('channels/' + this.state.id).on('value', (snapshot) => {
             const channel = snapshot.val();
             console.log(this.id + " " + channel);
             if (channel != null) {
                 this.setState({
                     title: channel.title,
+                    type: channel.type,
                     creator: channel.creator,
                     messages: channel.messages,
                     passcodes: channel.passcodes
                 });
             }
         });
-
         if (this.state.messages.length !== 0) {
             this.scrollToBottom();
         }
@@ -67,7 +65,7 @@ class ChatRoom extends Component {
     authListener() {
         firebase.auth().onAuthStateChanged((user) => {
             console.log(user);
-            if(user) {
+            if (user) {
                 this.setState({
                     UUID: user.uid,
                     user
@@ -91,28 +89,12 @@ class ChatRoom extends Component {
         });
     }
 
+    channelNotActiveAlert() {
 
-    showAlert() {
-        const getAlert = () => (
-            <SweetAlert
-                warning
-                title="Channel is not available for chat ritenow!"
-                onConfirm={() => this.hideAlert()}
-            >
-            </SweetAlert>
-        );
-
-        this.setState({
-            alert: getAlert()
-        });
+        swal("Channel is not Active Now! ", "Please come back when channel is active", "warning");
     }
 
-    hideAlert() {
-        console.log('Hiding alert...');
-        this.setState({
-            alert: null
-        });
-    }
+
 
     submitMessage() {
         console.log("submit " + this.state.message);
@@ -125,31 +107,29 @@ class ChatRoom extends Component {
                 + " " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
         };
 
-        if(this.state.message.length > 0) {
-
-        firebase.database().ref('channels/' + this.state.id + '/messages/' + newMessage.id).set(newMessage)
-            .then(r => {
-                console.log(r);
-                this.setState({ message: '' });
-            }).catch(e => {
+        if (this.state.message.length > 0) {
+            firebase.database().ref('channels/' + this.state.id + '/messages/' + newMessage.id).set(newMessage)
+                .then(r => {
+                    console.log(r);
+                    this.setState({message: ''});
+                }).catch(e => {
                 console.log(e)
             });
-
         }
     }
 
     clearMessage() {
         console.log('clear message');
         const sysMsg = this.state.messages[0];
-        firebase.database().ref('channels/' + this.state.id + '/messages/').set({ 0: sysMsg })
+        firebase.database().ref('channels/' + this.state.id + '/messages/').set({0: sysMsg})
             .then(r => {
                 console.log(r);
                 this.setState({
                     messages: [sysMsg]
                 });
             }).catch(e => {
-                console.log(e)
-            });
+            console.log(e)
+        });
     }
 
 
@@ -160,67 +140,55 @@ class ChatRoom extends Component {
         var startTime;
         var endTime;
         var time;
-
         var today = new Date(),
-            date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         time = Moment(today).format('HH:mm:ss').toString();
         console.log(date);
         console.log(time);
-
         db.collection("channels").doc(this.state.id)
             .get()
             .then(doc => {
-
                 startDate = doc.get("channelStartDate");
                 endDate = doc.get("channelEndDate");
                 startTime = doc.get("channelStartTime");
                 endTime = doc.get("channelEndTime");
-                console.log(startTime);
-                console.log(endTime);
-                console.log(time);
-
                 var nextDay = false;
                 var dt = new Date();
+                var s = startTime.split(':');
+                var e = endTime.split(':');
+                var dt2
+                if (parseInt(e[0]) - parseInt(s[0]) < 0) {
+                    nextDay = true;
+                }
+                var dt1 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), parseInt(s[0]), parseInt(s[1]), parseInt(s[2]));
+                if (nextDay) {
+                    dt2 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate() + 1, parseInt(e[0]), parseInt(e[1]), parseInt(e[2]));
+                } else {
+                    dt2 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), parseInt(e[0]), parseInt(e[1]), parseInt(e[2]));
+                }
+                var validTime = Moment(dt).isBetween(dt1, dt2);
+                var validDate = Moment(date).isSameOrAfter(startDate) && Moment(date).isSameOrBefore(endDate);
+                if (validDate && validTime) {
+                    this.setState({isChatEnable: true})
+                } else {
+                    this.setState({isChatEnable: false})
+                }
 
-        var s = startTime.split(':');
-        var e = endTime.split(':');
-        var dt2 
+                console.log(nextDay);
 
-        if( parseInt(e[0]) - parseInt(s[0]) <= 0) {
-            nextDay = true;
-        }
+                if (this.state.isChatEnable) {
+                this.submitMessage();
+            } else {
+                this.channelNotActiveAlert();
+            }
 
-        var dt1 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), parseInt(s[0]), parseInt(s[1]), parseInt(s[2]));
-        if(nextDay){
-        dt2 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate()+1, parseInt(e[0]), parseInt(e[1]), parseInt(e[2])); } else {
-
-            dt2 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), parseInt(e[0]), parseInt(e[1]), parseInt(e[2]));
-
-        }
-
-        var validTime = Moment(dt).isBetween(dt1,dt2);
-        console.log(validTime);
-
-
-        var validDate = Moment(date).isSameOrAfter(startDate) && Moment(date).isSameOrBefore(endDate);
-        console.log(validDate);
-
-        if(validDate && validTime) {
-
-            this.setState({isChatEnable: true})
-
-        } else {
-
-            this.setState({isChatEnable: false})
-
-        }
             }).catch(error => {
-                console.log(`error is ${error}`);
-            });
+            console.log(`error is ${error}`);
+        });
+    };
 
-        };
     scrollToBottom() {
-        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+        this.messagesEnd.scrollIntoView({behavior: "smooth"});
         this.messagesEnd.scrollTo(0, this.messagesEnd.scrollHeight);
     }
 
@@ -231,14 +199,13 @@ class ChatRoom extends Component {
     addNewPasscode() {
         const pg = new PasscodeGenerator();
         let newPasscode = pg.generateOnetimePasscode();
-        let id = 0;
         let useOut = false;
         if (this.state.passcodes !== undefined) {
-            id = this.state.passcodes.length;
             let count = 0;
             console.log("passcodes " + this.state.passcodes);
             console.log("new" + newPasscode);
-            while (this.state.passcodes.includes(newPasscode) && count < 100) {
+            let passcodeKeys=Object.keys(this.state.passcodes);
+            while (passcodeKeys.includes(newPasscode) && count < 100) {
                 newPasscode = pg.generateOnetimePasscode();
                 count++;
             }
@@ -248,22 +215,41 @@ class ChatRoom extends Component {
             alert("passcodes used out");
             return;
         }
-        firebase.database().ref('channels/' + this.state.id + '/passcodes/' + id).set(newPasscode)
+        firebase.database().ref('channels/' + this.state.id + '/passcodes/' + newPasscode +'/0').set('admin')
             .then(r => {
                 console.log(r);
-                alert(newPasscode + " added");
+                // alert(newPasscode + " added");
+                swal({
+                    title: "New Passcode Generated Successfully !",
+                    text: "New Passcode:  "+ newPasscode,
+                    icon: "success",
+                  });
             }).catch(e => {
-                console.log(e)
-            });
+            console.log(e)
+        });
 
     }
 
     showPasscodes() {
-        alert(this.state.passcodes);
+        if(this.state.passcodes==null){
+            // alert('empty');
+            swal({
+                title: "No Passcodes available!",
+                text: "Please generate new passcodes ",
+                // icon: "success",
+              });
+        }else{
+            swal({
+                title: "Available Passcodes !",
+                text: "Available Passcodes:  "+ Object.keys(this.state.passcodes),
+                // icon: "success",
+              });
+        }
+
     }
 
     getControlBar() {
-        if (this.state.UUID === this.state.creator) {
+        if (this.state.UUID === this.state.creator && this.state.type !== 'private') {
             return (<div className="control_bar">
                 <button className="control_button" onClick={this.addNewPasscode}>generate passcode</button>
                 <button className="control_button" onClick={this.showPasscodes}>show passcodes</button>
@@ -271,37 +257,32 @@ class ChatRoom extends Component {
             </div>);
         }
     }
+
     routeTo(path) {
         this.props.history.push(path);
     }
 
     handleKeyDown = (e) => {
-
-        console.log(this.state.isChatEnable);
-
         if (e.key === 'Enter') {
-            if(this.state.isChatEnable) {
+
+           if(this.state.type === 'private') {
+
             this.submitMessage();
-            } else {
-            this.showAlert();
-            // eslint-disable-next-line no-unused-expressions
-            this.state.alert;
-            }
+               
+           } else {
+
+            this.getChannnelDatesandTimes();
+
+           }
         }
     };
 
     render() {
         const currentMessage = this.state.messages.map((message, i) => {
             return (
-                <ChatMessage key={i} user={message.from} text={message.text} time={message.timeStamp} />
+                <ChatMessage key={i} user={message.from} text={message.text} time={message.timeStamp}/>
             )
         });
-
-        // if (this.state.messages.length === 0) {
-        //     return (
-        //         <h1>channel doesn't exist</h1>
-        //     );
-        // }
 
         return (
             <div className="chatRoom">
@@ -310,10 +291,13 @@ class ChatRoom extends Component {
                     <button
                         className="goBack"
                         onClick={() => this.routeTo(ROUTES.HOME)}
-                    >Back</button>
+                    >Back
+                    </button>
                 </div>
                 <div className="messagePanel"
-                    ref={(el) => { this.messagesEnd = el; }}>
+                     ref={(el) => {
+                         this.messagesEnd = el;
+                     }}>
                     {this.getControlBar()}
                     {currentMessage}
                 </div>
@@ -325,21 +309,21 @@ class ChatRoom extends Component {
                         value={this.state.message}
                         onKeyDown={this.handleKeyDown}
                         onChange={this.updateMessage}
-
-
                     />
                     <button
                         className="sendButton"
-                        onClick={this.state.isChatEnable ? this.submitMessage : () => ( this.showAlert())}
+                        onClick={
 
-                    >send</button>
-                    {this.state.alert}
-                    
+                            () => {this.state.type === 'private' ? this.submitMessage() :
+                            (this.getChannnelDatesandTimes())  }
+                        }
+                    >send
+                    </button>
+
                 </div>
             </div>
         );
     }
-
 }
 
 export default ChatRoom;

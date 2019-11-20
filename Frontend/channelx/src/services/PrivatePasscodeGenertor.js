@@ -5,6 +5,7 @@ date: 11/04/2019
  */
 
 import firebase from "firebase";
+import fire from "../config/Fire";
 
 class PrivatePasscodeGenerator{
 
@@ -29,11 +30,7 @@ class PrivatePasscodeGenerator{
                     +fuels[Math.floor(Math.random()*fuels.length)]
                     +types[Math.floor(Math.random()*types.length)];
             }
-            alert('generate '+nextPasscode);
-            firebase.database().ref('privatePasscodes/'+nextPasscode).set(channelID)
-                .then(r=>{
-                    alert(nextPasscode+" is added to "+channelID)
-                });
+            firebase.database().ref('privatePasscodes/'+nextPasscode).set(channelID);
             return nextPasscode;
         })
     }
