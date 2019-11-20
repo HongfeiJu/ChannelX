@@ -1,7 +1,7 @@
 /*
 description: Update edited channel in Firebase
-author: Manisha Miriyala, Muhammed Sami
-date: 11/19/2019
+author: Manisha Miriyala
+date: 10/22/2019
  */
 
 import fire from "../config/Fire";
