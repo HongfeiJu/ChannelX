@@ -96,7 +96,6 @@ class ChannelInfoEditor extends Component {
     }
 
 
-
     handlechannelChange = e => {
         e.preventDefault();
         const {name, value} = e.target;
@@ -133,8 +132,6 @@ class ChannelInfoEditor extends Component {
     editChannel(e) {
 
         e.preventDefault();
-        // console.log(channelStartTime);
-        // console.log(channelEndTime);
 
         var sameDay = false;
 
@@ -144,7 +141,6 @@ class ChannelInfoEditor extends Component {
         }
 
         if(channelEndTime > channelStartTime && sameDay) {
-            // alert('channel created');
 
             const channelEditor = new ChannelEditor();
             channelEditor.editChannel(

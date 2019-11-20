@@ -1,17 +1,16 @@
 /*
-description: edit channel
-author: Manisha, Sami
-date: 11/19/2019
+description: Update edited channel in Firebase
+author: Manisha Miriyala
+date: 10/22/2019
  */
 
 import firebase from "firebase";
+import ChannelIDCreator from "./ChannelIDCreator";
 import fire from "../config/Fire";
 
 class ChannelEditor {
 
     editChannel(title,password, startDate, endDate,startTime,endTime,creator,id){
-
-        console.log(id);
         fire.firestore().collection('channels').doc(id).set({
             channelTitle : title,
             channelPassword : password,
@@ -21,7 +20,7 @@ class ChannelEditor {
             channelEndTime : endTime,
             channelCreator : creator
         });
-        // const type = 'public';
+
     }
 }
 
