@@ -96,15 +96,6 @@ class CreatePrivateChannel extends Component {
                         ></input>
                     </div>
                     <div className="createChannel">
-<<<<<<< HEAD
-                        {/*<button*/}
-                        {/*    type="button"*/}
-                        {/*    id="cancelButton"*/}
-                        {/*    className="leaveButton"*/}
-                        {/*    // onClick={(event) => {this.onModalClose(event)}}*/}
-                        {/*>Cancel*/}
-                        {/*</button>*/}
-=======
                         <button
                             type="button"
                             id="cancelButton"
@@ -112,7 +103,6 @@ class CreatePrivateChannel extends Component {
                             onClick={() => {this.props.closePrivateModal()}}
                         >Close
                         </button>
->>>>>>> c3a54d70ccb90d90c896606d287f46277bb19a86
                         <button
                             type="submit"
                             id="submitButton"

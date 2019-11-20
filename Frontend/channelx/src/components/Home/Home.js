@@ -81,19 +81,11 @@ class Home extends Component {
         filteredParticipated: [],
         isChatEnable: null,
         isPublic: null,
-<<<<<<< HEAD
-        editChannelId : null,
-        channelsForSearch : [],
-        deleteConfirm: false,
-        showPublic: false,
-        showPrivate: false
-=======
         deleteConfirm: false,
         channelsForSearch: [],
         showPublic: false,
         showPrivate: false,
         editChannelId: null
->>>>>>> c3a54d70ccb90d90c896606d287f46277bb19a86
     };
 
     handleSelectChange = event => {
@@ -480,8 +472,12 @@ class Home extends Component {
         db.collection("channels").get().then(ref => {
             ref.docs.forEach(doc => {
 
+                console.log(doc.id);
+
                 var channelEndDate = doc.get("channelEndDate");
                 var validDate = Moment(date).isSameOrBefore(channelEndDate);
+
+                console.log(validDate);
 
                 if(!validDate){
                     doc.ref.delete();
@@ -699,19 +695,6 @@ class Home extends Component {
             showPublic: false
         });
     };
-<<<<<<< HEAD
-
-    closeModal = () => {
-        this.setState({
-            ...this.state,
-            showPublic: false,
-            showPrivate: false
-        });
-    };
-
-    render() {
-=======
->>>>>>> c3a54d70ccb90d90c896606d287f46277bb19a86
 
     render() {
         const {filteredData} = this.state;
@@ -790,17 +773,11 @@ class Home extends Component {
                     <div className="HomeCreateModal">
                         <CreateChannel
                             show={this.state.showPublic}
-<<<<<<< HEAD
-                        />
-                        <CreatePrivateChannel
-                            show={this.state.showPrivate}
-=======
                             closePublicModal = {this.showPublicModal}
                         />
                         <CreatePrivateChannel
                             show={this.state.showPrivate}
                             closePrivateModal = {this.showPrivateModal}
->>>>>>> c3a54d70ccb90d90c896606d287f46277bb19a86
                         />
                     </div>
                     <div className="ParticipatedList">
