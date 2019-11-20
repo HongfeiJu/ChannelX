@@ -1,0 +1,31 @@
+.social_login_form {
+    width: 100%;
+    flex-direction: row;
+    border-radius: 15px;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 0.75em;
+}
+
+.social_login_form_btn {
+    color: #fff;
+    border: 2px solid #fff;
+    width: 40%;
+    margin-top: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+    font-size: 1em;
+    letter-spacing: 1px;
+    border-radius: 15px;
+}
+.social_login_form img {
+    width: 15%;
+    margin-right:7%;
+}
+
+.social_login_form img:hover {
+    border: 2px solid blue;
+    border-radius: 15px;
+}
