@@ -555,24 +555,24 @@ class Home extends Component {
                 <ListItem button onClick={() => this.channelListItemClick(channelTitle)}>
                     <ListItemText primary={channelTitle}/>
 
-                    {/* <Divider/>
+                    <Divider/>
                     <ListItemSecondaryAction button onClick={() => this.deleteChannelAlert(channelTitle)}>
                         <IconButton edge="end" aria-label="delete">
                             <DeleteIcon/>
                         </IconButton>
-                    </ListItemSecondaryAction> */}
+                    </ListItemSecondaryAction>
 
 
                
-                 <Divider/>
+                 {/* <Divider/> */}
 
 
 
-                 <ListItemSecondaryAction button onClick={() => this.editChannelAlert(channelTitle)}>
+                 {/* <ListItemSecondaryAction button onClick={() => this.editChannelAlert(channelTitle)}>
                         <IconButton edge="start" aria-label="edit">
                             <EditIcon/>
                         </IconButton>
-                    </ListItemSecondaryAction> 
+                    </ListItemSecondaryAction>  */}
 
 </ListItem> 
             )
