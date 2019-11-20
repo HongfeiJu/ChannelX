@@ -21,7 +21,7 @@ class ChannelEditor {
             channelEndTime : endTime,
             channelCreator : creator
         });
-        const type = 'public';
+        // const type = 'public';
     }
 }
 
