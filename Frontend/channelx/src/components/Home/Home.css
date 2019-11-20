@@ -122,12 +122,18 @@
     flex-direction: row;
 }
 
+.HomeCreateModal {
+    position: relative;
+    margin: 10px auto 0;
+    width: 100%;
+}
+
 .CreatedList{
     width: 28%;
     height: 40vh;
     margin-top: 10px;
-    margin-right: 35%;
-    margin-left: auto;
+    position: absolute;
+    left: 4%;
     color: #000000;
     background-color: white;
     padding: 5px;
@@ -147,7 +153,8 @@
     width: 28%;
     height: 40vh;
     margin-top: 10px;
-    margin-right: auto;
+    position: absolute;
+    right: 4%;
     color: #000000;
     background-color: white;
     padding: 5px;

@@ -70,39 +70,48 @@ class CreatePrivateChannel extends Component {
 
     routeTo = (path) => this.props.history.push(path);
 
+    onModalClose = (event) => {
+        event.stopPropagation();
+        this.props.onClose && this.props.onCLose(event);
+    };
+
     render() {
+        if (!this.props.show){
+            return null;
+        }
         return (
-            <div className="wrapper">
-                <div className="form-wrapper">
-                    <form onSubmit={this.createChannel}>
-                        <div className="channelTitle">
-                            <input
-                                type="text"
-                                id="channelTitle"
-                                placeholder="Title"
-                                name="channelTitle"
-                                required
-                                onChange={this.handlechannelChange}
-                            ></input>
-                        </div>
-                        <div className="createChannel">
-                            <button
-                                type="button"
-                                id="cancelButton"
-                                className="leaveButton"
-                                onClick={() => this.routeTo(ROUTES.HOME)}
-                            >Cancel
-                            </button>
-                            <button
-                                type="submit"
-                                id="submitButton"
-                                className="createButton"
-                            >Create
-                            </button>
-                        </div>
-                        <hr/>
-                    </form>
-                </div>
+            <div className="CreateChannelForm">
+                <form onSubmit={this.createChannel}>
+                    <div className="ModalArrowRight">
+                        &#11014;
+                    </div>
+                    <div className="channelTitle">
+                        <input
+                            type="text"
+                            id="channelTitle"
+                            placeholder="Title"
+                            name="channelTitle"
+                            required
+                            onChange={this.handlechannelChange}
+                        ></input>
+                    </div>
+                    <div className="createChannel">
+                        {/*<button*/}
+                        {/*    type="button"*/}
+                        {/*    id="cancelButton"*/}
+                        {/*    className="leaveButton"*/}
+                        {/*    // onClick={(event) => {this.onModalClose(event)}}*/}
+                        {/*>Cancel*/}
+                        {/*</button>*/}
+                        <button
+                            type="submit"
+                            id="submitButton"
+                            className="createButton"
+                        >Create
+                        </button>
+                    </div>
+                    <hr/>
+                </form>
             </div>
         );
     }
