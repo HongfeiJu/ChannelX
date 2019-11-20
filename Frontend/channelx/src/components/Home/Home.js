@@ -15,6 +15,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import Divider from '@material-ui/core/Divider';
 import './Home.css';
 import * as ROUTES from "../../constants/routes";
@@ -78,8 +79,9 @@ class Home extends Component {
         filteredParticipated: [],
         isChatEnable: null,
         isPublic: null,
-        deleteConfirm: false,
-        channelsForSearch: []
+        deleteConfirm : false,
+        editChannelId : null,
+        channelsForSearch : []
     };
 
     handleSelectChange = event => {
@@ -192,6 +194,63 @@ class Home extends Component {
             icon: "warning",
         })
     }
+
+    editChannelAlert(channelTitle) {
+        swal({
+            title: "Are you sure?",
+            text: "Do you want to edit the channel? If no, press Exit.",
+            icon: "warning",
+            buttons: ["Exit", "Edit Channel"],
+
+            dangerMode: true,
+          }).then((edit) => {
+            if (edit) {
+                this.editChannelClicked(channelTitle);
+            } 
+
+          });   
+    }
+
+    editChannelClicked = (channelTitle) => {
+
+        // const editChannelInfo = new ChannelInfoEditor();
+        console.log(channelTitle);
+        
+        db.collection("channels").where("channelTitle", "==", channelTitle)
+            .get()
+            .then(snapshot => {
+                snapshot
+                .docs
+                .forEach(doc => {
+                    console.log("channelId    => ");
+                    console.log(doc.id);
+                    this.setState({editChannelId: doc.id});
+                // editChannelInfo.editChannelInformation(doc.id);
+                console.log("inside edit button"+this.state.editChannelId);
+
+              this.DelayReturnToHomePage(this.state.editChannelId);
+
+                   })
+                });
+        }
+
+
+        DelayReturnToHomePage = (id) => {
+
+            setTimeout(() => {
+               var pageType = {
+                   pathname: '/editChannel',
+                   state: {
+                     data:{
+                       'id':id,
+                     }
+                   }
+                 }
+              this.props.history.push(pageType); 
+          
+          
+            }, 1000)
+          }
 
     deleteChannelAlert(channelTitle) {
 
@@ -460,13 +519,11 @@ class Home extends Component {
                 snapshot
                     .docs
                     .forEach(doc => {
-
                         doc.ref.delete();
                         messagingChannelDeleter.deleteChannel(doc.id);
                         // MessagingChannelDeleter.deletech
                     })
             });
-
 
         let filtered_list = this.state.userCreatedChannels.filter(ele => ele != channelTitle)
         let filteredData = this.state.filteredData.filter(ele => ele != channelTitle)
@@ -482,25 +539,32 @@ class Home extends Component {
         });
     };
 
-
     userCreatedChannels = () => {
         let data = this.state.filtered
         return data.map((channelTitle) => {
             return (
+                
                 <ListItem button onClick={() => this.channelListItemClick(channelTitle)}>
-                    <ListItemText primary={channelTitle}/>
-
-                    <Divider/>
-                    <ListItemSecondaryAction button onClick={() => this.deleteChannelAlert(channelTitle)}>
-                        <IconButton edge="end" aria-label="delete">
-                            <DeleteIcon/>
-                        </IconButton>
-                    </ListItemSecondaryAction>
-                </ListItem>
-
+                <ListItemText primary={channelTitle}/>
+                <Divider/>
+                <ListItemSecondaryAction button onClick={() => this.editChannelAlert(channelTitle)}>
+                    <IconButton edge="start" aria-label="edit" >
+                        <EditIcon/>
+                    </IconButton>
+                </ListItemSecondaryAction> 
+                
+                 {/* <ListItemSecondaryAction button onClick={() => this.deleteChannelAlert(channelTitle)}>
+                    <IconButton edge="end" aria-label="delete">
+                        <DeleteIcon/>
+                    </IconButton>
+                </ListItemSecondaryAction>  */}
+                </ListItem>  
             )
         })
     };
+
+
+
 
     // Begin: Function to fetch all channels the current user participated before
     // written by Subhradeep
@@ -653,6 +717,7 @@ class Home extends Component {
     }
 
     render() {
+
         const {filteredData} = this.state;
         let channelList = filteredData.length > 0
             && filteredData.map((channel, i) => {

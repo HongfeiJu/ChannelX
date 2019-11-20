@@ -100,7 +100,15 @@
     display: flex;
     flex-direction: column;
 }
+.HomePrivateChannel{
+    box-sizing: border-box;
+    margin-top: -5px;
+}
 
+/* .MuiIconButton-edgeStart{
+    margin-left: auto;
+    display: flex;
+} */
 .searchFormCreated{
     width: 480%;
     margin-left: 50%;
