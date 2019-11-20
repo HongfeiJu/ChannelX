@@ -131,11 +131,6 @@ class CreateChannel extends Component {
 
     routeTo = (path) => this.props.history.push(path);
 
-    onModalClose = (event) => {
-        event.stopPropagation();
-        this.props.onClose && this.props.onClose(event);
-    };
-
     render() {
         if (!this.props.show) {
             return null;
@@ -201,13 +196,13 @@ class CreateChannel extends Component {
                         <MaterialUIPickersEndTime/>
                     </div>
                     <div className="createChannel">
-                        {/*<button*/}
-                        {/*    type="button"*/}
-                        {/*    id="cancelButton"*/}
-                        {/*    className="leaveButton"*/}
-                        {/*    // onClick={(event) => {this.onModalClose(event)}}*/}
-                        {/*>Cancel*/}
-                        {/*</button>*/}
+                        <button
+                            type="button"
+                            id="cancelButton"
+                            className="leaveButton"
+                            onClick={()=>{this.props.closePublicModal()}}
+                        >Close
+                        </button>
                         <button
                             type="submit"
                             id="submitButton"

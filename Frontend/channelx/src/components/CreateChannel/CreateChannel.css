@@ -92,11 +92,12 @@
 
 .leaveButton {
     width: 30%;
-    float: left;
-    background-color: goldenrod;
+    float: right;
+    background-color: mediumturquoise;
 }
 
 .createButton {
+    float: left;
     width: 30%;
     background-color: mediumseagreen;
 }

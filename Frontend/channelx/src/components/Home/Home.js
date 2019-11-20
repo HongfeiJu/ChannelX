@@ -769,9 +769,11 @@ class Home extends Component {
                     <div className="HomeCreateModal">
                         <CreateChannel
                             show={this.state.showPublic}
+                            closePublicModal = {this.showPublicModal}
                         />
                         <CreatePrivateChannel
                             show={this.state.showPrivate}
+                            closePrivateModal = {this.showPrivateModal}
                         />
                     </div>
                     <div className="ParticipatedList">
