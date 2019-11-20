@@ -198,7 +198,7 @@ class Home extends Component {
     editChannelAlert(channelTitle) {
         swal({
             title: "Are you sure?",
-            text: "Do you want to edit the channel? If no, please press Exit.",
+            text: "Do you want to edit the channel? If no, press Exit.",
             icon: "warning",
             buttons: ["Exit", "Edit Channel"],
 

@@ -265,7 +265,7 @@ class ChannelInfoEditor extends Component {
             <div className="wrapper">
                 <div className="form-wrapper">
                     <div className="FormTitle">
-                        <h1>Create your Public Channel</h1>
+                        <h1>Edit Channel</h1>
                     </div>
                     <form onSubmit={this.editChannel}>
                         <div className="channelTitle">
