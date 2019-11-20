@@ -1,16 +1,15 @@
 /*
 Description: LoginForm component for modal
-Authors: Subhradeep Biswas, Darshan Prakash
-Date: 10/01/2019
+Authors: Subhradeep Biswas, Darshan Prakash, Hongfei Ju
+Date: 11/20/2019
 */
 
 import React, {Component} from 'react';
 import './LoginForm.css'
-import fire from "../../../config/Fire";
 import {withRouter} from 'react-router-dom';
 import * as ROUTES from '../../../constants/routes';
 import firebase from "firebase";
-//import SocialLoginForm from "./SocialLoginForm/SocialLoginForm";
+import SocialLoginForm from "./SocialLoginForm/SocialLoginForm";
 
 class LoginForm extends Component {
     constructor(props) {
@@ -142,6 +141,10 @@ class LoginForm extends Component {
                         </div>
                     </div>
                 </form>
+                <div>or</div>
+                <div>
+                    <SocialLoginForm/>
+                </div>
             </div>
         );
     }
