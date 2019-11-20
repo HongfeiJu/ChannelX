@@ -1,40 +1,32 @@
 .Home {
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     font: 16px 'Roboto', Helvetica, sans-serif;
     display: flex;
     flex-direction: column;
     margin: auto;
+    background: #7678ED;
     align-items: center;
     padding: 1rem;
     font-size: 1rem;
     min-height: 80vh;
     border-bottom: .5px solid black;
-    background: url("Abstract-Envelope.svg");
-    background-size: cover;
-    background-position: center;
 }
 
-.HomeHeader {
+.HomeHeaderButtons {
     width: 100%;
     display: flex;
-    justify-content: center;
-    position: relative;
-}
-
-.HomeDisplayName {
-    font-family: Roboto, Helvetica, Arial, sans-serif;
-    font-size: 40px;
+    flex-direction: row;
 }
 
 .HomeLogout {
-    position: absolute;
-    right: 2%;
+    float :left;
     background-color: lightgrey;
     color: #000000;
     border: 2px solid #fff;
     width: 13%;
     margin-top: 1em;
+    margin-right: auto;
     padding: 8px 2px;
     font-size: 1em;
     letter-spacing: 1px;
@@ -42,12 +34,9 @@
     border-radius: 5px;
 }
 
-.HomeCreateNew {
-    width: 100%;
-}
 
 .HomeCreateChannel {
-    width: auto;
+    float: right;
     background-color: darkseagreen;
     color: #000000;
     border: 2px solid #fff;
@@ -61,37 +50,28 @@
     border-radius: 5px;
 }
 
-.SearchBarComponent {
-    height: 7%;
-    width: 30%;
-    margin-top: 3%;
-    margin-bottom: 1%;
+
+.HomeJoinChannel {
+    background-color: goldenrod;
+    color: #000000;
+    border: 2px solid #fff;
+    width: 13%;
+    margin-top: 1em;
+    padding: 8px 0px;
+    font-size: 1em;
+    letter-spacing: 1px;
+    margin-bottom: 0.25em;
+    border-radius: 5px;
 }
 
-.HomePasscodeInput {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
 
-.HomePasscodeInput input{
-    width: 20%;
-}
 
 .searchForm {
     width: 20%;
     display: flex;
     flex-direction: column;
 }
-.HomePrivateChannel{
-    box-sizing: border-box;
-    margin-top: -5px;
-}
 
-/* .MuiIconButton-edgeStart{
-    margin-left: auto;
-    display: flex;
-} */
 .searchFormCreated{
     width: 480%;
     margin-left: 50%;
@@ -103,53 +83,36 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-}
+    
 
+}
 .CreatedList{
     width: 28%;
     height: 40vh;
     margin-top: 10px;
-    margin-right: 35%;
-    margin-left: auto;
-    color: #000000;
-    background-color: white;
+    margin: auto;
+    color: #b3d7ff;
+    background-color: darkslateblue;
+    border: 1px solid darkslateblue;
     padding: 5px;
     overflow-y: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    border-radius: 10px;
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, .1), 0 2px 4px 1px rgba(0, 0, 0, .18);
+
+    
 }
 
 .CreatedList::-webkit-scrollbar {
     width: 0;
     height: 0;
 }
-
-.ParticipatedList {
-    width: 28%;
-    height: 40vh;
-    margin-top: 10px;
-    margin-right: auto;
-    color: #000000;
-    background-color: white;
-    padding: 5px;
-    overflow-y: scroll;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    border-radius: 10px;
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, .1), 0 2px 4px 1px rgba(0, 0, 0, .18);
-}
-
-.ParticipatedList::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-}
-
 .channelsList {
     width: 20%;
+    color: #b3d7ff;
+    background-color: darkslateblue;
     margin-left: 0px;
     margin-top: 10px;
+    border: 1px solid darkslateblue;
     padding: 5px;
 }
 
@@ -158,43 +121,3 @@
     border: 1px solid whitesmoke;
     border-radius: 5px;
 }
-
-.swal-modal .swal-text {
-    text-align: center;
-}
-
-.swal-button {
-    padding: 7px 19px;
-    border-radius: 2px;
-    background-color: #4962B3;
-    font-size: 12px;
-    border: 1px solid #3e549a;
-    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
-  }
-
-.swal-text {
-    background-color: #FEFAE3;
-    padding: 17px;
-    border: 1px solid #F0E1A1;
-    display: block;
-    margin: 22px;
-    text-align: center;
-    color: #61534e;
-  }
-
-.swal-button {
-    /* margin-left: -1000%; */
-    padding: 7px 19px;
-    border-radius: 2px;
-    background-color: #4962B3;
-    font-size: 12px;
-    border: 1px solid #3e549a;
-    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
-  }
-
-  .swal-footer {
-    background-color: rgb(245, 248, 250);
-    margin-top: 32px;
-    border-top: 1px solid #E9EEF1;
-    overflow: hidden;
-  }

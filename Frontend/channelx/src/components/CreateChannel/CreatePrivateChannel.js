@@ -1,7 +1,7 @@
 /*
 Description: Create Private Channel Page
-Authors: Darshan Prakash, Sami
-Date: 11/14/2019
+Authors: Darshan Prakash
+Date: 11/04/2019
 */
 
 import React, {Component} from 'react';
@@ -66,6 +66,7 @@ class CreatePrivateChannel extends Component {
         privateChannelCreator.creatNewPrivateChannel(
             this.state.channelTitle,
             this.state.UUID);
+        this.routeTo(ROUTES.HOME);
     }
 
     routeTo = (path) => this.props.history.push(path);

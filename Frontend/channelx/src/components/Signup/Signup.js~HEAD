@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import './SignupForm.css'
+import './Signup.css'
 import fire from "../../config/Fire";
 import * as ROUTES from '../../constants/routes';
 import {withRouter} from 'react-router-dom';
 
-class SignupForm extends Component{
+class Signup extends Component{
     constructor(props){
         super(props);
         this.login = this.login.bind(this);
@@ -213,7 +213,7 @@ class SignupForm extends Component{
                             type="submit"
                             id="loginButton"
                             className="loginButton"
-                        >LoginForm</button> */}
+                        >Login</button> */}
                     </div>
                 </form>
             </div>
@@ -222,4 +222,4 @@ class SignupForm extends Component{
 }
 
 
-export default withRouter(SignupForm);
+export default withRouter(Signup);

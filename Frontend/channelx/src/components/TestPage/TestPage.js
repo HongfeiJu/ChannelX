@@ -14,7 +14,6 @@ import ChannelsList from "./ChannelsList"
 import PasscodeChecker from "../../services/PasscodeChecker";
 import PrivatePasscodeGenerator from "../../services/PrivatePasscodeGenertor";
 import ChannelIDGetter from "../../services/ChannelIDGetter";
-import MessagingChannelDeleter from "../../services/MessagingChannelDeleter";
 
 
 
@@ -27,7 +26,6 @@ class TestPage extends Component{
         this.passcodeChecker=new PasscodeChecker();
         this.privatePasscodeGenerator=new PrivatePasscodeGenerator();
         this.channelIDGetter=new ChannelIDGetter();
-        this.messagingChannelDeleter=new MessagingChannelDeleter();
     }
 
     showPasscode(){
@@ -39,11 +37,13 @@ class TestPage extends Component{
     }
 
     createNewChannel(){
-        const id=this.channelIDCreator.getNewChannelID();
-        this.msgChannelCreator.createChannel(id,
-            'channel '+ Math.floor(Math.random()*100), 'dummy user', 'true');
-        alert('channel '+id+'created');
-
+        this.channelIDCreator.getNewChannelID().then(r=>{
+            this.msgChannelCreator.createChannel(r.val(), 'channel '+ Math.floor(Math.random()*100), 'dummy user');
+            alert('channel '+ r.val()+ ' created');
+        }).catch(e=>{
+            alert(e);
+            alert('channel not created');
+        })
     }
 
     checkUser(){
@@ -63,10 +63,6 @@ class TestPage extends Component{
         this.channelIDGetter.getChannelID('2001GreenBenzGasPickup').then(r=>{
             alert(r.val());
         })
-    }
-
-    deleteChannel(){
-        this.messagingChannelDeleter.deleteChannel('1f7d5d7e8f3c5');
     }
 
 
@@ -116,13 +112,6 @@ class TestPage extends Component{
                                     this.getChannelID()
                                 }}
                         >get channel id</button>
-                        <button id="newChannel_btn"
-                                type="button"
-                                style={{ marginLeft: "auto" }}
-                                onClick={() => {
-                                    this.deleteChannel()
-                                }}
-                        >delete channel</button>
                     </div>
                     <ChannelsList/>
                 </div>

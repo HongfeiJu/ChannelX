@@ -7,8 +7,8 @@ Date: 9/17/2019
 import React from 'react';
 import './Landing.css';
 import Modal from '@material-ui/core/Modal';
-import SignupForm from "../SignupForm/SignupForm";
-import LoginForm from "../LoginForm/LoginForm";
+import Signup from "../Signup/Signup";
+import Login from "../Login/Login";
 
 class Landing extends React.Component {
 
@@ -51,13 +51,13 @@ class Landing extends React.Component {
                 </button>
             </div>
 
-            <div className="LoginForm">
+            <div className="Login">
                 <button
                     type="button"
                     style={{marginLeft: "auto"}}
-                    className="LoginForm"
+                    className="Login"
                     onClick={() => this.modalLoginCall()}
-                >LoginForm
+                >Login
                 </button>
             </div>
             <div>
@@ -71,7 +71,7 @@ class Landing extends React.Component {
                 close={() => this.onModalClose()}
                 onBackdropClick={() => this.onModalClose()}
             >
-                <SignupForm
+                <Signup
                     onModalClose={this.onModalClose}
                 />
             </ Modal>
@@ -80,7 +80,7 @@ class Landing extends React.Component {
                 close={() => this.onModalLoginClose()}
                 onBackdropClick={() => this.onModalLoginClose}
             >
-                <LoginForm
+                <Login
                     onModalLoginClose={this.onModalLoginClose}
                 />
             </Modal>
