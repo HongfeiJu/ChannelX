@@ -15,28 +15,26 @@
     background-position: center;
 }
 
-.HomeHeaderButtons {
+.HomeHeader {
     width: 100%;
     display: flex;
-    flex-direction: row;
+    justify-content: center;
+    position: relative;
 }
 
-.swal-modal .swal-text {
-    text-align: center;
+.HomeDisplayName {
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    font-size: 40px;
 }
-
-/* .swal-wide{
-    width:10000px !important;
-} */
 
 .HomeLogout {
-    float :left;
+    position: absolute;
+    right: 2%;
     background-color: lightgrey;
     color: #000000;
     border: 2px solid #fff;
     width: 13%;
     margin-top: 1em;
-    margin-right: auto;
     padding: 8px 2px;
     font-size: 1em;
     letter-spacing: 1px;
@@ -44,11 +42,12 @@
     border-radius: 5px;
 }
 
-
-
+.HomeCreateNew {
+    width: 100%;
+}
 
 .HomeCreateChannel {
-    float: right;
+    width: auto;
     background-color: darkseagreen;
     color: #000000;
     border: 2px solid #fff;
@@ -65,8 +64,18 @@
 .SearchBarComponent {
     height: 7%;
     width: 30%;
-    margin-top: 2%;
-    margin-bottom: 2%;
+    margin-top: 3%;
+    margin-bottom: 1%;
+}
+
+.HomePasscodeInput {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.HomePasscodeInput input{
+    width: 20%;
 }
 
 .searchForm {
@@ -94,9 +103,8 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    
-
 }
+
 .CreatedList{
     width: 28%;
     height: 40vh;
@@ -151,6 +159,10 @@
     border-radius: 5px;
 }
 
+.swal-modal .swal-text {
+    text-align: center;
+}
+
 .swal-button {
     padding: 7px 19px;
     border-radius: 2px;
@@ -159,7 +171,6 @@
     border: 1px solid #3e549a;
     text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
   }
-
 
 .swal-text {
     background-color: #FEFAE3;
@@ -170,8 +181,6 @@
     text-align: center;
     color: #61534e;
   }
-
-
 
 .swal-button {
     /* margin-left: -1000%; */
