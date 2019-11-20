@@ -1,6 +1,6 @@
 /*
 description: Update edited channel in Firebase
-author: Manisha Miriyala, Muhammed Sami
+author: Manisha Miriyala, Muhammed Sami.
 date: 11/19/2019
  */
 
