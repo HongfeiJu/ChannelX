@@ -25,6 +25,8 @@ import swal from 'sweetalert';
 import Moment from 'moment';
 import SearchBar from "./SearchBar";
 import MessagingChannelDeleter from "../../services/MessagingChannelDeleter";
+import CreateChannel from "../CreateChannel/CreateChannel";
+import CreatePrivateChannel from "../CreateChannel/CreatePrivateChannel";
 
 
 class Home extends Component {
@@ -79,9 +81,11 @@ class Home extends Component {
         filteredParticipated: [],
         isChatEnable: null,
         isPublic: null,
-        deleteConfirm : false,
         editChannelId : null,
-        channelsForSearch : []
+        channelsForSearch : [],
+        deleteConfirm: false,
+        showPublic: false,
+        showPrivate: false
     };
 
     handleSelectChange = event => {
@@ -716,6 +720,30 @@ class Home extends Component {
         }
     }
 
+    showPublicModal = () => {
+        this.setState({
+            ...this.state,
+            showPublic: !this.state.showPublic,
+            showPrivate: false
+        });
+    };
+
+    showPrivateModal = () => {
+        this.setState({
+            ...this.state,
+            showPrivate: !this.state.showPrivate,
+            showPublic: false
+        });
+    };
+
+    closeModal = () => {
+        this.setState({
+            ...this.state,
+            showPublic: false,
+            showPrivate: false
+        });
+    };
+
     render() {
 
         const {filteredData} = this.state;
@@ -765,13 +793,13 @@ class Home extends Component {
                     <button
                         type="button"
                         className="HomeCreatePublicButton"
-                        onClick={() => this.routeTo(ROUTES.CREATE_CHANNEL)}
+                        onClick={this.showPublicModal}
                     >Create Public
                     </button>
                     <button
                         type="button"
                         className="HomeCreatePrivateButton"
-                        onClick={() => this.routeTo(ROUTES.CREATE_PRIVATE_CHANNEL)}
+                        onClick={this.showPrivateModal}
                     >Create Private
                     </button>
                 </div>
@@ -788,6 +816,14 @@ class Home extends Component {
                                 </List>
                             </div>
                         </div>
+                    </div>
+                    <div className="HomeCreateModal">
+                        <CreateChannel
+                            show={this.state.showPublic}
+                        />
+                        <CreatePrivateChannel
+                            show={this.state.showPrivate}
+                        />
                     </div>
                     <div className="ParticipatedList">
                         <div className="channelsList">
