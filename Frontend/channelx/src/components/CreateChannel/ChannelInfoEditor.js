@@ -1,7 +1,7 @@
 /*
-Description: Create Channel Page
-Authors: Manisha Miriyala
-Date: 11/14/2019
+Description: Edit Channel Page 
+Authors: Manisha Miriyala,Muhammad Sami
+Date: 11/19/2019
 */
 
 import React, {Component} from 'react';
@@ -54,11 +54,9 @@ class ChannelInfoEditor extends Component {
     componentDidMount() {
         this.authListener();
 
-        id = '1f7e1e3a8a6e8';
+        console.log(this.props.location.state.data.id);
 
-        console.log(id);
-
-        this.editChannelInformation(id);
+        this.editChannelInformation(this.props.location.state.data.id);
 
     }
 
@@ -82,7 +80,7 @@ class ChannelInfoEditor extends Component {
 
         // console.log("id in edit channel:", channelID);
 
-        console.log(this.props.items);
+        // console.log(this.props.items);
     
         db.collection("channels").doc(channelID)
             .get()
@@ -93,6 +91,10 @@ class ChannelInfoEditor extends Component {
 
                 channelStartTime = doc.get("channelStartTime");
                 channelEndTime = doc.get("channelEndTime");
+
+                channelStartDate = doc.get("channelStartDate");
+
+                channelEndDate = doc.get("channelEndDate");
 
 
 
