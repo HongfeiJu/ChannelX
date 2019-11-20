@@ -49,7 +49,7 @@ class App extends Component {
             <div className={"App"}>
                 <Router>
                     <div className="App">
-                        <Route path={ROUTES.LANDING} exact component={Landing}/>
+                        <Route path={ROUTES.LANDING} exact component={LandingV2}/>
                         {/*<Route path={ROUTES.SIGN_UP}  exact component={Signup}/>*/}
                         {/*<Route path={ROUTES.SIGN_IN} exact component={Login}/>*/}
                         <Route path={ROUTES.FORGET_PWD} exact component={ForgetPassword}/>
