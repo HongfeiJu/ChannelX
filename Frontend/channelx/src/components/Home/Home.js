@@ -251,7 +251,7 @@ class Home extends Component {
               this.props.history.push(pageType); 
           
           
-            }, 1700)
+            }, 1000)
           }
 
     deleteChannelAlert(channelTitle) {
