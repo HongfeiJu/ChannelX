@@ -19,6 +19,8 @@ import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider, KeyboardTimePicker} from '@material-ui/pickers';
 import firebase from "firebase";
 import swal from 'sweetalert';
+// import Home from "../Home/Home";
+
 
 let channelStartDate = null;
 let channelEndDate = null;
@@ -29,12 +31,13 @@ class ChannelInfoEditor extends Component {
 
     constructor(props) {
         super(props);
+
+        // this.editChannelInformation(this.props.location.state.data.id);
         
         this.editChannel = this.editChannel.bind(this);
         this.handlechannelChange = this.handlechannelChange.bind(this);
         this.state = {
-            startDate: null,
-            endDate: null,
+            isLoaded: false,
             insideEdit: false,
             channelTitle: null,
             channelPassword: null,
@@ -64,14 +67,14 @@ class ChannelInfoEditor extends Component {
             this.setState({channelPassword: doc.get("channelPassword")});
 
             channelStartTime = doc.get("channelStartTime");
-            channelEndTime = doc.get("channelEndTime");
-            channelStartDate = doc.get("channelStartDate");
-            channelEndDate = doc.get("channelEndDate");  
 
-            this.setState({endDate : Moment(channelEndDate), startDate : Moment(channelStartDate)});
-            
-            console.log(channelStartDate);
-            console.log(channelEndDate);
+            console.log(channelStartTime);
+
+            channelEndTime = doc.get("channelEndTime");
+            this.setState({channelStartDate: doc.get("channelStartDate")});
+            channelStartDate = doc.get("channelStartDate");
+
+            channelEndDate = doc.get("channelEndDate");  
 
             this.setState({isLoaded:true});
 
@@ -95,6 +98,7 @@ class ChannelInfoEditor extends Component {
             }
         });
     }
+
 
 
     handlechannelChange = e => {
@@ -133,6 +137,8 @@ class ChannelInfoEditor extends Component {
     editChannel(e) {
 
         e.preventDefault();
+        console.log(channelStartTime);
+        console.log(channelEndTime);
 
         var sameDay = false;
 
@@ -142,6 +148,7 @@ class ChannelInfoEditor extends Component {
         }
 
         if(channelEndTime > channelStartTime && sameDay) {
+            // alert('channel created');
 
             const channelEditor = new ChannelEditor();
             channelEditor.editChannel(
@@ -182,9 +189,13 @@ class ChannelInfoEditor extends Component {
     render() {
 
         function MaterialUIPickersStartTime() {
+
+        console.log(channelStartTime);
     
     
         var date = '2014-08-18T'+ channelStartTime ;
+    
+        console.log("testing"+date);
     
         const [selectedDate, setSelectedDate] = React.useState(new Date(date));
         channelStartTime = Moment(selectedDate).format('HH:mm:ss').toString();
@@ -214,7 +225,7 @@ class ChannelInfoEditor extends Component {
     
     function MaterialUIPickersEndTime() {
     
-        // console.log(channelEndTime);
+        console.log(channelEndTime);
     
         var date = '2014-08-18T'+ channelEndTime;
     
@@ -223,7 +234,7 @@ class ChannelInfoEditor extends Component {
         const handleDateChange = date => {
             setSelectedDate(date);
             channelEndTime = Moment(date).format('HH:mm:ss').toString();
-            // console.log(channelEndTime);
+            console.log(channelEndTime);
         };
         return (
 
@@ -286,10 +297,8 @@ class ChannelInfoEditor extends Component {
                         </div>
                         <div className="datePicker">
                             <DateRangePicker
-                                {...console.log(this.state.startDate)}
                                 startDate={this.state.startDate}
                                 startDateId="your_unique_start_date_id"
-                                {...console.log(this.state.endDate)}
                                 endDate={this.state.endDate}
                                 endDateId="your_unique_end_date_id"
                                 // placeholder="Start"
