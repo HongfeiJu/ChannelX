@@ -1,8 +1,9 @@
 /*
-Description: styles for signup form
+Description: styles for login form
 Authors: Hongfei Ju
 Date: 11/20/2019
 */
+
 .landing_signupform {
     width: 60%;
     display: flex;
@@ -12,7 +13,7 @@ Date: 11/20/2019
     border-bottom-right-radius: 10px;
     box-shadow: 0px 10px 50px #555;
     background-color: #ffffff;
-    margin-left: 20%;
+    margin:auto;
 }
 
 form {
@@ -37,6 +38,13 @@ label {
     font-weight: lighter;
 }
 
+a {
+    padding: 10px 20px;
+    border-radius: 5px;
+    outline: none;
+    width: 100%;
+}
+
 input {
     padding: 10px 10px;
     border-radius: 5px;
@@ -46,6 +54,7 @@ input {
 
 input::placeholder {
     font-size: 1.2em;
+    font-weight: lighter;
     color: #999;
 }
 
@@ -91,14 +100,19 @@ input.error {
     width: 100%;
 }
 
-.createAccount {
+.login_form_control {
     width: 100%;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
 }
 
-.createAccount button {
-    color: #fff;
+.login_form_forget {
+    width: 50%;
+    margin:auto;
+}
+
+.login_form_login button {
+    background-color: darkblue;
+    color: white;
     border: 2px solid #fff;
     width: 100%;
     margin-top: 1em;
@@ -109,18 +123,9 @@ input.error {
     border-radius: 15px;
 }
 
-.createAccount button:hover {
+.login_form_login button:hover {
     color: #519e8a;
     background-color: #fff;
     border: 2px solid #519e8a;
-}
-
-.createAccount small {
-    color: #999;
-    font-weight: lighter;
-}
-
-.submitButton {
-    background-color: darkblue;
 }
 
