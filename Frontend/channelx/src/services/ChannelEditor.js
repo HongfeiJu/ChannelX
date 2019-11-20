@@ -1,20 +1,16 @@
 /*
 description: Update edited channel in Firebase
-author: Manisha Miriyala
-date: 10/22/2019
+author: Manisha Miriyala, Muhammed Sami
+date: 11/19/2019
  */
 
-import firebase from "firebase";
-import ChannelIDCreator from "./ChannelIDCreator";
-//import MessagingChannelCreator from "./MessagingChannelCreator";
 import fire from "../config/Fire";
 
 class ChannelEditor {
 
-    editChannel(title,password, startDate, endDate,startTime,endTime,creator){
-        //const messagingChannelCreator=new MessagingChannelCreator();
-        let messagingChannelID = (new ChannelIDCreator()).getNewChannelID();
-        fire.firestore().collection('channels').doc(messagingChannelID).set({
+    editChannel(id_channel,title,password, startDate, endDate,startTime,endTime,creator){
+        console.log("id extracted from channelinfoeditor:", id_channel);
+        fire.firestore().collection('channels').doc(id_channel).set({
             channelTitle : title,
             channelPassword : password,
             channelStartDate : startDate,
@@ -23,14 +19,6 @@ class ChannelEditor {
             channelEndTime : endTime,
             channelCreator : creator
         });
-        fire.firestore().collection('users').doc(creator).update(
-            {
-                channelsCreated: firebase.firestore.FieldValue.arrayUnion(messagingChannelID)
-            }
-        );
-        // const type = 'public';
-        // messagingChannelCreator.createChannel(messagingChannelID, title, creator,type);
-        // alert('channel created');
     }
 }
 
