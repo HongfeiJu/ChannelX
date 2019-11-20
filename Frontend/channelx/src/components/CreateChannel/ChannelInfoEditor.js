@@ -7,7 +7,7 @@ Date: 11/19/2019
 import React, {Component} from 'react';
 import './CreateChannel.css'
 import * as ROUTES from "../../constants/routes";
-import ChannelCreator from "../../services/ChannelCreator";
+import ChannelEditor from "../../services/ChannelEditor";
 import 'react-dates/initialize';
 import {DateRangePicker} from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
@@ -161,8 +161,8 @@ class ChannelInfoEditor extends Component {
         if(channelEndTime > channelStartTime && sameDay) {
             // alert('channel created');
 
-            const channelCreator = new ChannelCreator();
-            channelCreator.creatNewChannel(
+            const channelEditor = new ChannelEditor();
+            channelEditor.editChannel(
                 this.state.channelTitle,
                 this.state.channelPassword,
                 channelStartDate,
@@ -174,8 +174,8 @@ class ChannelInfoEditor extends Component {
 
         } else if(!sameDay) {
 
-            const channelCreator = new ChannelCreator();
-            channelCreator.creatNewChannel(
+            const channelEditor = new ChannelEditor();
+            channelEditor.editChannel(
                 this.state.channelTitle,
                 this.state.channelPassword,
                 channelStartDate,
