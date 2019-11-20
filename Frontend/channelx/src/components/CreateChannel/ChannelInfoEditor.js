@@ -40,6 +40,7 @@ class ChannelInfoEditor extends Component {
             channelPassword: null,
             editChannelId: null,
             editChannelTitle: null,
+            channelStartDate: null,
             alert: null,
             errors: {
                 channelTitle: "",
@@ -114,8 +115,8 @@ class ChannelInfoEditor extends Component {
 
     showAlert() {
         swal({
-            title: "Good job!!",
-            text: "Channel Created Successfully!",
+            title: "You're all set!!",
+            text: "Channel Edited Successfully!",
             icon: "success",
           }).then(function() {
             window.location = ROUTES.HOME;
@@ -144,20 +145,21 @@ class ChannelInfoEditor extends Component {
 
             const channelEditor = new ChannelEditor();
             channelEditor.editChannel(
+                this.props.location.state.data.id,
                 this.state.channelTitle,
                 this.state.channelPassword,
                 channelStartDate,
                 channelEndDate,
                 channelStartTime,
                 channelEndTime,
-                this.state.UUID,
-                this.props.location.state.data.id);
+                this.state.UUID);
                 this.showAlert();
 
         } else if(!sameDay) {
 
             const channelEditor = new ChannelEditor();
             channelEditor.editChannel(
+                this.props.location.state.data.id,
                 this.state.channelTitle,
                 this.state.channelPassword,
                 channelStartDate,
@@ -252,7 +254,7 @@ class ChannelInfoEditor extends Component {
             <div className="wrapper">
                 <div className="form-wrapper">
                     <div className="FormTitle">
-                        <h1>Create your Public Channel</h1>
+                        <h1>Edit Channel</h1>
                     </div>
                     <form onSubmit={this.editChannel}>
                         <div className="channelTitle">
@@ -290,6 +292,7 @@ class ChannelInfoEditor extends Component {
                                 {...console.log(this.state.endDate)}
                                 endDate={this.state.endDate}
                                 endDateId="your_unique_end_date_id"
+                                // placeholder="Start"
                                 onDatesChange={({startDate, endDate}) => this.setState({
                                     startDate,
                                     endDate
@@ -324,7 +327,7 @@ class ChannelInfoEditor extends Component {
                                 type="submit"
                                 id="submitButton"
                                 className="createButton"
-                            >Create
+                            >Edit
                             </button>
                             {this.state.alert}
                         </div>
@@ -348,10 +351,3 @@ class ChannelInfoEditor extends Component {
 
 
 export default ChannelInfoEditor;
-
-
-
-
-
-
-
