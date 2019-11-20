@@ -673,10 +673,10 @@ class Home extends Component {
             <div className="Home">
                 <div className="HomeHeader">
                     <a className="HomeDisplayName">Hello {this.state.displayName}</a>
-                    <button id="HomeLogout"
-                            type="button"
-                            className="HomeLogout"
-                            onClick={() => this.routeTo(ROUTES.LANDING)}
+                    <button
+                        type="button"
+                        className="HomeLogoutButton"
+                        onClick={() => this.routeTo(ROUTES.LANDING)}
                     >Logout
                     </button>
                 </div>
@@ -690,18 +690,24 @@ class Home extends Component {
                         id="passcodeText"
                         placeholder="Enter passcode"
                     />
-                    <button id="newChannel_btn"
-                            type="button"
-                            onClick={() => {this.checkPasscode()}}
+                    <button
+                        type="button"
+                        onClick={() => {this.checkPasscode()}}
                     >Join
                     </button>
                 </div>
                 <div className="HomeCreateNew">
-                    <button id="HomeCreateChannel"
-                            type="button"
-                            className="HomeCreateChannel"
-                            onClick={() => this.routeTo(ROUTES.CREATE_CHANNEL)}
-                    >Create New
+                    <button
+                        type="button"
+                        className="HomeCreatePublicButton"
+                        onClick={() => this.routeTo(ROUTES.CREATE_CHANNEL)}
+                    >Create Public
+                    </button>
+                    <button
+                        type="button"
+                        className="HomeCreatePrivateButton"
+                        onClick={() => this.routeTo(ROUTES.CREATE_PRIVATE_CHANNEL)}
+                    >Create Private
                     </button>
                 </div>
                 <div className="HomeLists">

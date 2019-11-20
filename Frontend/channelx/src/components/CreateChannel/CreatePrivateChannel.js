@@ -74,9 +74,6 @@ class CreatePrivateChannel extends Component {
         return (
             <div className="wrapper">
                 <div className="form-wrapper">
-                    <div className="FormTitle">
-                        <h1>Create your Private Channel</h1>
-                    </div>
                     <form onSubmit={this.createChannel}>
                         <div className="channelTitle">
                             <input
@@ -104,13 +101,6 @@ class CreatePrivateChannel extends Component {
                             </button>
                         </div>
                         <hr/>
-                        <div className="RedirectToOther">
-                            <a
-                                href="#"
-                                onClick={() => this.routeTo(ROUTES.CREATE_CHANNEL)} >
-                                Want to create a public channel?
-                            </a>
-                        </div>
                     </form>
                 </div>
             </div>
