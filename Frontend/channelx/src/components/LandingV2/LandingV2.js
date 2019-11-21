@@ -67,7 +67,7 @@ class LandingV2 extends React.Component {
                         <img className="" src={process.env.PUBLIC_URL + '/Title.PNG'}  alt="channelX"/>
                     </div>
                     <div className="landing_header_links">
-                        <a href="url">about us</a>
+                        <a href="AboutUs">about us</a>
                         <a href="https://github.com/HongfeiJu/ChannelX">user guidance</a>
                     </div>
                 </div>

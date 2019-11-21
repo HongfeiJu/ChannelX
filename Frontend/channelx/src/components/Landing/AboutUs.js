@@ -16,7 +16,7 @@ class AboutUs extends React.Component {
                     <h2>About Us</h2>
                     <div className="red-border"></div>
                     
-                    <p className="ct-u-size22 ct-u-fontWeight300 marginTop40">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sed libero vel ex maximus vulputate nec eu ligula. Vestibulum elementum nisi ut fermentum lobortis. Sed quis iaculis felis.</p>
+                    <p className="ct-u-size22 ct-u-fontWeight300 marginTop40">We are Software Engineering graduate students at Arizona State University. We have built the ChannelX application as our final semester capstone project. </p>
                     
                 </div>
             </section>
@@ -33,22 +33,22 @@ class AboutUs extends React.Component {
                     <div className="col-xs-6 col-md-4">
                     <div className="company-icons-white">
                         <i className="fa fa-medkit" aria-hidden="true"></i>
-                        <p>Darshan Prakash</p>
-                        <p className="company-icons-subtext hidden-xs">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <p><b><u>Darshan Prakash</u></b></p>
+                        <p className="company-icons-subtext hidden-xs"><i>One of the lead designers in ChannelX delivery team.</i></p>
                     </div>
                     </div>
                     <div className="col-xs-6 col-md-4">
                     <div className="company-icons-white">
                         <i className="fa fa-money" aria-hidden="true"></i>
-                        <p>Hongfei Ju</p>
-                        <p className="company-icons-subtext hidden-xs">Praesent sed libero vel ex maximus vulputate nec eu ligula.</p>
+                        <p><b><u>Hongfei Ju</u></b></p>
+                        <p className="company-icons-subtext hidden-xs"><i>The lead frontend developer of ChannelX team.</i></p>
                     </div>
                     </div>
                     <div className="col-xs-6 col-md-4">
                     <div className="company-icons-white">
                         <i className="fa fa-clock-o" aria-hidden="true"></i>
-                        <p>Manisha</p>
-                        <p className="company-icons-subtext hidden-xs">Vestibulum elementum nisi ut fermentum lobortis.</p>
+                        <p><b><u>Manisha</u></b></p>
+                        <p className="company-icons-subtext hidden-xs"><i>A dedicated developer in both frontend and backend of ChannelX web app.</i></p>
                     </div>
                     </div>
                 </div>
@@ -56,8 +56,8 @@ class AboutUs extends React.Component {
                 <div className="col-xs-6 col-md-4">
                     <div className="company-icons-white">
                         <i className="fa fa-medkit" aria-hidden="true"></i>
-                        <p>Muhammad Sami</p>
-                        <p className="company-icons-subtext hidden-xs">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <p><b><u>Muhammad Sami</u></b></p>
+                        <p className="company-icons-subtext hidden-xs"><i>A dependable developer and Scrum Master of our team.</i></p>
                     </div>
                     </div>
                     <div className="col-xs-6 col-md-4">
@@ -70,8 +70,8 @@ class AboutUs extends React.Component {
                     <div className="col-xs-6 col-md-4">
                     <div className="company-icons-white">
                         <i className="fa fa-clock-o" aria-hidden="true"></i>
-                        <p>Subhradeep Biswas</p>
-                        <p className="company-icons-subtext hidden-xs">Vestibulum elementum nisi ut fermentum lobortis.</p>
+                        <p><b><u>Subhradeep Biswas</u></b></p>
+                        <p className="company-icons-subtext hidden-xs"><i>A developer and Scrum Master of ChannelX team.</i></p>
                     </div>
                     </div>
                     
