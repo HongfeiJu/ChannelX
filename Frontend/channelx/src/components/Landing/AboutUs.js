@@ -27,8 +27,7 @@ class AboutUs extends React.Component {
                     
                     </div>
                     <h2>Technical Team</h2>
-                    <p className="ct-u-size22 ct-u-fontWeight300 ct-u-marginBottom60">Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br />
-                    Praesent sed libero vel ex maximus vulputate nec eu ligula. Vestibulum elementum nisi ut fermentum lobortis.
+                    <p className="ct-u-size22 ct-u-fontWeight300 ct-u-marginBottom60">
                     </p>
                 <div className="row ct-u-paddingBoth20">
                     <div className="col-xs-6 col-md-4">
