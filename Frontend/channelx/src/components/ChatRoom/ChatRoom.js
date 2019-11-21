@@ -222,7 +222,7 @@ class ChatRoom extends Component {
     }
 
     fetchUsername() {
-        return "user " + Math.floor(Math.random() * 100);
+        return firebase.auth().currentUser.displayName;
     }
 
     addNewPasscode() {
@@ -320,7 +320,7 @@ class ChatRoom extends Component {
                     <button
                         className="goBack"
                         onClick={() => this.routeTo(ROUTES.HOME)}
-                    >Back
+                    >
                     </button>
                 </div>
                 <div className="messagePanel"
@@ -342,13 +342,11 @@ class ChatRoom extends Component {
                     <button
                         className="sendButton"
                         onClick={
-
                             () => {this.state.type === 'private' ? this.submitMessage() :
                             (this.getChannnelDatesandTimes())  }
                         }
                     >send
                     </button>
-
                 </div>
             </div>
         );
