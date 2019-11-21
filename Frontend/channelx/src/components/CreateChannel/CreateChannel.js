@@ -70,7 +70,7 @@ class CreateChannel extends Component {
             case 'channelTitle':
                 break;
             case 'channelPassword':
-                formErrors.channelPassword = value.length < 10 ||  value.length >16 ? 'password length should be between 10 and 16 characters' : '';
+                formErrors.channelPassword = value.length < 10 || value.length > 16 ? 'password length should be between 10 and 16 characters' : '';
                 break;
             default:
                 break;
@@ -80,36 +80,29 @@ class CreateChannel extends Component {
 
     showAlert() {
         swal({
-            title: "Good job!!",
+            title: "Channel Created !!",
             text: "Channel Created Successfully!",
             icon: "success",
-          }).then(function() {
+        }).then(function () {
             window.location = ROUTES.HOME;
         });
 
-        }
+    }
 
     showTimeAlert() {
-
         swal("Invalid Time!", "Please Select an appropriate time!", "warning");
     }
 
     createChannel(e) {
-
         e.preventDefault();
         console.log(channelStartTime);
         console.log(channelEndTime);
-
         var sameDay = false;
-
-        if(channelStartDate === channelEndDate) {
-
+        if (channelStartDate === channelEndDate) {
             sameDay = true;
         }
-
-        if(channelEndTime > channelStartTime && sameDay) {
+        if (channelEndTime > channelStartTime && sameDay) {
             // alert('channel created');
-
             const channelCreator = new ChannelCreator();
             channelCreator.creatNewChannel(
                 this.state.channelTitle,
@@ -119,10 +112,8 @@ class CreateChannel extends Component {
                 channelStartTime,
                 channelEndTime,
                 this.state.UUID);
-                this.showAlert();
-
-        } else if(!sameDay) {
-
+            this.showAlert();
+        } else if (!sameDay) {
             const channelCreator = new ChannelCreator();
             channelCreator.creatNewChannel(
                 this.state.channelTitle,
@@ -132,105 +123,100 @@ class CreateChannel extends Component {
                 channelStartTime,
                 channelEndTime,
                 this.state.UUID);
-                this.showAlert();
-
+            this.showAlert();
         } else {
             this.showTimeAlert();
-
         }
-        
-        }
+    }
 
     routeTo = (path) => this.props.history.push(path);
 
+    onModalClose = (event) => {
+        event.stopPropagation();
+        this.props.onClose && this.props.onClose(event);
+    };
+
     render() {
+        if (!this.props.show) {
+            return null;
+        }
         channelStartDate = Moment(this.state.startDate).format('MM/DD/YYYY').toString();
         channelEndDate = Moment(this.state.endDate).format('MM/DD/YYYY').toString();
         return (
-            <div className="wrapper">
-                <div className="form-wrapper">
-                    <div className="FormTitle">
-                        <h1>Create your Public Channel</h1>
+            <div className="CreateChannelForm">
+                <form onSubmit={this.createChannel}>
+                    <div className="ModalArrowLeft">
+                        &#11014;
                     </div>
-                    <form onSubmit={this.createChannel}>
-                        <div className="channelTitle">
-                            <input
-                                type="text"
-                                id="channelTitle"
-                                placeholder="Title"
-                                name="channelTitle"
-                                required
-                                onChange={this.handlechannelChange}
-                            ></input>
-                        </div>
-                        <div className="channelPassword">
-                            <input
-                                type="text"
-                                pattern=".{10,16}"
-                                id="channelPassword"
-                                placeholder="Passcode"
-                                name="channelPassword"
-                                required
-                                onChange={this.handlechannelChange}
-                            ></input>
-                            {this.state.errors.channelPassword.length > 0 && (
-                                <span className="errorMessage">{this.state.errors.channelPassword}</span>
-                            )}
-                        </div>
-                        <div className="datePicker">
-                            <DateRangePicker
-                                startDate={this.state.startDate}
-                                startDateId="your_unique_start_date_id"
-                                endDate={this.state.endDate}
-                                endDateId="your_unique_end_date_id"
-                                onDatesChange={({startDate, endDate}) => this.setState({
-                                    startDate,
-                                    endDate
-                                })}
-                                focusedInput={this.state.focusedInput}
-                                onFocusChange={focusedInput => this.setState({focusedInput})}
-                                required
-                                minimumNights={0}
-                            />
-                        </div>
-                        <div className="channelStartTime">
-                            <text>
-                                Start Time
-                            </text>
-                            <MaterialUIPickersStartTime/>
-                        </div>
-                        <div className="channelEndTime">
-                            <text>
-                                End Time
-                            </text>
-                            <MaterialUIPickersEndTime/>
-                        </div>
-                        <div className="createChannel">
-                            <button
-                                type="button"
-                                id="cancelButton"
-                                className="leaveButton"
-                                onClick={() => this.routeTo(ROUTES.HOME)}
-                            >Cancel
-                            </button>
-                            <button
-                                type="submit"
-                                id="submitButton"
-                                className="createButton"
-                            >Create
-                            </button>
-                            {this.state.alert}
-                        </div>
-                        <hr/>
-                        <div className="RedirectToOther">
-                            <a
-                                href="#"
-                                onClick={() => this.routeTo(ROUTES.CREATE_PRIVATE_CHANNEL)} >
-                                Want to create a private channel?
-                            </a>
-                        </div>
-                    </form>
-                </div>
+                    <div className="channelTitle">
+                        <input
+                            type="text"
+                            id="channelTitle"
+                            placeholder="Title"
+                            name="channelTitle"
+                            required
+                            onChange={this.handlechannelChange}
+                        ></input>
+                    </div>
+                    <div className="channelPassword">
+                        <input
+                            type="text"
+                            pattern=".{10,16}"
+                            id="channelPassword"
+                            placeholder="Passcode"
+                            name="channelPassword"
+                            required
+                            onChange={this.handlechannelChange}
+                        ></input>
+                        {this.state.errors.channelPassword.length > 0 && (
+                            <span className="errorMessage">{this.state.errors.channelPassword}</span>
+                        )}
+                    </div>
+                    <div className="datePicker">
+                        <DateRangePicker
+                            startDate={this.state.startDate}
+                            startDateId="your_unique_start_date_id"
+                            endDate={this.state.endDate}
+                            endDateId="your_unique_end_date_id"
+                            onDatesChange={({startDate, endDate}) => this.setState({
+                                startDate,
+                                endDate
+                            })}
+                            focusedInput={this.state.focusedInput}
+                            onFocusChange={focusedInput => this.setState({focusedInput})}
+                            required
+                            minimumNights={0}
+                        />
+                    </div>
+                    <div className="channelStartTime">
+                        <text>
+                            Start Time
+                        </text>
+                        <MaterialUIPickersStartTime/>
+                    </div>
+                    <div className="channelEndTime">
+                        <text>
+                            End Time
+                        </text>
+                        <MaterialUIPickersEndTime/>
+                    </div>
+                    <div className="createChannel">
+                        <button
+                            type="button"
+                            id="cancelButton"
+                            className="leaveButton"
+                            onClick={()=>{this.props.closePublicModal()}}
+                        >Close
+                        </button>
+                        <button
+                            type="submit"
+                            id="submitButton"
+                            className="createButton"
+                        >Create
+                        </button>
+                        {this.state.alert}
+                    </div>
+                </form>
             </div>
         );
     }
@@ -289,5 +275,3 @@ function MaterialUIPickersEndTime() {
         </MuiPickersUtilsProvider>
     );
 }
-
-

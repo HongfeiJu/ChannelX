@@ -15,6 +15,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import Divider from '@material-ui/core/Divider';
 import './Home.css';
 import * as ROUTES from "../../constants/routes";
@@ -24,6 +25,9 @@ import swal from 'sweetalert';
 import Moment from 'moment';
 import SearchBar from "./SearchBar";
 import MessagingChannelDeleter from "../../services/MessagingChannelDeleter";
+import CreateChannel from "../CreateChannel/CreateChannel";
+import CreatePrivateChannel from "../CreateChannel/CreatePrivateChannel";
+
 
 class Home extends Component {
     constructor(props) {
@@ -77,8 +81,11 @@ class Home extends Component {
         filteredParticipated: [],
         isChatEnable: null,
         isPublic: null,
-        deleteConfirm : false,
-        channelsForSearch : []
+        deleteConfirm: false,
+        channelsForSearch: [],
+        showPublic: false,
+        showPrivate: false,
+        editChannelId: null
     };
 
     handleSelectChange = event => {
@@ -157,34 +164,120 @@ class Home extends Component {
         swal("Select Channel!", "Please Select a channel to join", "warning");
     }
 
-    channelNotActiveAlert() {
-        swal("Channel is not Active Now! ", "Please come back when channel is active", "warning");
+    tConvert(time) {
+        // Check correct time format and split into components
+        time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+        if (time.length > 1) { // If time format correct
+            time = time.slice(1); // Remove full string match value
+            time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+            time[0] = +time[0] % 12 || 12; // Adjust hours
+        }
+        return time.join(''); // return adjusted time or original string
     }
 
-    deleteChannelAlert(channelTitle) {
+    channelNotActiveAlert(startDate, endDate, startTime, endTime) {
 
+        startTime = this.tConvert(startTime);
+        endTime = this.tConvert(endTime);
+
+        console.log(this.tConvert(startTime));
+        console.log(this.tConvert(endTime));
+
+        var s = startTime.split(':');
+        var e = endTime.split(':');
+
+        var startTimeFormat = s[2].substring(2, 4);
+        var endTimeFormat = e[2].substring(2, 4);
+
+
+        swal({
+            title: "Channel is not Active Now!",
+            text: "Availablitiy Dates" + " : " + startDate + "  to  " + endDate + "\n\n" + "Availability Time" + " : " +
+                s[0] + ":" + s[1] + " " + startTimeFormat + "  to  " + e[0] + ":" + e[1] + " " + endTimeFormat,
+            icon: "warning",
+        })
+    }
+
+    editChannelAlert(channelTitle) {
+        swal({
+            title: "Are you sure?",
+            text: "Do you want to edit the channel? If no, press Exit.",
+            icon: "warning",
+            buttons: ["Exit", "Edit Channel"],
+
+            dangerMode: true,
+        }).then((edit) => {
+            if (edit) {
+                this.editChannelClicked(channelTitle);
+            }
+
+        });
+    }
+
+    editChannelClicked = (channelTitle) => {
+        // const editChannelInfo = new ChannelInfoEditor();
+        console.log(channelTitle);
+        db.collection("channels").where("channelTitle", "==", channelTitle)
+            .get()
+            .then(snapshot => {
+                snapshot
+                    .docs
+                    .forEach(doc => {
+                        console.log("channelId    => ");
+                        console.log(doc.id);
+                        this.setState({editChannelId: doc.id});
+                        // editChannelInfo.editChannelInformation(doc.id);
+                        console.log("inside edit button" + this.state.editChannelId);
+                        this.DelayReturnToHomePage(this.state.editChannelId);
+                    })
+            });
+    };
+
+    DelayReturnToHomePage = (id) => {
+        setTimeout(() => {
+            var pageType = {
+                pathname: '/editChannel',
+                state: {
+                    data: {
+                        'id': id,
+                    }
+                }
+            }
+            this.props.history.push(pageType);
+        }, 1000)
+    };
+
+    deleteChannelAlert(channelTitle) {
         swal({
             title: "Are you sure?",
             text: "Once deleted, you will not be able to recover this channel !",
             icon: "warning",
             buttons: ["Cancel", "Yes Delete it!"],
-
             dangerMode: true,
-          })
-          .then((willDelete) => {
-            if (willDelete) {
-
-              swal("Poof! Your channel has been deleted!", {
-                icon: "success",
-              });
-
-              this.deleteChannelClicked(channelTitle);
-            } 
-
-          });
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    swal("Poof! Your channel has been deleted!", {
+                        icon: "success",
+                    });
+                    this.deleteChannelClicked(channelTitle);
+                }
+            });
     }
 
-   
+    alreadyDelectedChannelAccessAlert() {
+        swal({
+            title: "Channel Already Deleted !",
+            text: "Channel creator has deleted this channel",
+            icon: "warning",
+        })
+            .then((refresh) => {
+                if (refresh) {
+                    window.location.reload(false);
+                }
+            });
+    }
 
     getChannelId = () => {
         console.log("Join Channel clicked");
@@ -210,9 +303,9 @@ class Home extends Component {
         }
     };
 
+    getChannnelDatesandTimes = (chid, role) => {
 
-    getChannnelDatesandTimes = (chid) => {
-
+        console.log(role);
         console.log(chid);
         var channelCreator;
         var startDate;
@@ -221,7 +314,7 @@ class Home extends Component {
         var endTime;
         var time;
         var today = new Date(),
-        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         time = Moment(today).format('HH:mm:ss').toString();
         console.log(date);
         console.log(time);
@@ -254,23 +347,19 @@ class Home extends Component {
                 } else {
                     this.setState({isChatEnable: false})
                 }
-
-                console.log("valid state"+ this.state.isChatEnable);
-
+                console.log("valid state" + this.state.isChatEnable);
                 if (this.state.isChatEnable) {
                     this.routeTo("/channel/" + doc.id);
-                    if(this.state.isPublic && (channelCreator != fire.auth().currentUser.uid)){
+                    if (this.state.isPublic && (channelCreator != fire.auth().currentUser.uid)) {
                         this.addJoinedChannel(doc.id);
                     }
                 } else {
-                    this.channelNotActiveAlert();
-
+                    this.channelNotActiveAlert(startDate, endDate, startTime, endTime);
                 }
             }).catch(error => {
             console.log(`error is ${error}`);
         });
     };
-
 
     getChannelIdforOneTimePasscode = () => {
         console.log("Join Channel clicked");
@@ -328,33 +417,33 @@ class Home extends Component {
 
     getData = () => {
         db.collection("channels")
-        .get()
-        .then(snapshot => {
-            const data = [];
-            let i = 0;
-            snapshot
-                .docs
-                .forEach(doc => {
-                    if (i == 0) {
-                        data.push("Select Channel");
-                    }
-                    i = i + 1;
-                    data.push(doc.get("channelTitle"));
+            .get()
+            .then(snapshot => {
+                const data = [];
+                let i = 0;
+                snapshot
+                    .docs
+                    .forEach(doc => {
+                        if (i == 0) {
+                            data.push("Select Channel");
+                        }
+                        i = i + 1;
+                        data.push(doc.get("channelTitle"));
+                    });
+                return data;
+            })
+            .then(data => {
+                const {query} = this.state;
+                const filteredData = data.slice(0, 1);
+                this.setState({
+                    data,
+                    filteredData,
                 });
-            return data;
-        })
-        .then(data => {
-            const {query} = this.state;
-            const filteredData = data.slice(0, 1);
-            this.setState({
-                data,
-                filteredData,
             });
-        });
     };
 
     getChannelsforSearch = () => {
-        db.collection("channels").get().then( ref =>{
+        db.collection("channels").get().then(ref => {
             ref.docs.forEach(doc => {
                 this.state.channelsForSearch.push(doc.get("channelTitle"));
             });
@@ -362,66 +451,60 @@ class Home extends Component {
     };
 
     channelListItemClick = (channelTitle) => {
+        var role = "creator";
         db.collection("channels").where("channelTitle", "==", channelTitle)
             .get()
             .then(snapshot => {
                 snapshot
                     .docs
                     .forEach(doc => {
-                        this.getChannnelDatesandTimes(doc.id);
+                        this.getChannnelDatesandTimes(doc.id, role);
                     })
             });
     };
 
     deleteExpiredChannels = () => {
         const messagingChannelDeleter = new MessagingChannelDeleter();
-
         console.log("Inside DeleteExpiredChannel");
-
-        var time;
         var today = new Date(),
-        date = (today.getMonth()+1)+'/'+today.getDate()+'/'+today.getFullYear();
-        time = Moment(today).format('HH:mm:ss').toString();
+            date = (today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear();
 
-        console.log(date);
-        db.collection("channels").where("channelEndDate", "<", date)
-            .get()
-            .then(snapshot => {
-                snapshot
-                    .docs
-                    .forEach(doc => {
-                        //console.log("Expired Channel id: " + doc.id);
-                        doc.ref.delete();
-                        messagingChannelDeleter.deleteChannel(doc.id);
+        db.collection("channels").get().then(ref => {
+            ref.docs.forEach(doc => {
 
-                    })
+                console.log(doc.id);
+
+                var channelEndDate = doc.get("channelEndDate");
+                var validDate = Moment(date).isSameOrBefore(channelEndDate);
+
+                console.log(validDate);
+
+                if(!validDate){
+                    doc.ref.delete();
+                    messagingChannelDeleter.deleteChannel(doc.id);
+                }
+
             });
+        });
 
     }
 
     deleteChannelClicked = (channelTitle) => {
-
         const messagingChannelDeleter = new MessagingChannelDeleter();
-        
         db.collection("channels").where("channelTitle", "==", channelTitle)
             .get()
             .then(snapshot => {
                 snapshot
                     .docs
                     .forEach(doc => {
-                        
                         doc.ref.delete();
                         messagingChannelDeleter.deleteChannel(doc.id);
                         // MessagingChannelDeleter.deletech
                     })
             });
-
-    
-
         let filtered_list = this.state.userCreatedChannels.filter(ele => ele != channelTitle)
         let filteredData = this.state.filteredData.filter(ele => ele != channelTitle)
         let data = this.state.data.filter(ele => ele != channelTitle)
-
         console.log("Original List: ", this.state.userCreatedChannels)
         console.log("Filtered List: ", filtered_list)
         this.setState({
@@ -433,44 +516,51 @@ class Home extends Component {
     };
 
 
-
     userCreatedChannels = () => {
         let data = this.state.filtered
         return data.map((channelTitle) => {
             return (
-                <ListItem button onClick={() => this.channelListItemClick(channelTitle)}>
-                    <ListItemText primary={channelTitle}/>
-                    
-                    <Divider/>
-                    <ListItemSecondaryAction  button onClick={() => this.deleteChannelAlert(channelTitle)}>
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
+                <ListItem button onClick={() => this.channelListItemClick(channelTitle)}> 
+                <ListItemText primary={channelTitle}/>
+                <ListItemSecondaryAction>
+                    <IconButton edge="start" aria-label="edit">
+                        <EditIcon button onClick={() => this.editChannelAlert(channelTitle)} />
                     </IconButton>
-                  </ListItemSecondaryAction>
+                    <IconButton edge="end" aria-label="delete">
+                        <DeleteIcon button onClick={() => this.deleteChannelAlert(channelTitle)} />
+                    </IconButton>
+                </ListItemSecondaryAction>
                 </ListItem>
-                
             )
         })
     };
 
+
     // Begin: Function to fetch all channels the current user participated before
     // written by Subhradeep
-
     participatedChannelListItemClick = (channelTitle) => {
-        db.collection("channels").where("channelTitle", "==", channelTitle)
-            .get()
+
+        var docRef = db.collection("channels").where("channelTitle", "==", channelTitle);
+        var docExits = false;
+        var role = "participent";
+
+        docRef.get()
             .then(snapshot => {
                 snapshot
                     .docs
                     .forEach(doc => {
-                        this.getChannnelDatesandTimes(doc.id);
-                    })
+                        docExits = true;
+                        console.log(doc.id);
+                        this.getChannnelDatesandTimes(doc.id, role);
+                    });
+                if (!docExits) {
+                    this.alreadyDelectedChannelAccessAlert();
+                }
             });
     };
 
     userParticipatedChannels = () => {
         let data = this.state.filteredParticipated;
-
         return data.map((channelTitle) => {
             return (
                 <ListItem button onClick={() => this.participatedChannelListItemClick(channelTitle)}>
@@ -506,11 +596,9 @@ class Home extends Component {
                     userParticipatedChannels,
                     filteredParticipated
                 });
-
             });
     };
     //End: user participated channels
-
 
     checkPrivatePasscode = () => {
         let privatePasscode = document.getElementById('passcodeText').value;
@@ -529,7 +617,6 @@ class Home extends Component {
         }
     };
 
-
     checkPublicPasscode = (id, passcode) => {
         let publicPasscode = document.getElementById('passcodeText').value;
         if (publicPasscode !== '') {
@@ -537,7 +624,7 @@ class Home extends Component {
 
                 this.setState({isPublic: true})
                 this.getChannnelDatesandTimes(id);
-                
+
             } else {
                 // alert('Invalid passcode');
                 this.showAlert();
@@ -567,13 +654,45 @@ class Home extends Component {
         console.log(oneTimePasscode);
         this.passcodeChecker.checkOnetimePasscode(id, oneTimePasscode.toString()).then(response => {
             // alert('final:' + response); // valid or not valid boolean value in response
-            if(response === true){
+            if (response === true) {
                 this.setState({isPublic: false});
                 this.getChannnelDatesandTimes(id);
                 // this.routeTo("/channel/" + id);
             }
         });
     }
+
+    checkPasscode() {
+        let privatePasscode = document.getElementById('passcodeText').value;
+        if (privatePasscode !== '') {
+            if (privatePasscode.length < 10) {
+                this.getChannelIdforOneTimePasscode()
+            } else if (privatePasscode.length >= 10 && privatePasscode.length <= 16) {
+                this.getChannelId();
+            } else if (privatePasscode.length > 16) {
+                this.checkPrivatePasscode();
+            }
+        } else {
+            // alert('Enter passcode');
+            this.enterPasscodeAlert();
+        }
+    }
+
+    showPublicModal = () => {
+        this.setState({
+            ...this.state,
+            showPublic: !this.state.showPublic,
+            showPrivate: false
+        });
+    };
+
+    showPrivateModal = () => {
+        this.setState({
+            ...this.state,
+            showPrivate: !this.state.showPrivate,
+            showPublic: false
+        });
+    };
 
     render() {
         const {filteredData} = this.state;
@@ -594,91 +713,75 @@ class Home extends Component {
 
         return (
             <div className="Home">
-                <h1>Hello {this.state.displayName}</h1>
-                <div className="HomeHeaderButtons">
-                    <button id="HomeLogout"
-                            type="button"
-                            className="HomeLogout"
-                            onClick={() => this.routeTo(ROUTES.LANDING)}
+                <div className="HomeHeader">
+                    <a className="HomeDisplayName">Hello {this.state.displayName}</a>
+                    <button
+                        type="button"
+                        className="HomeLogoutButton"
+                        onClick={() => this.routeTo(ROUTES.LANDING)}
                     >Logout
                     </button>
-                    <button id="HomeCreateChannel"
-                            type="button"
-                            className="HomeCreateChannel"
-                            onClick={() => this.routeTo(ROUTES.CREATE_CHANNEL)}
-                    >Create New
-                    </button>
                 </div>
-                <hr>
-                </hr>
-                {/*<div className="searchForm">*/}
-                {/*    <input*/}
-                {/*        placeholder="Search public channels"*/}
-                {/*        value={this.state.query}*/}
-                {/*        onChange={this.handleInputChange}*/}
-                {/*    />*/}
-                {/*    <select id="channelDrop"*/}
-                {/*            size={this.state.size} onFocus={() => {*/}
-                {/*        this.setState({size: 3})*/}
-                {/*    }}*/}
-                {/*            onBlur={() => {*/}
-                {/*                this.setState({size: 1})*/}
-                {/*            }} //onChange={(e)=>{e.target.blur()}}*/}
-                {/*            onChange={this.handleSelectChange}*/}
-                {/*    >*/}
-                {/*        {channelList}*/}
-                {/*    </select>*/}
-                {/*</div>*/}
                 <div className="SearchBarComponent">
                     <SearchBar items={this.state.channelsForSearch}/>
                 </div>
-                <div className="HomePrivateChannel">
-                    <form>
-                        <input
-                            type="text"
-                            name="passcodeText"
-                            id="passcodeText"
-                            placeholder="Enter passcode"
-                        />
-                        <button id="newChannel_btn"
-                                type="button"
-                                onClick={() => {
-                                    let privatePasscode = document.getElementById('passcodeText').value;
-                                    if (privatePasscode !== '') {
-                                        if (privatePasscode.length < 10) {
-                                            this.getChannelIdforOneTimePasscode()
-                                        } else if (privatePasscode.length >= 10 && privatePasscode.length <= 16) {
-                                            this.getChannelId();
-                                        } else if (privatePasscode.length > 16) {
-                                            this.checkPrivatePasscode();
-                                        }
-                                    } else {
-                                        // alert('Enter passcode');
-                                        this.enterPasscodeAlert();
-                                    }
-                                }}
-                        >Join
-                        </button>
-                    </form>
+                <div className="HomePasscodeInput">
+                    <input
+                        type="text"
+                        name="passcodeText"
+                        id="passcodeText"
+                        placeholder="Enter passcode"
+                    />
+                    <button
+                        type="button"
+                        onClick={() => {
+                            this.checkPasscode()
+                        }}
+                    >Join
+                    </button>
+                </div>
+                <div className="HomeCreateNew">
+                    <button
+                        type="button"
+                        className="HomeCreatePublicButton"
+                        onClick={this.showPublicModal}
+                    >Create Public
+                    </button>
+                    <button
+                        type="button"
+                        className="HomeCreatePrivateButton"
+                        onClick={this.showPrivateModal}
+                    >Create Private
+                    </button>
                 </div>
                 <div className="HomeLists">
                     <div className="CreatedList">
                         <div className="channelsList">
                             <div className="searchFormCreated">
-                                <input
+                                <input className= "searchInput"
                                     placeholder="Search Created Channels"
                                     value={this.state.query_participate}
                                     onChange={this.handleInputChangeCreated}/>
                                 <List>
-                                    {this.userCreatedChannels()} 
+                                    {this.userCreatedChannels()}
                                 </List>
                             </div>
                         </div>
                     </div>
+                    <div className="HomeCreateModal">
+                        <CreateChannel
+                            show={this.state.showPublic}
+                            closePublicModal = {this.showPublicModal}
+                        />
+                        <CreatePrivateChannel
+                            show={this.state.showPrivate}
+                            closePrivateModal = {this.showPrivateModal}
+                        />
+                    </div>
                     <div className="ParticipatedList">
-                        <div className="channelsList">
-                            <div className="searchFormCreated">
-                                <input
+                        <div className="channelsListParticipated">
+                            <div className="searchFormParticipated">
+                                <input className= "searchInputParticipated"
                                     placeholder="Search participated Channels"
                                     value={this.state.query_participate1}
                                     onChange={this.handleInputChangeParticipated}/>

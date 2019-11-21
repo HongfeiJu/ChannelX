@@ -19,6 +19,7 @@ import * as ROUTES from './constants/routes';
 import CreateChannel from "./components/CreateChannel/CreateChannel";
 import CreatePrivateChannel from "./components/CreateChannel/CreatePrivateChannel";
 import LandingV2 from "./components/LandingV2/LandingV2";
+import ChannelInfoEditor from './components/CreateChannel/ChannelInfoEditor';
 
 
 
@@ -50,7 +51,7 @@ class App extends Component {
             <div className={"App"}>
                 <Router>
                     <div className="App">
-                        <Route path={ROUTES.LANDING} exact component={Landing}/>
+                        <Route path={ROUTES.LANDING} exact component={LandingV2}/>
                         {/*<Route path={ROUTES.SIGN_UP}  exact component={Signup}/>*/}
                         {/*<Route path={ROUTES.SIGN_IN} exact component={Login}/>*/}
                         <Route path={ROUTES.FORGET_PWD} exact component={ForgetPassword}/>
@@ -60,6 +61,7 @@ class App extends Component {
                         <Route path={ROUTES.TEST_PAGE}  exact component={TestPage}/>
                         <Route path={ROUTES.ABOUTUS}  exact component={AboutUs}/>
                         <Route path={ROUTES.CREATE_CHANNEL} exact component={CreateChannel}/>
+                        <Route path={ROUTES.EDIT_CHANNEL} exact component={ChannelInfoEditor}/>
                         <Route path={ROUTES.CREATE_PRIVATE_CHANNEL} exact component={CreatePrivateChannel}/>
                         <Route path={ROUTES.LANDINGV2} exact component={LandingV2}/>
                     </div>

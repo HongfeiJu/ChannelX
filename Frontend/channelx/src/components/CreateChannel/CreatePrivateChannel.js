@@ -70,49 +70,48 @@ class CreatePrivateChannel extends Component {
 
     routeTo = (path) => this.props.history.push(path);
 
+    onModalClose = (event) => {
+        event.stopPropagation();
+        this.props.onClose && this.props.onCLose(event);
+    };
+
     render() {
+        if (!this.props.show){
+            return null;
+        }
         return (
-            <div className="wrapper">
-                <div className="form-wrapper">
-                    <div className="FormTitle">
-                        <h1>Create your Private Channel</h1>
+            <div className="CreateChannelForm">
+                <form onSubmit={this.createChannel}>
+                    <div className="ModalArrowRight">
+                        &#11014;
                     </div>
-                    <form onSubmit={this.createChannel}>
-                        <div className="channelTitle">
-                            <input
-                                type="text"
-                                id="channelTitle"
-                                placeholder="Title"
-                                name="channelTitle"
-                                required
-                                onChange={this.handlechannelChange}
-                            ></input>
-                        </div>
-                        <div className="createChannel">
-                            <button
-                                type="button"
-                                id="cancelButton"
-                                className="leaveButton"
-                                onClick={() => this.routeTo(ROUTES.HOME)}
-                            >Cancel
-                            </button>
-                            <button
-                                type="submit"
-                                id="submitButton"
-                                className="createButton"
-                            >Create
-                            </button>
-                        </div>
-                        <hr/>
-                        <div className="RedirectToOther">
-                            <a
-                                href="#"
-                                onClick={() => this.routeTo(ROUTES.CREATE_CHANNEL)} >
-                                Want to create a public channel?
-                            </a>
-                        </div>
-                    </form>
-                </div>
+                    <div className="channelTitle">
+                        <input
+                            type="text"
+                            id="channelTitle"
+                            placeholder="Title"
+                            name="channelTitle"
+                            required
+                            onChange={this.handlechannelChange}
+                        ></input>
+                    </div>
+                    <div className="createChannel">
+                        <button
+                            type="button"
+                            id="cancelButton"
+                            className="leaveButton"
+                            onClick={() => {this.props.closePrivateModal()}}
+                        >Close
+                        </button>
+                        <button
+                            type="submit"
+                            id="submitButton"
+                            className="createButton"
+                        >Create
+                        </button>
+                    </div>
+                    <hr/>
+                </form>
             </div>
         );
     }
