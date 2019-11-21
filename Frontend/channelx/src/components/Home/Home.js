@@ -757,14 +757,20 @@ class Home extends Component {
                 <div className="HomeLists">
                     <div className="CreatedList">
                         <div className="channelsList">
-                            <div className="searchFormCreated">
+                            <div id="SearchCreated">
                                 <input className= "searchInput"
                                     placeholder="Search Created Channels"
                                     value={this.state.query_participate}
                                     onChange={this.handleInputChangeCreated}/>
-                                <List>
-                                    {this.userCreatedChannels()}
-                                </List>
+                            </div>
+                            <div className="searchFormCreated">
+                                
+                                <div>    
+                                    <List >
+                                        {this.userCreatedChannels()}
+                                    </List>
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -780,16 +786,21 @@ class Home extends Component {
                     </div>
                     <div className="ParticipatedList">
                         <div className="channelsListParticipated">
-                            <div className="searchFormParticipated">
+                            
+                            <div id="SearchParticipated">
                                 <input className= "searchInputParticipated"
                                     placeholder="Search participated Channels"
                                     value={this.state.query_participate1}
                                     onChange={this.handleInputChangeParticipated}/>
-                                <List>
-                                    {this.userParticipatedChannels()}
-                                </List>
                             </div>
-                        </div>
+                            <div className="searchFormParticipated">
+                                <div>   
+                                    <List>
+                                        {this.userParticipatedChannels()}
+                                    </List>
+                                </div>
+                            </div>
+                    </div>
                     </div>
                 </div>
             </div>
