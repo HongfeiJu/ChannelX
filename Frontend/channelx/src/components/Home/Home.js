@@ -524,14 +524,10 @@ class Home extends Component {
                 <ListItemText primary={channelTitle}/>
                 <ListItemSecondaryAction>
                     <IconButton edge="start" aria-label="edit">
-                        <EditIcon>
-                         button onClick={() => this.editChannelAlert(channelTitle)} 
-                         </EditIcon>
+                        <EditIcon button onClick={() => this.editChannelAlert(channelTitle)} />
                     </IconButton>
                     <IconButton edge="end" aria-label="delete">
-                        <DeleteIcon> 
-                        button onClick={() => this.deleteChannelAlert(channelTitle)} 
-                        </DeleteIcon>
+                        <DeleteIcon button onClick={() => this.deleteChannelAlert(channelTitle)} />
                     </IconButton>
                 </ListItemSecondaryAction>
                 </ListItem>
