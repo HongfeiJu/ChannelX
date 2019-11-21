@@ -25,6 +25,8 @@ import swal from 'sweetalert';
 import Moment from 'moment';
 import SearchBar from "./SearchBar";
 import MessagingChannelDeleter from "../../services/MessagingChannelDeleter";
+import CreateChannel from "../CreateChannel/CreateChannel";
+import CreatePrivateChannel from "../CreateChannel/CreatePrivateChannel";
 
 
 class Home extends Component {
@@ -79,9 +81,11 @@ class Home extends Component {
         filteredParticipated: [],
         isChatEnable: null,
         isPublic: null,
-        deleteConfirm : false,
-        editChannelId : null,
-        channelsForSearch : []
+        deleteConfirm: false,
+        channelsForSearch: [],
+        showPublic: false,
+        showPrivate: false,
+        editChannelId: null
     };
 
     handleSelectChange = event => {
@@ -203,80 +207,66 @@ class Home extends Component {
             buttons: ["Exit", "Edit Channel"],
 
             dangerMode: true,
-          }).then((edit) => {
+        }).then((edit) => {
             if (edit) {
                 this.editChannelClicked(channelTitle);
-            } 
+            }
 
-          });   
+        });
     }
 
     editChannelClicked = (channelTitle) => {
-
         // const editChannelInfo = new ChannelInfoEditor();
         console.log(channelTitle);
-        
         db.collection("channels").where("channelTitle", "==", channelTitle)
             .get()
             .then(snapshot => {
                 snapshot
-                .docs
-                .forEach(doc => {
-                    console.log("channelId    => ");
-                    console.log(doc.id);
-                    this.setState({editChannelId: doc.id});
-                // editChannelInfo.editChannelInformation(doc.id);
-                console.log("inside edit button"+this.state.editChannelId);
+                    .docs
+                    .forEach(doc => {
+                        console.log("channelId    => ");
+                        console.log(doc.id);
+                        this.setState({editChannelId: doc.id});
+                        // editChannelInfo.editChannelInformation(doc.id);
+                        console.log("inside edit button" + this.state.editChannelId);
+                        this.DelayReturnToHomePage(this.state.editChannelId);
+                    })
+            });
+    };
 
-              this.DelayReturnToHomePage(this.state.editChannelId);
-
-                   })
-                });
-        }
-
-
-        DelayReturnToHomePage = (id) => {
-
-            setTimeout(() => {
-               var pageType = {
-                   pathname: '/editChannel',
-                   state: {
-                     data:{
-                       'id':id,
-                     }
-                   }
-                 }
-              this.props.history.push(pageType); 
-          
-          
-            }, 1000)
-          }
+    DelayReturnToHomePage = (id) => {
+        setTimeout(() => {
+            var pageType = {
+                pathname: '/editChannel',
+                state: {
+                    data: {
+                        'id': id,
+                    }
+                }
+            }
+            this.props.history.push(pageType);
+        }, 1000)
+    };
 
     deleteChannelAlert(channelTitle) {
-
         swal({
             title: "Are you sure?",
             text: "Once deleted, you will not be able to recover this channel !",
             icon: "warning",
             buttons: ["Cancel", "Yes Delete it!"],
-
             dangerMode: true,
         })
             .then((willDelete) => {
                 if (willDelete) {
-
                     swal("Poof! Your channel has been deleted!", {
                         icon: "success",
                     });
-
                     this.deleteChannelClicked(channelTitle);
                 }
-
             });
     }
 
     alreadyDelectedChannelAccessAlert() {
-
         swal({
             title: "Channel Already Deleted !",
             text: "Channel creator has deleted this channel",
@@ -284,10 +274,8 @@ class Home extends Component {
         })
             .then((refresh) => {
                 if (refresh) {
-
                     window.location.reload(false);
                 }
-
             });
     }
 
@@ -359,23 +347,15 @@ class Home extends Component {
                 } else {
                     this.setState({isChatEnable: false})
                 }
-
                 console.log("valid state" + this.state.isChatEnable);
-
                 if (this.state.isChatEnable) {
                     this.routeTo("/channel/" + doc.id);
                     if (this.state.isPublic && (channelCreator != fire.auth().currentUser.uid)) {
                         this.addJoinedChannel(doc.id);
                     }
                 } else {
-
-
                     this.channelNotActiveAlert(startDate, endDate, startTime, endTime);
-
-
                 }
-
-
             }).catch(error => {
             console.log(`error is ${error}`);
         });
@@ -485,34 +465,32 @@ class Home extends Component {
 
     deleteExpiredChannels = () => {
         const messagingChannelDeleter = new MessagingChannelDeleter();
-
         console.log("Inside DeleteExpiredChannel");
-
-        var time;
         var today = new Date(),
             date = (today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear();
-        time = Moment(today).format('HH:mm:ss').toString();
 
-        console.log(date);
-        db.collection("channels").where("channelEndDate", "<", date)
-            .get()
-            .then(snapshot => {
-                snapshot
-                    .docs
-                    .forEach(doc => {
-                        //console.log("Expired Channel id: " + doc.id);
-                        doc.ref.delete();
-                        messagingChannelDeleter.deleteChannel(doc.id);
+        db.collection("channels").get().then(ref => {
+            ref.docs.forEach(doc => {
 
-                    })
+                console.log(doc.id);
+
+                var channelEndDate = doc.get("channelEndDate");
+                var validDate = Moment(date).isSameOrBefore(channelEndDate);
+
+                console.log(validDate);
+
+                if(!validDate){
+                    doc.ref.delete();
+                    messagingChannelDeleter.deleteChannel(doc.id);
+                }
+
             });
+        });
 
     }
 
     deleteChannelClicked = (channelTitle) => {
-
         const messagingChannelDeleter = new MessagingChannelDeleter();
-
         db.collection("channels").where("channelTitle", "==", channelTitle)
             .get()
             .then(snapshot => {
@@ -524,11 +502,9 @@ class Home extends Component {
                         // MessagingChannelDeleter.deletech
                     })
             });
-
         let filtered_list = this.state.userCreatedChannels.filter(ele => ele != channelTitle)
         let filteredData = this.state.filteredData.filter(ele => ele != channelTitle)
         let data = this.state.data.filter(ele => ele != channelTitle)
-
         console.log("Original List: ", this.state.userCreatedChannels)
         console.log("Filtered List: ", filtered_list)
         this.setState({
@@ -564,11 +540,8 @@ class Home extends Component {
     };
 
 
-
-
     // Begin: Function to fetch all channels the current user participated before
     // written by Subhradeep
-
     participatedChannelListItemClick = (channelTitle) => {
 
         var docRef = db.collection("channels").where("channelTitle", "==", channelTitle);
@@ -583,21 +556,15 @@ class Home extends Component {
                         docExits = true;
                         console.log(doc.id);
                         this.getChannnelDatesandTimes(doc.id, role);
-                    })
-
+                    });
                 if (!docExits) {
-
                     this.alreadyDelectedChannelAccessAlert();
-
                 }
             });
-
-
     };
 
     userParticipatedChannels = () => {
         let data = this.state.filteredParticipated;
-
         return data.map((channelTitle) => {
             return (
                 <ListItem button onClick={() => this.participatedChannelListItemClick(channelTitle)}>
@@ -633,7 +600,6 @@ class Home extends Component {
                     userParticipatedChannels,
                     filteredParticipated
                 });
-
             });
     };
     //End: user participated channels
@@ -716,8 +682,23 @@ class Home extends Component {
         }
     }
 
-    render() {
+    showPublicModal = () => {
+        this.setState({
+            ...this.state,
+            showPublic: !this.state.showPublic,
+            showPrivate: false
+        });
+    };
 
+    showPrivateModal = () => {
+        this.setState({
+            ...this.state,
+            showPrivate: !this.state.showPrivate,
+            showPublic: false
+        });
+    };
+
+    render() {
         const {filteredData} = this.state;
         let channelList = filteredData.length > 0
             && filteredData.map((channel, i) => {
@@ -757,7 +738,9 @@ class Home extends Component {
                     />
                     <button
                         type="button"
-                        onClick={() => {this.checkPasscode()}}
+                        onClick={() => {
+                            this.checkPasscode()
+                        }}
                     >Join
                     </button>
                 </div>
@@ -765,13 +748,13 @@ class Home extends Component {
                     <button
                         type="button"
                         className="HomeCreatePublicButton"
-                        onClick={() => this.routeTo(ROUTES.CREATE_CHANNEL)}
+                        onClick={this.showPublicModal}
                     >Create Public
                     </button>
                     <button
                         type="button"
                         className="HomeCreatePrivateButton"
-                        onClick={() => this.routeTo(ROUTES.CREATE_PRIVATE_CHANNEL)}
+                        onClick={this.showPrivateModal}
                     >Create Private
                     </button>
                 </div>
@@ -788,6 +771,16 @@ class Home extends Component {
                                 </List>
                             </div>
                         </div>
+                    </div>
+                    <div className="HomeCreateModal">
+                        <CreateChannel
+                            show={this.state.showPublic}
+                            closePublicModal = {this.showPublicModal}
+                        />
+                        <CreatePrivateChannel
+                            show={this.state.showPrivate}
+                            closePrivateModal = {this.showPrivateModal}
+                        />
                     </div>
                     <div className="ParticipatedList">
                         <div className="channelsListParticipated">

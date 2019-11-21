@@ -74,7 +74,6 @@ class SignupForm extends Component {
 
     signup(e) {
         e.preventDefault();
-
         fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then( credentials => {
             fire.auth().currentUser.sendEmailVerification();
             fire.firestore().collection('users').doc(credentials.user.uid).set({
@@ -176,7 +175,7 @@ class SignupForm extends Component {
                             type="submit"
                             id="submitButton"
                             className="submitButton"
-                            onClick={() => this.routeTo(ROUTES.LANDING)}
+                            onClick={() => this.signup}
                         >Sign up
                         </button>
                     </div>
