@@ -105,17 +105,19 @@
     margin-top: -5px;
 }
 
-/* .MuiIconButton-edgeStart{
-    margin-left: auto;
-    display: flex;
-} */
 .searchFormCreated{
-    width: 480%;
-    margin-left: 50%;
+    width: 500%;
+    margin-left: 0%;
     display: flex;
     flex-direction: column;
 }
 
+.searchFormParticipated{
+    width: 480%;
+    margin-left: 0%;
+    display: flex;
+    flex-direction: column;
+}
 .HomeLists {
     width: 100%;
     display: flex;
@@ -129,7 +131,7 @@
 }
 
 .CreatedList{
-    width: 28%;
+    width: 25%;
     height: 40vh;
     margin-top: 10px;
     position: absolute;
@@ -149,8 +151,22 @@
     height: 0;
 }
 
+.searchInput{
+    position: sticky;   
+    z-index: 1;         
+    top: 0px; 
+    margin-top: -20%; 
+}
+
+.searchInputParticipated{
+    position: sticky;   
+    z-index: 1;         
+    top: 0px; 
+    margin-top: -6%;   
+}
+
 .ParticipatedList {
-    width: 28%;
+    width: 25%;
     height: 40vh;
     margin-top: 10px;
     position: absolute;
@@ -173,10 +189,16 @@
 .channelsList {
     width: 20%;
     margin-left: 0px;
-    margin-top: 10px;
-    padding: 5px;
+    margin-top: 50px;
+    padding: 0px;
 }
 
+.channelsListParticipated{
+    width: 20%;
+    margin-left: 0px;
+    margin-top: 0px;
+    padding: 0px;
+}
 .channelListItem {
     width: 20%;
     border: 1px solid whitesmoke;
@@ -222,3 +244,4 @@
     border-top: 1px solid #E9EEF1;
     overflow: hidden;
   }
+

@@ -515,23 +515,21 @@ class Home extends Component {
         });
     };
 
+
     userCreatedChannels = () => {
         let data = this.state.filtered
         return data.map((channelTitle) => {
             return (
-                <ListItem button onClick={() => this.channelListItemClick(channelTitle)}>
-                    <ListItemText primary={channelTitle}/>
-                    <Divider/>
-                    <ListItemSecondaryAction button onClick={() => this.editChannelAlert(channelTitle)}>
-                        <IconButton edge="start" aria-label="edit">
-                            <EditIcon/>
-                        </IconButton>
-                    </ListItemSecondaryAction>
-                    {/* <ListItemSecondaryAction button onClick={() => this.deleteChannelAlert(channelTitle)}>
-                    <IconButton edge="end" aria-label="delete">
-                        <DeleteIcon/>
+                <ListItem button onClick={() => this.channelListItemClick(channelTitle)}> 
+                <ListItemText primary={channelTitle}/>
+                <ListItemSecondaryAction>
+                    <IconButton edge="start" aria-label="edit">
+                        <EditIcon button onClick={() => this.editChannelAlert(channelTitle)} />
                     </IconButton>
-                </ListItemSecondaryAction>  */}
+                    <IconButton edge="end" aria-label="delete">
+                        <DeleteIcon button onClick={() => this.deleteChannelAlert(channelTitle)} />
+                    </IconButton>
+                </ListItemSecondaryAction>
                 </ListItem>
             )
         })
@@ -760,7 +758,7 @@ class Home extends Component {
                     <div className="CreatedList">
                         <div className="channelsList">
                             <div className="searchFormCreated">
-                                <input
+                                <input className= "searchInput"
                                     placeholder="Search Created Channels"
                                     value={this.state.query_participate}
                                     onChange={this.handleInputChangeCreated}/>
@@ -781,9 +779,9 @@ class Home extends Component {
                         />
                     </div>
                     <div className="ParticipatedList">
-                        <div className="channelsList">
-                            <div className="searchFormCreated">
-                                <input
+                        <div className="channelsListParticipated">
+                            <div className="searchFormParticipated">
+                                <input className= "searchInputParticipated"
                                     placeholder="Search participated Channels"
                                     value={this.state.query_participate1}
                                     onChange={this.handleInputChangeParticipated}/>
