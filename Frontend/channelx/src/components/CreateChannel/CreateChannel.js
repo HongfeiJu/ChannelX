@@ -131,6 +131,11 @@ class CreateChannel extends Component {
 
     routeTo = (path) => this.props.history.push(path);
 
+    onModalClose = (event) => {
+        event.stopPropagation();
+        this.props.onClose && this.props.onClose(event);
+    };
+
     render() {
         if (!this.props.show) {
             return null;

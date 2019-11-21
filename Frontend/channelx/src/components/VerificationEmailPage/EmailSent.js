@@ -26,7 +26,7 @@ class EmailSent extends React.Component {
                         type="button"
                         style={{marginLeft: "auto"}}
                         className="LandingLogin"
-                        onClick={() => this.routeTo(ROUTES.LANDING)}
+                        onClick={() => this.routeTo(ROUTES.LANDINGV2)}
                     >Login
                     </button>
                 </div>
