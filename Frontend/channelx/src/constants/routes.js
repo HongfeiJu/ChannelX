@@ -3,6 +3,7 @@ export const LANDINGV2 = '/landingv2';
 // export const SIGN_UP = '/signup';
 // export const SIGN_IN = '/login';
 export const HOME = '/home';
+export const ABOUTUS = '/aboutus';
 export const EMAIL_SENT = '/emailsent';
 export const ACCOUNT = '/account';
 export const ADMIN = '/admin';
