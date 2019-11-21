@@ -724,9 +724,6 @@ class Home extends Component {
                     console.log("channelId    => ");
                     console.log(doc.id);
                     this.setState({editChannelId: doc.id});
-                    // editChannelInfo.editChannelInformation(doc.id);
-                    console.log("inside edit button" + this.state.editChannelId);
-                    // this.DelayReturnToHomePage(this.state.editChannelId);
                 })
         });
 

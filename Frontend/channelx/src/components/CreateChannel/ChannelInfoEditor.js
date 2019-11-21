@@ -57,34 +57,6 @@ class ChannelInfoEditor extends Component {
 
         console.log("selected channel id in did mount" + this.props.id);
 
-        // console.log("in did mounnt sami han"+ this.props.location.state.data.id);
-
-        var testid = '1f7e3e7a9h0b6';
-
-        // db.collection("channels").doc(this.props.location.state.data.id)
-        db.collection("channels").doc(testid)
-        .get()
-        .then(doc => {
-
-            this.setState({channelTitle: doc.get("channelTitle")});
-            this.setState({channelPassword: doc.get("channelPassword")});
-
-            channelStartTime = doc.get("channelStartTime");
-            channelEndTime = doc.get("channelEndTime");
-            channelStartDate = doc.get("channelStartDate");
-            channelEndDate = doc.get("channelEndDate");  
-
-            this.setState({endDate : Moment(channelEndDate), startDate : Moment(channelStartDate)});
-            
-            console.log(channelStartDate);
-            console.log(channelEndDate);
-
-            this.setState({isLoaded:true});
-
-        }).catch(error => {
-        console.log(`error is ${error}`);
-    });
-
     }
 
     authListener() {
@@ -151,8 +123,6 @@ class ChannelInfoEditor extends Component {
 
             const channelEditor = new ChannelEditor();
             channelEditor.editChannel(
-                // this.props.location.state.data.id,
-                // '1f7e3e7a9h0b6',
                 this.props.id,
                 this.state.channelTitle,
                 this.state.channelPassword,
@@ -167,9 +137,6 @@ class ChannelInfoEditor extends Component {
 
             const channelEditor = new ChannelEditor();
             channelEditor.editChannel(
-                // this.props.location.state.data.id,
-
-                // '1f7e3e7a9h0b6',
                 this.props.id,
                 this.state.channelTitle,
                 this.state.channelPassword,
@@ -192,8 +159,6 @@ class ChannelInfoEditor extends Component {
 
     getValuesofChannel() {
         console.log(this.props.id);
-
-                // db.collection("channels").doc(this.props..id)
                 db.collection("channels").doc(this.props.id)
                 .get()
                 .then(doc => {
@@ -257,8 +222,6 @@ class ChannelInfoEditor extends Component {
     
     function MaterialUIPickersEndTime() {
     
-        // console.log(channelEndTime);
-    
         var date = '2014-08-18T'+ channelEndTime;
     
         const [selectedDate, setSelectedDate] = React.useState(new Date(date));
@@ -266,7 +229,6 @@ class ChannelInfoEditor extends Component {
         const handleDateChange = date => {
             setSelectedDate(date);
             channelEndTime = Moment(date).format('HH:mm:ss').toString();
-            // console.log(channelEndTime);
         };
         return (
 
@@ -318,7 +280,6 @@ class ChannelInfoEditor extends Component {
                     <form onSubmit={this.editChannel}>
                         <div className="channelTitle">
                             <input
-                                // value={variable_name}
                                 type="text"
                                 value={this.state.channelTitle}
                                 id="channelTitle"
@@ -351,7 +312,6 @@ class ChannelInfoEditor extends Component {
                                 // {...console.log(this.state.endDate)}
                                 endDate={this.state.endDate}
                                 endDateId="your_unique_end_date_id"
-                                // placeholder="Start"
                                 onDatesChange={({startDate, endDate}) => this.setState({
                                     startDate,
                                     endDate
@@ -386,21 +346,13 @@ class ChannelInfoEditor extends Component {
                                 type="submit"
                                 id="submitButton"
                                 className="createButton"
-                            >Edit
+                            >Save Changes
                             </button>
                             {this.state.alert}
                         </div>
                         <hr/>
-                        {/* <div className="RedirectToOther">
-                            <a
-                                href="#"
-                                onClick={() => this.routeTo(ROUTES.CREATE_PRIVATE_CHANNEL)} >
-                                Want to create a private channel?
-                            </a>
-                        </div> */}
                     </form>
                 </div>
-            // </div>
 
         );
 
