@@ -42,6 +42,7 @@ class ChannelInfoEditor extends Component {
             editChannelTitle: null,
             channelStartDate: null,
             alert: null,
+            showEditValues: false,
             errors: {
                 channelTitle: "",
                 channelPassword: "",
@@ -54,9 +55,14 @@ class ChannelInfoEditor extends Component {
     componentDidMount() {
         this.authListener();
 
-        console.log("in did mounnt"+ this.props.location.state.data.id);
+        console.log("selected channel id in did mount" + this.props.id);
 
-        db.collection("channels").doc(this.props.location.state.data.id)
+        // console.log("in did mounnt sami han"+ this.props.location.state.data.id);
+
+        var testid = '1f7e3e7a9h0b6';
+
+        // db.collection("channels").doc(this.props.location.state.data.id)
+        db.collection("channels").doc(testid)
         .get()
         .then(doc => {
 
@@ -145,7 +151,9 @@ class ChannelInfoEditor extends Component {
 
             const channelEditor = new ChannelEditor();
             channelEditor.editChannel(
-                this.props.location.state.data.id,
+                // this.props.location.state.data.id,
+                // '1f7e3e7a9h0b6',
+                this.props.id,
                 this.state.channelTitle,
                 this.state.channelPassword,
                 channelStartDate,
@@ -159,7 +167,10 @@ class ChannelInfoEditor extends Component {
 
             const channelEditor = new ChannelEditor();
             channelEditor.editChannel(
-                this.props.location.state.data.id,
+                // this.props.location.state.data.id,
+
+                // '1f7e3e7a9h0b6',
+                this.props.id,
                 this.state.channelTitle,
                 this.state.channelPassword,
                 channelStartDate,
@@ -167,7 +178,7 @@ class ChannelInfoEditor extends Component {
                 channelStartTime,
                 channelEndTime,
                 this.state.UUID,
-                this.props.location.state.data.id);
+               );
                 this.showAlert();
 
         } else {
@@ -179,7 +190,39 @@ class ChannelInfoEditor extends Component {
 
     routeTo = (path) => this.props.history.push(path);
 
+    getValuesofChannel() {
+        console.log(this.props.id);
+
+                // db.collection("channels").doc(this.props..id)
+                db.collection("channels").doc(this.props.id)
+                .get()
+                .then(doc => {
+        
+                    this.setState({channelTitle: doc.get("channelTitle")});
+                    this.setState({channelPassword: doc.get("channelPassword")});
+        
+                    channelStartTime = doc.get("channelStartTime");
+                    channelEndTime = doc.get("channelEndTime");
+                    channelStartDate = doc.get("channelStartDate");
+                    channelEndDate = doc.get("channelEndDate");  
+        
+                    this.setState({endDate : Moment(channelEndDate), startDate : Moment(channelStartDate)});
+                    
+                    console.log(channelStartDate);
+                    console.log(channelEndDate);
+        
+                    this.setState({isLoaded:true});
+        
+                }).catch(error => {
+                console.log(`error is ${error}`);
+            });
+    }
+
     render() {
+
+        if (!this.props.show) {
+            return null;
+        }
 
         function MaterialUIPickersStartTime() {
     
@@ -228,6 +271,7 @@ class ChannelInfoEditor extends Component {
         return (
 
 
+
             
 
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -246,16 +290,31 @@ class ChannelInfoEditor extends Component {
         );
     }
 
+
+    if (!this.props.show) {
+        return null;
+    } 
+
+
+        console.log("selected channel id" + this.props.id);
+
+        if(this.props.id != null && !this.state.showEditValues) {
+        
+            this.getValuesofChannel();
+            this.setState({showEditValues: true});
+        
+        }
+
+        
         
         channelStartDate = Moment(this.state.startDate).format('MM/DD/YYYY').toString();
         channelEndDate = Moment(this.state.endDate).format('MM/DD/YYYY').toString();
         return (
 
-            <div className="wrapper">
-                <div className="form-wrapper">
-                    <div className="FormTitle">
-                        <h1>Edit Channel</h1>
-                    </div>
+            
+
+            <div className="CreateChannelForm">
+
                     <form onSubmit={this.editChannel}>
                         <div className="channelTitle">
                             <input
@@ -286,10 +345,10 @@ class ChannelInfoEditor extends Component {
                         </div>
                         <div className="datePicker">
                             <DateRangePicker
-                                {...console.log(this.state.startDate)}
+                                // {...console.log(this.state.startDate)}
                                 startDate={this.state.startDate}
                                 startDateId="your_unique_start_date_id"
-                                {...console.log(this.state.endDate)}
+                                // {...console.log(this.state.endDate)}
                                 endDate={this.state.endDate}
                                 endDateId="your_unique_end_date_id"
                                 // placeholder="Start"
@@ -320,7 +379,7 @@ class ChannelInfoEditor extends Component {
                                 type="button"
                                 id="cancelButton"
                                 className="leaveButton"
-                                onClick={() => this.routeTo(ROUTES.HOME)}
+                                onClick={() => this.props.closeEditModal()}
                             >Cancel
                             </button>
                             <button
@@ -332,16 +391,16 @@ class ChannelInfoEditor extends Component {
                             {this.state.alert}
                         </div>
                         <hr/>
-                        <div className="RedirectToOther">
+                        {/* <div className="RedirectToOther">
                             <a
                                 href="#"
                                 onClick={() => this.routeTo(ROUTES.CREATE_PRIVATE_CHANNEL)} >
                                 Want to create a private channel?
                             </a>
-                        </div>
+                        </div> */}
                     </form>
                 </div>
-            </div>
+            // </div>
 
         );
 

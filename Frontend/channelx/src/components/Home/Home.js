@@ -27,6 +27,7 @@ import SearchBar from "./SearchBar";
 import MessagingChannelDeleter from "../../services/MessagingChannelDeleter";
 import CreateChannel from "../CreateChannel/CreateChannel";
 import CreatePrivateChannel from "../CreateChannel/CreatePrivateChannel";
+import ChannelInfoEditor from "../CreateChannel/ChannelInfoEditor";
 
 
 class Home extends Component {
@@ -85,6 +86,7 @@ class Home extends Component {
         channelsForSearch: [],
         showPublic: false,
         showPrivate: false,
+        showEditor: false,
         editChannelId: null
     };
 
@@ -229,7 +231,7 @@ class Home extends Component {
                         this.setState({editChannelId: doc.id});
                         // editChannelInfo.editChannelInformation(doc.id);
                         console.log("inside edit button" + this.state.editChannelId);
-                        this.DelayReturnToHomePage(this.state.editChannelId);
+                        // this.DelayReturnToHomePage(this.state.editChannelId);
                     })
             });
     };
@@ -237,7 +239,7 @@ class Home extends Component {
     DelayReturnToHomePage = (id) => {
         setTimeout(() => {
             var pageType = {
-                pathname: '/editChannel',
+                pathname: '/home',
                 state: {
                     data: {
                         'id': id,
@@ -524,7 +526,8 @@ class Home extends Component {
                 <ListItemText primary={channelTitle}/>
                 <ListItemSecondaryAction>
                     <IconButton edge="start" aria-label="edit">
-                        <EditIcon button onClick={() => this.editChannelAlert(channelTitle)} />
+                        {/* <EditIcon button onClick={() => this.editChannelClicked(channelTitle)} /> */}
+                        <EditIcon button onClick={() => this.showEditModal(channelTitle)} />
                     </IconButton>
                     <IconButton edge="end" aria-label="delete">
                         <DeleteIcon button onClick={() => this.deleteChannelAlert(channelTitle)} />
@@ -682,7 +685,9 @@ class Home extends Component {
         this.setState({
             ...this.state,
             showPublic: !this.state.showPublic,
-            showPrivate: false
+            showPrivate: false,
+            showEditor: false
+
         });
     };
 
@@ -690,8 +695,44 @@ class Home extends Component {
         this.setState({
             ...this.state,
             showPrivate: !this.state.showPrivate,
-            showPublic: false
+            showPublic: false,
+            showEditor: false
         });
+    };
+
+    showEditModal = (channelTitle) => {
+        this.setState({
+            ...this.state,
+            showEditor: !this.state.showEditor,
+            showPublic: false,
+            showPrivate: false
+        });
+
+        console.log("Title of edit channel"+ channelTitle + this.state.showEditor);
+
+        if(!this.state.showEditor) {
+
+
+            console.log("Title of edit channel"+ channelTitle);
+
+        db.collection("channels").where("channelTitle", "==", channelTitle)
+        .get()
+        .then(snapshot => {
+            snapshot
+                .docs
+                .forEach(doc => {
+                    console.log("channelId    => ");
+                    console.log(doc.id);
+                    this.setState({editChannelId: doc.id});
+                    // editChannelInfo.editChannelInformation(doc.id);
+                    console.log("inside edit button" + this.state.editChannelId);
+                    // this.DelayReturnToHomePage(this.state.editChannelId);
+                })
+        });
+
+    }
+
+        
     };
 
     render() {
@@ -783,6 +824,13 @@ class Home extends Component {
                             show={this.state.showPrivate}
                             closePrivateModal = {this.showPrivateModal}
                         />
+
+                        <ChannelInfoEditor
+                            show={this.state.showEditor}
+                            id={this.state.editChannelId}
+                            closeEditModal = {this.showEditModal}
+                        />
+
                     </div>
                     <div className="ParticipatedList">
                         <div className="channelsListParticipated">
