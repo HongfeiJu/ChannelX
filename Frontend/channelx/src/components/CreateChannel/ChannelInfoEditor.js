@@ -346,7 +346,7 @@ class ChannelInfoEditor extends Component {
                                 type="submit"
                                 id="submitButton"
                                 className="createButton"
-                            >Save Changes
+                            >Save
                             </button>
                             {this.state.alert}
                         </div>
