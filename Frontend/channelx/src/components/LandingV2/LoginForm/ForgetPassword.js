@@ -5,12 +5,12 @@ Date: 10/01/2019
 */
 
 import React, {Component} from 'react';
-import './LoginForm.css'
-import fire from "../../config/Fire";
+// import './LoginForm.css'
+import fire from "../../../config/Fire"
 
-import * as ROUTES from '../../constants/routes';
+import * as ROUTES from '../../../constants/routes';
 
-class Login extends Component{
+class ForgetPasword extends Component{
     constructor(props){
         super(props);
         this.forgetpass = this.forgetpass.bind(this);
@@ -59,7 +59,7 @@ class Login extends Component{
     }
 
     render(){
-        return <div className="wrapper">
+        return (<div className="wrapper">
             <div className="form-wrapper">
                 <div className="FormTitle">
                     <h1>Reset your password</h1>
@@ -81,7 +81,7 @@ class Login extends Component{
                             type="button"
                             id="loginCancelButton"
                             className="loginCancelButton"
-                            onClick={() => this.routeTo(ROUTES.LANDING)}
+                            onClick={() => this.props.closeForgotPasswordModal()}
                         >Cancel
                         </button>
                         <button
@@ -93,9 +93,9 @@ class Login extends Component{
                     </div>
                 </form>
             </div>
-        </div>;
+        </div>);
     }
 }
 
 
-export default Login;
+export default ForgetPasword;
