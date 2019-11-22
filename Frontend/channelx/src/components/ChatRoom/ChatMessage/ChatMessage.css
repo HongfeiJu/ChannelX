@@ -6,7 +6,7 @@
 .messageUser{
     width:7%;
     float: left;
-    background-color: gold;
+    background-color: whitesmoke;
     border-radius: 5px;
     margin: 2px;
     padding: 5px;
@@ -16,7 +16,8 @@
     width:70%;
     float: left;
     text-align: left;
-    background-color: #b3d7ff;
+    border-color: whitesmoke;
+    background-color: rgba(256,256,256,0.5);
     border-radius: 5px;
     margin: 2px;
     padding: 5px;

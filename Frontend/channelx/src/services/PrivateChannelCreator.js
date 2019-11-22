@@ -1,7 +1,7 @@
 /*
 description: generate private channel
-author: Darshan Prakash
-date: 10/30/2019
+author: Darshan Prakash, Muhammad Sami
+date: 11/19/2019
  */
 
 import firebase from "firebase";
@@ -9,8 +9,14 @@ import ChannelIDCreator from "./ChannelIDCreator";
 import MessagingChannelCreator from "./MessagingChannelCreator";
 import PrivatePasscodeGenerator from "../services/PrivatePasscodeGenertor";
 import fire from "../config/Fire";
+import swal from 'sweetalert';
+import * as ROUTES from "../constants/routes";
 
+
+var mypasscode = null;
 class PrivateChannelCreator {
+
+    
 
     creatNewPrivateChannel(title,creator){
         const messagingChannelCreator=new MessagingChannelCreator();
@@ -27,11 +33,43 @@ class PrivateChannelCreator {
                     privateChannelsCreated: firebase.firestore.FieldValue.arrayUnion(messagingChannelID)
                 }
             );
-            alert('Private channel '+ title + ' created with passcode ' + privatePasscode);
+            
+            mypasscode = privatePasscode;
+            this.showAlert();
         });
         const type = 'private';
         messagingChannelCreator.createChannel(messagingChannelID, title, creator,type);
     }
+
+    showAlert() {
+
+        swal({
+            title: "Private Channel Created Successfully!",
+            text: "Passcode:  "+ mypasscode,
+            icon: "success",
+            button: "Copy Passcode",
+          }).then(function() {
+
+            var dummy = document.createElement("input");
+            document.body.appendChild(dummy);
+            dummy.setAttribute('value', mypasscode);
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+
+            swal({
+                title: "Passcode Copied Successfully!",
+                icon: "success",
+              }).then(function() {
+
+                window.location = ROUTES.HOME;
+
+              });
+
+        });
+    }
+
+
 }
 
 export default PrivateChannelCreator;
