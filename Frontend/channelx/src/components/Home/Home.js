@@ -2,7 +2,7 @@
 Description: Home page
 Authors: Darshan Prakash, Sami, Manisha, Subhradeep
 Date: 9/24/2019
-Updated: 11/14/2019
+Updated: 11/21/2019
 */
 
 import React, {Component} from 'react';
@@ -98,7 +98,7 @@ class Home extends Component {
                 selectedChannel
             };
         });
-        event.target.blur()
+        event.target.blur();
         event.target.parentNode.blur();
     };
 
@@ -107,7 +107,7 @@ class Home extends Component {
         console.log(query);
         let filteredData = [];
         this.setState(prevState => {
-            if (query == '') {
+            if (query === '') {
                 filteredData.push("Select Channel");
             } else {
                 filteredData = prevState.data.filter(element => {
@@ -136,8 +136,8 @@ class Home extends Component {
         let filtered_list = this.state.userCreatedChannels.filter(ele => {
             return ele.toLowerCase().includes(query_participate.toLowerCase())
         });
-        console.log("Original List: ", this.state.userCreatedChannels)
-        console.log("Filtered List: ", filtered_list)
+        console.log("Original List: ", this.state.userCreatedChannels);
+        console.log("Filtered List: ", filtered_list);
         this.setState({
             filtered: filtered_list
         });
@@ -182,17 +182,12 @@ class Home extends Component {
 
         startTime = this.tConvert(startTime);
         endTime = this.tConvert(endTime);
-
         console.log(this.tConvert(startTime));
         console.log(this.tConvert(endTime));
-
         var s = startTime.split(':');
         var e = endTime.split(':');
-
         var startTimeFormat = s[2].substring(2, 4);
         var endTimeFormat = e[2].substring(2, 4);
-
-
         swal({
             title: "Channel is not Active Now!",
             text: "Availablitiy Dates" + " : " + startDate + "  to  " + endDate + "\n\n" + "Availability Time" + " : " +
@@ -200,55 +195,6 @@ class Home extends Component {
             icon: "warning",
         })
     }
-
-    editChannelAlert(channelTitle) {
-        swal({
-            title: "Are you sure?",
-            text: "Do you want to edit the channel? If no, press Exit.",
-            icon: "warning",
-            buttons: ["Exit", "Edit Channel"],
-
-            dangerMode: true,
-        }).then((edit) => {
-            if (edit) {
-                this.editChannelClicked(channelTitle);
-            }
-
-        });
-    }
-
-    editChannelClicked = (channelTitle) => {
-        // const editChannelInfo = new ChannelInfoEditor();
-        console.log(channelTitle);
-        db.collection("channels").where("channelTitle", "==", channelTitle)
-            .get()
-            .then(snapshot => {
-                snapshot
-                    .docs
-                    .forEach(doc => {
-                        console.log("channelId    => ");
-                        console.log(doc.id);
-                        this.setState({editChannelId: doc.id});
-                        // editChannelInfo.editChannelInformation(doc.id);
-                        console.log("inside edit button" + this.state.editChannelId);
-                        // this.DelayReturnToHomePage(this.state.editChannelId);
-                    })
-            });
-    };
-
-    DelayReturnToHomePage = (id) => {
-        setTimeout(() => {
-            var pageType = {
-                pathname: '/home',
-                state: {
-                    data: {
-                        'id': id,
-                    }
-                }
-            }
-            this.props.history.push(pageType);
-        }, 1000)
-    };
 
     deleteChannelAlert(channelTitle) {
         swal({
@@ -285,8 +231,7 @@ class Home extends Component {
         console.log("Join Channel clicked");
         var selectedChannel = document.getElementById("SearchChannelText").value;
         console.log(selectedChannel);
-        if (selectedChannel == '') {
-            // alert("Please select a channel to join");
+        if (selectedChannel === '') {
             this.selectChannelAlert();
         } else {
             var passcode = null;
@@ -298,7 +243,7 @@ class Home extends Component {
                         .forEach(doc => {
                             console.log("channelId    => ");
                             console.log(doc.id);
-                            passcode = doc.get("channelPassword")
+                            passcode = doc.get("channelPassword");
                             this.checkPublicPasscode(doc.id, passcode);
                         });
                 });
@@ -332,7 +277,7 @@ class Home extends Component {
                 var dt = new Date();
                 var s = startTime.split(':');
                 var e = endTime.split(':');
-                var dt2
+                var dt2;
                 if (parseInt(e[0]) - parseInt(s[0]) < 0) {
                     nextDay = true;
                 }
@@ -352,7 +297,7 @@ class Home extends Component {
                 console.log("valid state" + this.state.isChatEnable);
                 if (this.state.isChatEnable) {
                     this.routeTo("/channel/" + doc.id);
-                    if (this.state.isPublic && (channelCreator != fire.auth().currentUser.uid)) {
+                    if (this.state.isPublic && (channelCreator !== fire.auth().currentUser.uid)) {
                         this.addJoinedChannel(doc.id);
                     }
                 } else {
@@ -367,8 +312,7 @@ class Home extends Component {
         console.log("Join Channel clicked");
         var selectedChannel = document.getElementById("SearchChannelText").value;
         console.log(selectedChannel);
-        if (selectedChannel == '') {
-            // alert("Please select a channel to join");
+        if (selectedChannel === '') {
             this.selectChannelAlert();
         } else {
             db.collection("channels").where("channelTitle", "==", selectedChannel)
@@ -426,7 +370,7 @@ class Home extends Component {
                 snapshot
                     .docs
                     .forEach(doc => {
-                        if (i == 0) {
+                        if (i === 0) {
                             data.push("Select Channel");
                         }
                         i = i + 1;
@@ -481,7 +425,7 @@ class Home extends Component {
 
                 console.log(validDate);
 
-                if(!validDate){
+                if (!validDate) {
                     doc.ref.delete();
                     messagingChannelDeleter.deleteChannel(doc.id);
                 }
@@ -489,7 +433,7 @@ class Home extends Component {
             });
         });
 
-    }
+    };
 
     deleteChannelClicked = (channelTitle) => {
         const messagingChannelDeleter = new MessagingChannelDeleter();
@@ -522,17 +466,16 @@ class Home extends Component {
         let data = this.state.filtered
         return data.map((channelTitle) => {
             return (
-                <ListItem button onClick={() => this.channelListItemClick(channelTitle)}> 
-                <ListItemText primary={channelTitle}/>
-                <ListItemSecondaryAction>
-                    <IconButton edge="start" aria-label="edit">
-                        {/* <EditIcon button onClick={() => this.editChannelClicked(channelTitle)} /> */}
-                        <EditIcon button onClick={() => this.showEditModal(channelTitle)} />
-                    </IconButton>
-                    <IconButton edge="end" aria-label="delete">
-                        <DeleteIcon button onClick={() => this.deleteChannelAlert(channelTitle)} />
-                    </IconButton>
-                </ListItemSecondaryAction>
+                <ListItem button onClick={() => this.channelListItemClick(channelTitle)}>
+                    <ListItemText primary={channelTitle}/>
+                    <ListItemSecondaryAction>
+                        <IconButton edge="start" aria-label="edit">
+                            <EditIcon button onClick={() => this.showEditModal(channelTitle)}/>
+                        </IconButton>
+                        <IconButton edge="end" aria-label="delete">
+                            <DeleteIcon button onClick={() => this.deleteChannelAlert(channelTitle)}/>
+                        </IconButton>
+                    </ListItemSecondaryAction>
                 </ListItem>
             )
         })
@@ -580,7 +523,6 @@ class Home extends Component {
             .get()
             .then(snapshot => {
                 const userParticipatedChannels = [];
-                let i = 0;
                 snapshot
                     .docs
                     .forEach(doc => {
@@ -591,7 +533,6 @@ class Home extends Component {
                 return userParticipatedChannels;
             })
             .then(userParticipatedChannels => {
-                //const {query_participate} = this.state;
                 const filteredParticipated = userParticipatedChannels;
                 console.log("Participated Channels: ");
                 console.log(userParticipatedChannels);
@@ -625,7 +566,7 @@ class Home extends Component {
         if (publicPasscode !== '') {
             if (passcode === publicPasscode) {
 
-                this.setState({isPublic: true})
+                this.setState({isPublic: true});
                 this.getChannnelDatesandTimes(id);
 
             } else {
@@ -707,29 +648,21 @@ class Home extends Component {
             showPublic: false,
             showPrivate: false
         });
-
-        console.log("Title of edit channel"+ channelTitle + this.state.showEditor);
-
-        if(!this.state.showEditor) {
-
-
-            console.log("Title of edit channel"+ channelTitle);
-
-        db.collection("channels").where("channelTitle", "==", channelTitle)
-        .get()
-        .then(snapshot => {
-            snapshot
-                .docs
-                .forEach(doc => {
-                    console.log("channelId    => ");
-                    console.log(doc.id);
-                    this.setState({editChannelId: doc.id});
-                })
-        });
-
-    }
-
-        
+        console.log("Title of edit channel" + channelTitle + this.state.showEditor);
+        if (!this.state.showEditor) {
+            console.log("Title of edit channel" + channelTitle);
+            db.collection("channels").where("channelTitle", "==", channelTitle)
+                .get()
+                .then(snapshot => {
+                    snapshot
+                        .docs
+                        .forEach(doc => {
+                            console.log("channelId    => ");
+                            console.log(doc.id);
+                            this.setState({editChannelId: doc.id});
+                        })
+                });
+        }
     };
 
     render() {
@@ -796,56 +729,51 @@ class Home extends Component {
                     <div className="CreatedList">
                         <div className="channelsList">
                             <div id="SearchCreated">
-                                <input className= "searchInput"
-                                    placeholder="Search Created Channels"
-                                    value={this.state.query_participate}
-                                    onChange={this.handleInputChangeCreated}/>
+                                <input className="searchInput"
+                                       placeholder="Search Created Channels"
+                                       value={this.state.query_participate}
+                                       onChange={this.handleInputChangeCreated}/>
                             </div>
                             <div className="searchFormCreated">
-                                
-                                <div>    
-                                    <List >
+                                <div>
+                                    <List>
                                         {this.userCreatedChannels()}
                                     </List>
                                 </div>
-                                
                             </div>
                         </div>
                     </div>
                     <div className="HomeCreateModal">
                         <CreateChannel
                             show={this.state.showPublic}
-                            closePublicModal = {this.showPublicModal}
+                            closePublicModal={this.showPublicModal}
                         />
                         <CreatePrivateChannel
                             show={this.state.showPrivate}
-                            closePrivateModal = {this.showPrivateModal}
+                            closePrivateModal={this.showPrivateModal}
                         />
-
                         <ChannelInfoEditor
                             show={this.state.showEditor}
                             id={this.state.editChannelId}
-                            closeEditModal = {this.showEditModal}
+                            closeEditModal={this.showEditModal}
                         />
-
                     </div>
                     <div className="ParticipatedList">
                         <div className="channelsListParticipated">
-                            
                             <div id="SearchParticipated">
-                                <input className= "searchInputParticipated"
-                                    placeholder="Search participated Channels"
-                                    value={this.state.query_participate1}
-                                    onChange={this.handleInputChangeParticipated}/>
+                                <input className="searchInputParticipated"
+                                       placeholder="Search participated Channels"
+                                       value={this.state.query_participate1}
+                                       onChange={this.handleInputChangeParticipated}/>
                             </div>
                             <div className="searchFormParticipated">
-                                <div>   
+                                <div>
                                     <List>
                                         {this.userParticipatedChannels()}
                                     </List>
                                 </div>
                             </div>
-                    </div>
+                        </div>
                     </div>
                 </div>
             </div>
