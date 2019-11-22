@@ -76,7 +76,7 @@ class Login extends Component {
         e.preventDefault();
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() =>{
             firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-            setTimeout(e => {}, 100);
+            setTimeout(e => {}, 1000);
         }).then(() => {
             if(this.state.emailVerified === true)
                 this.routeTo(ROUTES.HOME);
