@@ -1,6 +1,6 @@
 /*
 Description: LoginForm component for modal
-Authors: Subhradeep Biswas, Darshan Prakash, Hongfei Ju
+Authors: Subhradeep Biswas, Darshan Prakash, Hongfei Ju, Manisha Miriyala
 Date: 11/20/2019
 */
 
@@ -10,6 +10,8 @@ import {withRouter} from 'react-router-dom';
 import * as ROUTES from '../../../constants/routes';
 import firebase from "firebase";
 import SocialLoginForm from "./SocialLoginForm/SocialLoginForm";
+import Modal from '@material-ui/core/Modal'
+import ForgetPasword from './ForgetPassword';
 
 class LoginForm extends Component {
     constructor(props) {
@@ -20,7 +22,7 @@ class LoginForm extends Component {
             email: null,
             password: null,
             fireLoginErrors:'',
-
+            forgotPasswordModal: false,
             errors: {
                 email: "",
                 password: ""
@@ -90,6 +92,16 @@ class LoginForm extends Component {
         })
     }
 
+    openForgotPasswordModal = () => {
+        this.setState({ forgotPasswordModal: true })
+    }
+
+    closeForgotPasswordModal = () => {
+        this.setState({ forgotPasswordModal: false })
+    }
+
+
+
     render() {
         let loginErrorNotification = this.state.fireLoginErrors ?
             (<div> { this.state.fireLoginErrors}</div>): null;
@@ -99,7 +111,7 @@ class LoginForm extends Component {
                     {loginErrorNotification}
                 </div>
                 <hr/>
-                <form onSubmit ={this.login}>
+                <form onSubmit ={this.login}>   
                     <div className="email">
                         <input
                             type="email"
@@ -121,8 +133,7 @@ class LoginForm extends Component {
                             name="password"
                             required
                             onChange={this.handleChange}
-                        >
-                        </input>
+                        ></input>
                         {this.state.errors.password.length > 0 && (
                             <span className="errorMessage">{this.state.errors.password}</span>
                         )}
@@ -137,7 +148,23 @@ class LoginForm extends Component {
                             </button>
                         </div>
                         <div className="login_form_forget">
-                            <a href="#" onClick={() => this.routeTo('/forget-password')} >Forgot password?</a>
+                            <button
+                                type="button"
+                                id="forgotPasswordButton"
+                                onClick={(e) => this.openForgotPasswordModal()}
+                            >Forgot Password?
+                            </button>
+                            <Modal
+                                aria-labelledby="simple-modal-title"
+                                aria-describedby="simple-modal-description"
+                                open={this.state.forgotPasswordModal}
+                                onClose={this.closeForgotPasswordModal}
+                            >
+                                <ForgetPasword
+                                    closeForgotPasswordModal={this.closeForgotPasswordModal}
+                                />
+                            </Modal>
+                            {/* <a href="#" onClick={() => this.logoutModalCall()} >Forgot password?</a> */}
                         </div>
                     </div>
                 </form>

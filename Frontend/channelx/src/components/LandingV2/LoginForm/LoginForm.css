@@ -105,9 +105,17 @@ input.error {
     flex-direction: row;
 }
 
-.login_form_forget {
+.login_form_forget button {
+    background-color: slategray;
+    color: white;
+    border: 2px solid #fff;
     width: 50%;
-    margin:auto;
+    margin-top: 1em;
+    padding: 2px 0px;
+    font-size: 0.8em;
+    letter-spacing: 1px;
+    margin-bottom: 0.25em;
+    border-radius: 15px;
 }
 
 .login_form_login button {
