@@ -17,6 +17,7 @@
     float: left;
     text-align: left;
     border-color: whitesmoke;
+    background-color: rgba(256,256,256,0.5);
     border-radius: 5px;
     margin: 2px;
     padding: 5px;

@@ -76,14 +76,13 @@ class Login extends Component {
         e.preventDefault();
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() =>{
             firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+            setTimeout(e => {}, 100);
         }).then(() => {
-            setTimeout(e => {
-                if(this.state.emailVerified === true)
-                    this.routeTo(ROUTES.HOME);
-                else {
-                    this.setState({fireLoginErrors: "Kindly verify your email before you login"})
-                }
-            }, 1000);
+            if(this.state.emailVerified === true)
+                this.routeTo(ROUTES.HOME);
+            else {
+                this.setState({fireLoginErrors: "Kindly verify your email before you login"})
+            }
         }).catch((error) => {
           console.log(error);
           this.setState({fireLoginErrors : error.message})

@@ -222,7 +222,7 @@ class ChatRoom extends Component {
     }
 
     fetchUsername() {
-        return firebase.auth().currentUser.displayName;
+        return "user " + Math.floor(Math.random() * 100);
     }
 
     addNewPasscode() {
