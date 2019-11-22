@@ -29,7 +29,6 @@ class ChannelInfoEditor extends Component {
 
     constructor(props) {
         super(props);
-        
         this.editChannel = this.editChannel.bind(this);
         this.handlechannelChange = this.handlechannelChange.bind(this);
         this.state = {
@@ -49,7 +48,7 @@ class ChannelInfoEditor extends Component {
             }
         }
 
-        
+
     }
 
     componentDidMount() {
@@ -83,7 +82,7 @@ class ChannelInfoEditor extends Component {
             case 'channelTitle':
                 break;
             case 'channelPassword':
-                formErrors.channelPassword = value.length < 10 ||  value.length >16 ? 'password length should be between 10 and 16 characters' : '';
+                formErrors.channelPassword = value.length < 10 || value.length > 16 ? 'password length should be between 10 and 16 characters' : '';
                 break;
             default:
                 break;
@@ -96,14 +95,12 @@ class ChannelInfoEditor extends Component {
             title: "You're all set!!",
             text: "Channel Edited Successfully!",
             icon: "success",
-          }).then(function() {
+        }).then(function () {
             window.location = ROUTES.HOME;
         });
-
-        }
+    }
 
     showTimeAlert() {
-
         swal("Invalid Time!", "Please Select an appropriate time!", "warning");
     }
 
@@ -111,16 +108,11 @@ class ChannelInfoEditor extends Component {
     editChannel(e) {
 
         e.preventDefault();
-
         var sameDay = false;
-
-        if(channelStartDate === channelEndDate) {
-
+        if (channelStartDate === channelEndDate) {
             sameDay = true;
         }
-
-        if(channelEndTime > channelStartTime && sameDay) {
-
+        if (channelEndTime > channelStartTime && sameDay) {
             const channelEditor = new ChannelEditor();
             channelEditor.editChannel(
                 this.props.id,
@@ -131,10 +123,8 @@ class ChannelInfoEditor extends Component {
                 channelStartTime,
                 channelEndTime,
                 this.state.UUID);
-                this.showAlert();
-
-        } else if(!sameDay) {
-
+            this.showAlert();
+        } else if (!sameDay) {
             const channelEditor = new ChannelEditor();
             channelEditor.editChannel(
                 this.props.id,
@@ -145,220 +135,180 @@ class ChannelInfoEditor extends Component {
                 channelStartTime,
                 channelEndTime,
                 this.state.UUID,
-               );
-                this.showAlert();
-
+            );
+            this.showAlert();
         } else {
             this.showTimeAlert();
-
         }
-        
-        }
+    }
 
     routeTo = (path) => this.props.history.push(path);
 
     getValuesofChannel() {
         console.log(this.props.id);
-                db.collection("channels").doc(this.props.id)
-                .get()
-                .then(doc => {
-        
-                    this.setState({channelTitle: doc.get("channelTitle")});
-                    this.setState({channelPassword: doc.get("channelPassword")});
-        
-                    channelStartTime = doc.get("channelStartTime");
-                    channelEndTime = doc.get("channelEndTime");
-                    channelStartDate = doc.get("channelStartDate");
-                    channelEndDate = doc.get("channelEndDate");  
-        
-                    this.setState({endDate : Moment(channelEndDate), startDate : Moment(channelStartDate)});
-                    
-                    console.log(channelStartDate);
-                    console.log(channelEndDate);
-        
-                    this.setState({isLoaded:true});
-        
-                }).catch(error => {
-                console.log(`error is ${error}`);
-            });
+        db.collection("channels").doc(this.props.id)
+            .get()
+            .then(doc => {
+                this.setState({channelTitle: doc.get("channelTitle")});
+                this.setState({channelPassword: doc.get("channelPassword")});
+                channelStartTime = doc.get("channelStartTime");
+                channelEndTime = doc.get("channelEndTime");
+                channelStartDate = doc.get("channelStartDate");
+                channelEndDate = doc.get("channelEndDate");
+                this.setState({endDate: Moment(channelEndDate), startDate: Moment(channelStartDate)});
+                console.log(channelStartDate);
+                console.log(channelEndDate);
+                this.setState({isLoaded: true});
+            }).catch(error => {
+            console.log(`error is ${error}`);
+        });
     }
 
-    render() {
 
+
+    render() {
         if (!this.props.show) {
             return null;
         }
-
         function MaterialUIPickersStartTime() {
-    
-    
-        var date = '2014-08-18T'+ channelStartTime ;
-    
-        const [selectedDate, setSelectedDate] = React.useState(new Date(date));
-        channelStartTime = Moment(selectedDate).format('HH:mm:ss').toString();
-        const handleDateChange = date => {
-            setSelectedDate(date);
-            channelStartTime = Moment(date).format('HH:mm:ss').toString();
-        };
-        return (
 
-            
+            var date = '2014-08-18T' + channelStartTime;
+            const [selectedDate, setSelectedDate] = React.useState(new Date(date));
+            channelStartTime = Moment(selectedDate).format('HH:mm:ss').toString();
+            const handleDateChange = date => {
+                setSelectedDate(date);
+                channelStartTime = Moment(date).format('HH:mm:ss').toString();
+            };
+            return (
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <Grid container justify="space-around">
+                        <KeyboardTimePicker
+                            margin="normal"
+                            id="time-picker"
+                            value={selectedDate}
+                            onChange={handleDateChange}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change time',
+                            }}
+                        />
+                    </Grid>
+                </MuiPickersUtilsProvider>
+            );
+        }
+        function MaterialUIPickersEndTime() {
 
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid container justify="space-around">
-                    <KeyboardTimePicker
-                        margin="normal"
-                        id="time-picker"
-                        value={selectedDate}
-                        onChange={handleDateChange}
-                        KeyboardButtonProps={{
-                            'aria-label': 'change time',
-                        }}
-                    />
-                </Grid>
-            </MuiPickersUtilsProvider>
-        );
-    }
-    
-    function MaterialUIPickersEndTime() {
-    
-        var date = '2014-08-18T'+ channelEndTime;
-    
-        const [selectedDate, setSelectedDate] = React.useState(new Date(date));
-        channelEndTime = Moment(selectedDate).format('HH:mm:ss').toString();
-        const handleDateChange = date => {
-            setSelectedDate(date);
-            channelEndTime = Moment(date).format('HH:mm:ss').toString();
-        };
-        return (
-
-
-
-            
-
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid container justify="space-around">
-                    <KeyboardTimePicker
-                        margin="normal"
-                        id="time-picker"
-                        value={selectedDate}
-                        onChange={handleDateChange}
-                        KeyboardButtonProps={{
-                            'aria-label': 'change time'
-                        }}
-                    />
-                </Grid>
-            </MuiPickersUtilsProvider>
-        );
-    }
-
-
-    if (!this.props.show) {
-        return null;
-    } 
-
-
+            var date = '2014-08-18T' + channelEndTime;
+            const [selectedDate, setSelectedDate] = React.useState(new Date(date));
+            channelEndTime = Moment(selectedDate).format('HH:mm:ss').toString();
+            const handleDateChange = date => {
+                setSelectedDate(date);
+                channelEndTime = Moment(date).format('HH:mm:ss').toString();
+            };
+            return (
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <Grid container justify="space-around">
+                        <KeyboardTimePicker
+                            margin="normal"
+                            id="time-picker"
+                            value={selectedDate}
+                            onChange={handleDateChange}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change time'
+                            }}
+                        />
+                    </Grid>
+                </MuiPickersUtilsProvider>
+            );
+        }
         console.log("selected channel id" + this.props.id);
+        if (this.props.id != null && !this.state.showEditValues) {
 
-        if(this.props.id != null && !this.state.showEditValues) {
-        
             this.getValuesofChannel();
             this.setState({showEditValues: true});
-        
-        }
 
-        
-        
+        }
         channelStartDate = Moment(this.state.startDate).format('MM/DD/YYYY').toString();
         channelEndDate = Moment(this.state.endDate).format('MM/DD/YYYY').toString();
         return (
-
-            
-
             <div className="CreateChannelForm">
-
-                    <form onSubmit={this.editChannel}>
-                        <div className="channelTitle">
-                            <input
-                                type="text"
-                                value={this.state.channelTitle}
-                                id="channelTitle"
-                                placeholder="Title"
-                                name="channelTitle"
-                                required
-                                onChange={this.handlechannelChange}
-                            ></input>
-                        </div>
-                        <div className="channelPassword">
-                            <input
-                                type="text"
-                                value={this.state.channelPassword}
-                                pattern=".{10,16}"
-                                id="channelPassword"
-                                placeholder="Passcode"
-                                name="channelPassword"
-                                required
-                                onChange={this.handlechannelChange}
-                            ></input>
-                            {this.state.errors.channelPassword.length > 0 && (
-                                <span className="errorMessage">{this.state.errors.channelPassword}</span>
-                            )}
-                        </div>
-                        <div className="datePicker">
-                            <DateRangePicker
-                                // {...console.log(this.state.startDate)}
-                                startDate={this.state.startDate}
-                                startDateId="your_unique_start_date_id"
-                                // {...console.log(this.state.endDate)}
-                                endDate={this.state.endDate}
-                                endDateId="your_unique_end_date_id"
-                                onDatesChange={({startDate, endDate}) => this.setState({
-                                    startDate,
-                                    endDate
-                                })}
-                                focusedInput={this.state.focusedInput}
-                                onFocusChange={focusedInput => this.setState({focusedInput})}
-                                required
-                                minimumNights={0}
-                            />
-                        </div>
-                        <div className="channelStartTime">
-                            <text>
-                                Start Time
-                            </text>
-                            <MaterialUIPickersStartTime/>
-                        </div>
-                        <div className="channelEndTime">
-                            <text>
-                                End Time
-                            </text>
-                            <MaterialUIPickersEndTime/>
-                        </div>
-                        <div className="createChannel">
-                            <button
-                                type="button"
-                                id="cancelButton"
-                                className="leaveButton"
-                                onClick={() => this.props.closeEditModal()}
-                            >Cancel
-                            </button>
-                            <button
-                                type="submit"
-                                id="submitButton"
-                                className="createButton"
-                            >Save
-                            </button>
-                            {this.state.alert}
-                        </div>
-                        <hr/>
-                    </form>
-                </div>
-
+                <form onSubmit={this.editChannel}>
+                    <div className="channelTitle">
+                        <input
+                            type="text"
+                            value={this.state.channelTitle}
+                            id="channelTitle"
+                            placeholder="Title"
+                            name="channelTitle"
+                            required
+                            onChange={this.handlechannelChange}
+                        />
+                    </div>
+                    <div className="channelPassword">
+                        <input
+                            type="text"
+                            value={this.state.channelPassword}
+                            pattern=".{10,16}"
+                            id="channelPassword"
+                            placeholder="Passcode"
+                            name="channelPassword"
+                            required
+                            onChange={this.handlechannelChange}
+                        />
+                        {this.state.errors.channelPassword.length > 0 && (
+                            <span className="errorMessage">{this.state.errors.channelPassword}</span>
+                        )}
+                    </div>
+                    <div className="datePicker">
+                        <DateRangePicker
+                            // {...console.log(this.state.startDate)}
+                            startDate={this.state.startDate}
+                            startDateId="your_unique_start_date_id"
+                            // {...console.log(this.state.endDate)}
+                            endDate={this.state.endDate}
+                            endDateId="your_unique_end_date_id"
+                            onDatesChange={({startDate, endDate}) => this.setState({
+                                startDate,
+                                endDate
+                            })}
+                            focusedInput={this.state.focusedInput}
+                            onFocusChange={focusedInput => this.setState({focusedInput})}
+                            required
+                            minimumNights={0}
+                        />
+                    </div>
+                    <div className="channelStartTime">
+                        <text>
+                            Start Time
+                        </text>
+                        <MaterialUIPickersStartTime/>
+                    </div>
+                    <div className="channelEndTime">
+                        <text>
+                            End Time
+                        </text>
+                        <MaterialUIPickersEndTime/>
+                    </div>
+                    <div className="createChannel">
+                        <button
+                            type="button"
+                            id="cancelButton"
+                            className="leaveButton"
+                            onClick={() => this.props.closeEditModal()}
+                        >Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            id="submitButton"
+                            className="createButton"
+                        >Save
+                        </button>
+                        {this.state.alert}
+                    </div>
+                    <hr/>
+                </form>
+            </div>
         );
-
-                            
     }
 }
-
 
 export default ChannelInfoEditor;
