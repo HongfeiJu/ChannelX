@@ -158,7 +158,12 @@
     box-shadow: 0px 5px 25px #555;
 }
 
-.CreatedList::-webkit-scrollbar {
+.searchFormCreated::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.searchFormParticipated::-webkit-scrollbar {
     width: 10px;
     height: 10px;
 }
