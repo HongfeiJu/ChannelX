@@ -59,7 +59,7 @@ class ForgetPasword extends Component{
     }
 
     render(){
-        return (<div className="wrapper">
+        return (<div className="landing_wrapper">
             <div className="form-wrapper">
                 <div className="FormTitle">
                     <h1>Reset your password</h1>

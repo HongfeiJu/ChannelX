@@ -1,6 +1,6 @@
 /*
 Description: LoginForm component for modal
-Authors: Subhradeep Biswas, Darshan Prakash, Hongfei Ju
+Authors: Subhradeep Biswas, Darshan Prakash, Hongfei Ju, Manisha Miriyala
 Date: 11/20/2019
 */
 
