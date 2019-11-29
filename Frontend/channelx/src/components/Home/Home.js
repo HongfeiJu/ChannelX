@@ -511,7 +511,12 @@ class Home extends Component {
             return (
                 <ListItem button onClick={() => this.participatedChannelListItemClick(channelTitle)}>
                     <ListItemText primary={channelTitle}/>
-                    <Divider/>
+                    
+                    <ListItemSecondaryAction>
+                        <IconButton edge="end" aria-label="delete">
+                            <DeleteIcon button onClick={() => this.deleteChannelAlert(channelTitle)}/>
+                        </IconButton>
+                    </ListItemSecondaryAction>
                 </ListItem>
             )
         })
