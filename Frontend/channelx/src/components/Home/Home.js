@@ -450,8 +450,7 @@ class Home extends Component {
             });
         let filtered_list = this.state.userCreatedChannels.filter(ele => ele != channelTitle)
         let filteredData = this.state.filteredData.filter(ele => ele != channelTitle)
-        let userParticipatedChannels = this.state.userParticipatedChannels.filter(ele => ele != channelTitle)
-        let filteredParticipated = this.state.filteredParticipated.filter(ele => ele != channelTitle)
+        let channelsForSearch = this.state.channelsForSearch.filter(ele => ele != channelTitle)
         let data = this.state.data.filter(ele => ele != channelTitle)
         console.log("Original List: ", this.state.userCreatedChannels)
         console.log("Filtered List: ", filtered_list)
@@ -460,8 +459,7 @@ class Home extends Component {
             filtered: filtered_list,
             data: data,
             filteredData: filteredData,
-            userParticipatedChannels: userParticipatedChannels,
-            filteredParticipated: filteredParticipated
+            channelsForSearch: channelsForSearch
 
         });
     };
