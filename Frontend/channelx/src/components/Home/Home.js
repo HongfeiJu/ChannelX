@@ -214,6 +214,24 @@ class Home extends Component {
             });
     }
 
+    leaveChannelAlert(channelTitle) {
+        swal({
+            title: "Are you sure?",
+            text: "After you leave this channel, You can join it back again!",
+            icon: "warning",
+            buttons: ["Cancel", "Yes Leave!"],
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    swal("Poof! You have left the channel successfully!", {
+                        icon: "success",
+                    });
+                    this.leaveChannelClicked(channelTitle);
+                }
+            });
+    }
+
     alreadyDelectedChannelAccessAlert() {
         swal({
             title: "Channel Already Deleted !",
@@ -465,6 +483,20 @@ class Home extends Component {
     };
 
 
+    leaveChannelClicked = (channelTitle) => {
+
+        let userParticipatedChannels = this.state.userParticipatedChannels.filter(ele => ele != channelTitle)
+        let filteredParticipated = this.state.filteredParticipated.filter(ele => ele != channelTitle)
+        
+        console.log("Original List: ", this.state.userParticipatedChannels)
+        console.log("Filtered List: ", filteredParticipated)
+        this.setState({
+            userParticipatedChannels: userParticipatedChannels,
+            filteredParticipated: filteredParticipated
+        });
+    };
+
+
     userCreatedChannels = () => {
         let data = this.state.filtered
         return data.map((channelTitle) => {
@@ -517,7 +549,7 @@ class Home extends Component {
                     
                     <ListItemSecondaryAction>
                         <IconButton edge="end" aria-label="delete">
-                            <DeleteIcon button onClick={() => this.deleteChannelAlert(channelTitle)}/>
+                            <DeleteIcon button onClick={() => this.leaveChannelAlert(channelTitle)}/>
                         </IconButton>
                     </ListItemSecondaryAction>
                 </ListItem>
