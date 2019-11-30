@@ -125,15 +125,6 @@ class CreatePrivateChannel extends Component {
             this.showTimeAlert();
         }
 
-
-
-
-
-        // e.preventDefault();
-        // const privateChannelCreator = new PrivateChannelCreator();
-        // privateChannelCreator.creatNewPrivateChannel(
-        //     this.state.channelTitle,
-        //     this.state.UUID);
     }
 
     routeTo = (path) => this.props.history.push(path);
