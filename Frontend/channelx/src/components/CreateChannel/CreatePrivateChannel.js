@@ -12,6 +12,18 @@ import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 import 'date-fns';
 import firebase from "firebase";
+import {DateRangePicker} from 'react-dates';
+import Moment from 'moment';
+import {MuiPickersUtilsProvider, KeyboardTimePicker} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import Grid from '@material-ui/core/Grid';
+import swal from 'sweetalert';
+
+
+let channelStartTime = null;
+let channelEndTime = null;
+let channelStartDate = null;
+let channelEndDate = null;
 
 class CreatePrivateChannel extends Component {
 
@@ -60,12 +72,68 @@ class CreatePrivateChannel extends Component {
         this.setState({formErrors, [name]: value}, () => console.log(this.state));
     };
 
+
+
+    showAlert() {
+        swal({
+            title: "Channel Created !!",
+            text: "Channel Created Successfully!",
+            icon: "success",
+        }).then(function () {
+            window.location = ROUTES.HOME;
+        });
+
+    }
+
+    showTimeAlert() {
+        swal("Invalid Time!", "Please Select an appropriate time!", "warning");
+    }
+
     createChannel(e) {
+
+
+
         e.preventDefault();
-        const privateChannelCreator = new PrivateChannelCreator();
-        privateChannelCreator.creatNewPrivateChannel(
-            this.state.channelTitle,
-            this.state.UUID);
+        console.log(channelStartTime);
+        console.log(channelEndTime);
+        var sameDay = false;
+        if (channelStartDate === channelEndDate) {
+            sameDay = true;
+        }
+        if (channelEndTime > channelStartTime && sameDay) {
+            // alert('channel created');
+            const privateChannelCreator = new PrivateChannelCreator();
+            privateChannelCreator.creatNewPrivateChannel(
+                this.state.channelTitle,
+                channelStartDate,
+                channelEndDate,
+                channelStartTime,
+                channelEndTime,
+                this.state.UUID);
+            this.showAlert();
+        } else if (!sameDay) {
+            const privateChannelCreator = new PrivateChannelCreator();
+            privateChannelCreator.creatNewPrivateChannel(
+                this.state.channelTitle,
+                channelStartDate,
+                channelEndDate,
+                channelStartTime,
+                channelEndTime,
+                this.state.UUID);
+            this.showAlert();
+        } else {
+            this.showTimeAlert();
+        }
+
+
+
+
+
+        // e.preventDefault();
+        // const privateChannelCreator = new PrivateChannelCreator();
+        // privateChannelCreator.creatNewPrivateChannel(
+        //     this.state.channelTitle,
+        //     this.state.UUID);
     }
 
     routeTo = (path) => this.props.history.push(path);
@@ -74,6 +142,10 @@ class CreatePrivateChannel extends Component {
         if (!this.props.show){
             return null;
         }
+
+        channelStartDate = Moment(this.state.startDate).format('MM/DD/YYYY').toString();
+        channelEndDate = Moment(this.state.endDate).format('MM/DD/YYYY').toString();
+
         return (
             <div className="CreateChannelForm">
                 <form onSubmit={this.createChannel}>
@@ -90,6 +162,37 @@ class CreatePrivateChannel extends Component {
                             onChange={this.handlechannelChange}
                         ></input>
                     </div>
+
+                    <div className="datePicker">
+                        <DateRangePicker
+                            startDate={this.state.startDate}
+                            startDateId="your_unique_start_date_id"
+                            endDate={this.state.endDate}
+                            endDateId="your_unique_end_date_id"
+                            onDatesChange={({startDate, endDate}) => this.setState({
+                                startDate,
+                                endDate
+                            })}
+                            focusedInput={this.state.focusedInput}
+                            onFocusChange={focusedInput => this.setState({focusedInput})}
+                            required
+                            minimumNights={0}
+                        />
+                    </div>
+
+                    <div className="channelStartTime">
+                        <text>
+                            Start Time
+                        </text>
+                        <MaterialUIPickersStartTime/>
+                    </div>
+                    <div className="channelEndTime">
+                        <text>
+                            End Time
+                        </text>
+                        <MaterialUIPickersEndTime/>
+                    </div>
+
                     <div className="createChannel">
                         <button
                             type="button"
@@ -113,3 +216,55 @@ class CreatePrivateChannel extends Component {
 }
 
 export default CreatePrivateChannel;
+
+
+function MaterialUIPickersStartTime() {
+
+    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T10:00:00'));
+    channelStartTime = Moment(selectedDate).format('HH:mm:ss').toString();
+    const handleDateChange = date => {
+        setSelectedDate(date);
+        channelStartTime = Moment(date).format('HH:mm:ss').toString();
+    };
+    return (
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <Grid container justify="space-around">
+                <KeyboardTimePicker
+                    margin="normal"
+                    id="time-picker"
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    KeyboardButtonProps={{
+                        'aria-label': 'change time',
+                    }}
+                />
+            </Grid>
+        </MuiPickersUtilsProvider>
+    );
+}
+
+function MaterialUIPickersEndTime() {
+
+    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-09-18T17:00:00'));
+    channelEndTime = Moment(selectedDate).format('HH:mm:ss').toString();
+    const handleDateChange = date => {
+        setSelectedDate(date);
+        channelEndTime = Moment(date).format('HH:mm:ss').toString();
+        console.log(channelEndTime);
+    };
+    return (
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <Grid container justify="space-around">
+                <KeyboardTimePicker
+                    margin="normal"
+                    id="time-picker"
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    KeyboardButtonProps={{
+                        'aria-label': 'change time'
+                    }}
+                />
+            </Grid>
+        </MuiPickersUtilsProvider>
+    );
+}

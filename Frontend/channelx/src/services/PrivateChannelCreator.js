@@ -18,15 +18,44 @@ class PrivateChannelCreator {
 
     
 
-    creatNewPrivateChannel(title,creator){
+    // creatNewPrivateChannel(title,creator){
+    //     const messagingChannelCreator=new MessagingChannelCreator();
+    //     const privatePasscodeGenerator=new PrivatePasscodeGenerator();
+    //     let messagingChannelID = (new ChannelIDCreator()).getNewChannelID();
+    //     privatePasscodeGenerator.generatePrivatePasscode(messagingChannelID).then(privatePasscode=>{
+    //         fire.firestore().collection('privateChannels').doc(messagingChannelID).set({
+    //             channelTitle : title,
+    //             channelPassword : privatePasscode,
+    //             channelCreator : creator
+    //         });
+    //         fire.firestore().collection('users').doc(creator).update(
+    //             {
+    //                 privateChannelsCreated: firebase.firestore.FieldValue.arrayUnion(messagingChannelID)
+    //             }
+    //         );
+            
+    //         mypasscode = privatePasscode;
+    //         this.showAlert();
+    //     });
+    //     const type = 'private';
+    //     messagingChannelCreator.createChannel(messagingChannelID, title, creator,type);
+    // }
+
+
+        creatNewPrivateChannel(title, startDate, endDate,startTime,endTime,creator){
         const messagingChannelCreator=new MessagingChannelCreator();
         const privatePasscodeGenerator=new PrivatePasscodeGenerator();
         let messagingChannelID = (new ChannelIDCreator()).getNewChannelID();
         privatePasscodeGenerator.generatePrivatePasscode(messagingChannelID).then(privatePasscode=>{
             fire.firestore().collection('privateChannels').doc(messagingChannelID).set({
-                channelTitle : title,
-                channelPassword : privatePasscode,
-                channelCreator : creator
+            channelTitle : title,
+            channelPassword : privatePasscode,
+            channelStartDate : startDate,
+            channelEndDate : endDate,
+            channelStartTime : startTime,
+            channelEndTime : endTime,
+            channelCreator : creator
+
             });
             fire.firestore().collection('users').doc(creator).update(
                 {
@@ -40,6 +69,9 @@ class PrivateChannelCreator {
         const type = 'private';
         messagingChannelCreator.createChannel(messagingChannelID, title, creator,type);
     }
+
+
+
 
     showAlert() {
 
