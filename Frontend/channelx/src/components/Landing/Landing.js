@@ -5,11 +5,11 @@ Date: 11/12/2019
 */
 
 import React from 'react';
-import './LandingV2.css';
+import './Landing.css';
 import SignupForm from "./SignupForm/SignupForm";
 import LoginForm from "./LoginForm/LoginForm";
 
-class LandingV2 extends React.Component {
+class Landing extends React.Component {
 
     constructor(props) {
         super(props);
@@ -67,8 +67,8 @@ class LandingV2 extends React.Component {
                         <img className="" src={process.env.PUBLIC_URL + '/Title.PNG'}  alt="channelX"/>
                     </div>
                     <div className="landing_header_links">
-                        <a href="AboutUs">about us</a>
-                        <a href="https://github.com/HongfeiJu/ChannelX">user guidance</a>
+                        <a href="AboutUs">About us</a>
+                        <a href="https://github.com/HongfeiJu/ChannelX">FAQs</a>
                     </div>
                 </div>
                 <div className="landing_body">
@@ -112,5 +112,5 @@ class LandingV2 extends React.Component {
     }
 }
 
-export default LandingV2;
+export default Landing;
 
