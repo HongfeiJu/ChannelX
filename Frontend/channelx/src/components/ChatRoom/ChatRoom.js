@@ -90,11 +90,8 @@ class ChatRoom extends Component {
     }
 
     channelNotActiveAlert() {
-
         swal("Channel is not Active Now! ", "Please come back when channel is active", "warning");
     }
-
-
 
     submitMessage() {
         console.log("submit " + this.state.message);
@@ -308,9 +305,14 @@ class ChatRoom extends Component {
 
     render() {
         const currentMessage = this.state.messages.map((message, i) => {
-            return (
-                <ChatMessage key={i} user={message.from} text={message.text} time={message.timeStamp}/>
-            )
+            const today = new Date();
+            const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            console.log(message);
+            if(message.timeStamp.localeCompare(date)>0){
+                return (
+                    <ChatMessage key={i} user={message.from} text={message.text} time={message.timeStamp}/>
+                )
+            }
         });
 
         return (
