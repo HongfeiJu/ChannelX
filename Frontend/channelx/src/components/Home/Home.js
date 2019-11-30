@@ -326,6 +326,63 @@ class Home extends Component {
         });
     };
 
+
+
+    getChannnelDatesandTimesForPrivateChannels = (chid) => {
+
+        // console.log(role);
+        console.log(chid);
+        var channelCreator;
+        var startDate;
+        var endDate;
+        var startTime;
+        var endTime;
+        var time;
+        var today = new Date(),
+            date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        time = Moment(today).format('HH:mm:ss').toString();
+        console.log(date);
+        console.log(time);
+        db.collection("privateChannels").doc(chid)
+            .get()
+            .then(doc => {
+                channelCreator = doc.get("channelCreator");
+                startDate = doc.get("channelStartDate");
+                endDate = doc.get("channelEndDate");
+                startTime = doc.get("channelStartTime");
+                endTime = doc.get("channelEndTime");
+                var nextDay = false;
+                var dt = new Date();
+                var s = startTime.split(':');
+                var e = endTime.split(':');
+                var dt2;
+                if (parseInt(e[0]) - parseInt(s[0]) < 0) {
+                    nextDay = true;
+                }
+                var dt1 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), parseInt(s[0]), parseInt(s[1]), parseInt(s[2]));
+                if (nextDay) {
+                    dt2 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate() + 1, parseInt(e[0]), parseInt(e[1]), parseInt(e[2]));
+                } else {
+                    dt2 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), parseInt(e[0]), parseInt(e[1]), parseInt(e[2]));
+                }
+                var validTime = Moment(dt).isBetween(dt1, dt2);
+                var validDate = Moment(date).isSameOrAfter(startDate) && Moment(date).isSameOrBefore(endDate);
+                if (validDate && validTime) {
+                    this.setState({isChatEnable: true})
+                } else {
+                    this.setState({isChatEnable: false})
+                }
+                console.log("valid state" + this.state.isChatEnable);
+                if (this.state.isChatEnable) {
+                    this.routeTo("/channel/" + doc.id);
+                } else {
+                    this.channelNotActiveAlert(startDate, endDate, startTime, endTime);
+                }
+            }).catch(error => {
+            console.log(`error is ${error}`);
+        });
+    };
+
     getChannelIdforOneTimePasscode = () => {
         console.log("Join Channel clicked");
         var selectedChannel = document.getElementById("SearchChannelText").value;
@@ -592,7 +649,11 @@ class Home extends Component {
                     // alert('Invalid passcode');
                     this.showAlert();
                 } else {
-                    this.routeTo("/channel/" + r.val());
+
+                    this.setState({isPublic: false});
+                    this.getChannnelDatesandTimesForPrivateChannels(r.val());
+                    // console.log(r.val());
+                    // this.routeTo("/channel/" + r.val());
                 }
             });
         } else {
