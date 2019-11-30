@@ -25,9 +25,9 @@ import swal from 'sweetalert';
 import Moment from 'moment';
 import SearchBar from "./SearchBar";
 import MessagingChannelDeleter from "../../services/MessagingChannelDeleter";
-import CreateChannel from "../CreateChannel/CreateChannel";
-import CreatePrivateChannel from "../CreateChannel/CreatePrivateChannel";
-import ChannelInfoEditor from "../CreateChannel/ChannelInfoEditor";
+import CreatePublicChannel from "../ChannelModals/CreatePublicChannel";
+import CreatePrivateChannel from "../ChannelModals/CreatePrivateChannel";
+import ChannelInfoEditor from "../ChannelModals/ChannelInfoEditor";
 
 
 class Home extends Component {
@@ -784,7 +784,7 @@ class Home extends Component {
                         </div>
                     </div>
                     <div className="HomeCreateModal">
-                        <CreateChannel
+                        <CreatePublicChannel
                             show={this.state.showPublic}
                             closePublicModal={this.showPublicModal}
                         />

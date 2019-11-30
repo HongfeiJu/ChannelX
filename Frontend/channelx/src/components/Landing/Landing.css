@@ -14,6 +14,58 @@ Date: 11/12/2019
     overflow: hidden;
 }
 
+.form-wrapper {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 40px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    border-radius: 10px;
+    box-shadow: 0px 10px 50px #555;
+    background-color: #ffffff;
+}
+
+.email {
+    width: 100%;
+}
+
+.LoginButtons {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.LoginButtons button {
+    color: #fff;
+    border: 2px solid #fff;
+    width: 30%;
+    margin-top: 1em;
+    padding: 8px 0px;
+    font-size: 1em;
+    letter-spacing: 1px;
+    margin-bottom: 0.25em;
+    border-radius: 15px;
+}
+
+.LoginButtons button:hover {
+    color: #519e8a;
+    background-color: #fff;
+    border: 2px solid #519e8a;
+}
+
+.loginCancelButton {
+    float: left;
+    background-color: goldenrod;
+}
+
+.loginSubmitButton {
+    float: right;
+    background-color: rebeccapurple;
+}
+
 .landing_header {
     height: 10%;
     width: 100%;
