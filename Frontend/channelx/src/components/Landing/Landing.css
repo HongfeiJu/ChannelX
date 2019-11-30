@@ -1,37 +1,45 @@
 /*
 Description: styling code for landing page
-Authors: Manisha Miriyala
-Date: 9/20/2019
+Authors: Hongfei Ju
+Date: 11/12/2019
 */
 
-+/* Colors */
-    /*
-    dark blue: #476A6F
-    light blue: #258EA6
-    dark green: #519E8A
-    medium green: #7EB09B
-    light green: #A3C4BC
-    */
-
-
-.wrapper {
+.landing_wrapper {
     height: 100vh;
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #7678ED;
+    background-image: url("https://pngimage.net/wp-content/uploads/2018/05/digital-earth-png-6.png");
+    background-size:cover;
+    overflow: hidden;
 }
 
-.LandingRegister {
+.form-wrapper {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 40px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    border-radius: 10px;
+    box-shadow: 0px 10px 50px #555;
+    background-color: #ffffff;
+}
+
+.email {
+    width: 100%;
+}
+
+.LoginButtons {
     width: 100%;
     flex-direction: column;
     align-items: center;
 }
 
-.LandingRegister button {
-    color: #000000;
+.LoginButtons button {
+    color: #fff;
     border: 2px solid #fff;
     width: 30%;
     margin-top: 1em;
@@ -42,57 +50,96 @@ Date: 9/20/2019
     border-radius: 15px;
 }
 
-.LandingRegister button:hover {
-    color: #ffffff;
-    background-color: goldenrod;
+.LoginButtons button:hover {
+    color: #519e8a;
+    background-color: #fff;
     border: 2px solid #519e8a;
 }
 
-.LandingLogin {
+.loginCancelButton {
+    float: left;
+    background-color: goldenrod;
+}
+
+.loginSubmitButton {
+    float: right;
+    background-color: rebeccapurple;
+}
+
+.landing_header {
+    height: 10%;
     width: 100%;
-    flex-direction: column;
-    align-items: center;
+    display: flex;
+    flex-direction: row;
 }
 
-.LandingLogin button {
-    color: #000000;
-    border: 2px solid #fff;
-    width: 15%;
-    margin-top: 1em;
-    padding: 8px 0px;
-    font-size: 1em;
-    letter-spacing: 1px;
-    margin-bottom: 0.25em;
-    border-radius: 15px;
+.landing_header_title {
+    width: 50%;
+    margin-left: 1%;
 }
 
-.LandingLogin button:hover {
-    color: #ffffff;
-    background-color: goldenrod;
-    border: 2px solid #519e8a;
+.landing_header_title > img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+    margin-top: 18%;
 }
 
-.LandingSocialLogin {
+.landing_header_links {
     width: 50%;
     flex-direction: column;
-    align-items: center;
+    justify-content: right;
 }
 
-.LandingSocialLogin button {
-    color: #000000;
-    border: 2px solid #fff;
+.landing_header_links > a {
+    width: 20%;
+    color: white;
+    margin-right: 2%;
+    margin-top:2%;
+    float: right;
+}
+
+.landing_body {
+    height: 89%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.landing_left {
+    width: 50%;
+}
+
+.landing_left_description{
+    height: 80%;
+    width: 80%;
+    margin-top: 28%;
+    margin-left: 15%;
+    color: white;
+    font-size: 1.2em;
+    text-align: justify;
+}
+
+.landing_right {
+    width: 50%;
+}
+
+.landing_right_form {
+    margin-top: 10%;
+}
+
+.landing_right_form_btn{
     width: 30%;
-    margin-top: 1em;
-    padding: 8px 0px;
-    font-size: 1em;
-    letter-spacing: 1px;
-    margin-bottom: 0.25em;
-    border-radius: 15px;
-}
-
-.LandingSocialLogin button:hover {
-    color: #ffffff;
-    background-color: goldenrod;
-    border: 2px solid #519e8a;
+    height: 50%;
+    background-color: white;
+    border-bottom: 0px solid white;
+    border-right: 1px solid grey;
+    border-left: 1px solid grey;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-size: 1.5em;
+    font-weight: bold;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
