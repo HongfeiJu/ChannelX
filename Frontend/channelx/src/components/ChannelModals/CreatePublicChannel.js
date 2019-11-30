@@ -26,7 +26,7 @@ let channelStartTime = null;
 let channelEndTime = null;
 
 
-class CreateChannel extends Component {
+class CreatePublicChannel extends Component {
 
     constructor(props) {
         super(props);
@@ -217,7 +217,7 @@ class CreateChannel extends Component {
     }
 }
 
-export default CreateChannel;
+export default CreatePublicChannel;
 
 
 function MaterialUIPickersStartTime() {
