@@ -214,6 +214,24 @@ class Home extends Component {
             });
     }
 
+    leaveChannelAlert(channelTitle) {
+        swal({
+            title: "Are you sure?",
+            text: "After you leave this channel, You can join it back again!",
+            icon: "warning",
+            buttons: ["Cancel", "Yes Leave!"],
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    swal("Poof! You have left the channel successfully!", {
+                        icon: "success",
+                    });
+                    this.leaveChannelClicked(channelTitle);
+                }
+            });
+    }
+
     alreadyDelectedChannelAccessAlert() {
         swal({
             title: "Channel Already Deleted !",
@@ -450,6 +468,7 @@ class Home extends Component {
             });
         let filtered_list = this.state.userCreatedChannels.filter(ele => ele != channelTitle)
         let filteredData = this.state.filteredData.filter(ele => ele != channelTitle)
+        let channelsForSearch = this.state.channelsForSearch.filter(ele => ele != channelTitle)
         let data = this.state.data.filter(ele => ele != channelTitle)
         console.log("Original List: ", this.state.userCreatedChannels)
         console.log("Filtered List: ", filtered_list)
@@ -457,7 +476,23 @@ class Home extends Component {
             userCreatedChannels: filtered_list,
             filtered: filtered_list,
             data: data,
-            filteredData: filteredData
+            filteredData: filteredData,
+            channelsForSearch: channelsForSearch
+
+        });
+    };
+
+
+    leaveChannelClicked = (channelTitle) => {
+
+        let userParticipatedChannels = this.state.userParticipatedChannels.filter(ele => ele != channelTitle)
+        let filteredParticipated = this.state.filteredParticipated.filter(ele => ele != channelTitle)
+        
+        console.log("Original List: ", this.state.userParticipatedChannels)
+        console.log("Filtered List: ", filteredParticipated)
+        this.setState({
+            userParticipatedChannels: userParticipatedChannels,
+            filteredParticipated: filteredParticipated
         });
     };
 
@@ -511,7 +546,12 @@ class Home extends Component {
             return (
                 <ListItem button onClick={() => this.participatedChannelListItemClick(channelTitle)}>
                     <ListItemText primary={channelTitle}/>
-                    <Divider/>
+                    
+                    <ListItemSecondaryAction>
+                        <IconButton edge="end" aria-label="delete">
+                            <DeleteIcon button onClick={() => this.leaveChannelAlert(channelTitle)}/>
+                        </IconButton>
+                    </ListItemSecondaryAction>
                 </ListItem>
             )
         })
