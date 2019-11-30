@@ -170,7 +170,6 @@ class CreatePrivateChannel extends Component {
                             minimumNights={0}
                         />
                     </div>
-
                     <div className="channelStartTime">
                         <text>
                             Start Time
