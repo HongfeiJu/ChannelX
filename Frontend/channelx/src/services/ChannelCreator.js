@@ -30,7 +30,7 @@ class ChannelCreator {
         );
         const type = 'public';
         messagingChannelCreator.createChannel(messagingChannelID, title, creator,type);
-        // alert('channel created');
+        alert('channel created');
     }
 }
 

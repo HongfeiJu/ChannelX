@@ -1,7 +1,7 @@
 /*
 description: get channel id by private passcode
 author: Hongfei Ju
-date: 11/4/2019
+date: 11/42019
  */
 
 import firebase from "firebase";
