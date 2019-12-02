@@ -18,16 +18,16 @@ class EmailSent extends React.Component {
     render() {
         return (
             <div className="landing_wrapper">
-            <div className="landing_emailSent">
-                <p> Thank you for registering. To login, please verify your account. </p>
-                <div className="landing_emailSentbody">
+            <div className="signUp_form_emailSent">
+                <p> Thank you for registering. To login, please verify your account </p>
+                <div className="signUp_form_emailSentbody">
                     <p> An email has been sent to your email address with a link to verify your account</p>  
                 </div>
-                <div className="signup_form_login">
+                <div>
                     <button
                         type="button"
                         style={{marginLeft: "auto"}}
-                        className="LandingLogin"
+                        className="signUp_form_login"
                         onClick={() => this.routeTo(ROUTES.LANDING)}
                     >Login
                     </button>

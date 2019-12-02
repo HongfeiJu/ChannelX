@@ -4,17 +4,17 @@ Author: Manisha Miriyala
 Date: 11/30/2019
 */
 
-.landing_emailSent{
+.signUp_form_emailSent{
     color: white;
     margin-top: auto;
     margin-bottom: auto;
     margin-left: auto;
     margin-right: auto;
     font-style: normal;
-    font-size: 3ch;
+    font-size: 3.5ch;
 }
 
-.landing_emailSentbody{
+.signUp_form_emailSentbody{
     color: white;
     margin-top: auto;
     margin-bottom: auto;
@@ -23,11 +23,11 @@ Date: 11/30/2019
     font-size: 1.5ch;
 }
 
-.signup_form_login button {
+.signUp_form_login {
     background-color: darkblue;
     color: white;
     border: 1px solid #fff;
-    width: 20%;
+    width: 15%;
     margin-top: 1em;
     padding: 8px 0px;
     font-size: 1em;
