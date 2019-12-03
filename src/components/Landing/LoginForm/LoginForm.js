@@ -80,12 +80,13 @@ class LoginForm extends Component {
             firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
         }).then(() => {
             setTimeout(e => {
-                if(this.state.emailVerified === true)
-                    this.routeTo(ROUTES.HOME);
-                else {
-                    this.setState({fireLoginErrors: "Kindly verify your email before you login"})
+                if(this.state.emailVerified === false){
+                    this.setState({fireLoginErrors: "Kindly verify your email before you login"});
                 }
-            }, 500);
+                else {
+                    this.routeTo(ROUTES.HOME);
+                }
+            }, 1000);
         }).catch((error) => {
           console.log(error);
           this.setState({fireLoginErrors : error.message})

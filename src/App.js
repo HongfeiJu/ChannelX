@@ -14,10 +14,7 @@ import AboutUs from "./components/Landing/AboutUs/AboutUs";
 import ChatRoom from "./components/ChatRoom/ChatRoom";
 import TestPage from "./components/TestPage/TestPage";
 import * as ROUTES from './constants/routes';
-import CreatePublicChannel from "./components/ChannelModals/CreatePublicChannel";
-import CreatePrivateChannel from "./components/ChannelModals/CreatePrivateChannel";
 import Landing from "./components/Landing/Landing";
-import ChannelInfoEditor from './components/ChannelModals/ChannelInfoEditor';
 
 
 
@@ -55,9 +52,6 @@ class App extends Component {
                         <Route path={ROUTES.CHAT_PAGE}  exact component={ChatRoom}/>
                         <Route path={ROUTES.TEST_PAGE}  exact component={TestPage}/>
                         <Route path={ROUTES.ABOUTUS}  exact component={AboutUs}/>
-                        <Route path={ROUTES.CREATE_CHANNEL} exact component={CreatePublicChannel}/>
-                        <Route path={ROUTES.EDIT_CHANNEL} exact component={ChannelInfoEditor}/>
-                        <Route path={ROUTES.CREATE_PRIVATE_CHANNEL} exact component={CreatePrivateChannel}/>
                     </div>
                 </Router>
             </div>
