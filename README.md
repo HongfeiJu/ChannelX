@@ -4,7 +4,9 @@ SER517 Fall 2019 Group 4 project
 
 A react based Web application developed using Firebase.
 
-ChannelX will make it possible to create, share, and destroy transient communication channels. These channels should be tied to users existing communication streams (e-mail, Social accounts etc.) without exposing the users actual phone number or e-mail address.
+ChannelX will make it possible to create, share, and destroy transient communication channels. These channels are tied to users existing communication streams (e-mail, Social accounts etc.) without exposing the users actual phone number or e-mail address.
+
+The application is available to use through https://channelx-714c6.firebaseapp.com/
 
 The application is developed by:
 1. Darshan Prakash
