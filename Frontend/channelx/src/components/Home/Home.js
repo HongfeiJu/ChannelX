@@ -25,9 +25,9 @@ import swal from 'sweetalert';
 import Moment from 'moment';
 import SearchBar from "./SearchBar";
 import MessagingChannelDeleter from "../../services/MessagingChannelDeleter";
-import CreateChannel from "../CreateChannel/CreateChannel";
-import CreatePrivateChannel from "../CreateChannel/CreatePrivateChannel";
-import ChannelInfoEditor from "../CreateChannel/ChannelInfoEditor";
+import CreatePublicChannel from "../ChannelModals/CreatePublicChannel";
+import CreatePrivateChannel from "../ChannelModals/CreatePrivateChannel";
+import ChannelInfoEditor from "../ChannelModals/ChannelInfoEditor";
 
 
 class Home extends Component {
@@ -214,6 +214,24 @@ class Home extends Component {
             });
     }
 
+    leaveChannelAlert(channelTitle) {
+        swal({
+            title: "Are you sure?",
+            text: "After you leave this channel, You can join it back again!",
+            icon: "warning",
+            buttons: ["Cancel", "Yes Leave!"],
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    swal("Poof! You have left the channel successfully!", {
+                        icon: "success",
+                    });
+                    this.leaveChannelClicked(channelTitle);
+                }
+            });
+    }
+
     alreadyDelectedChannelAccessAlert() {
         swal({
             title: "Channel Already Deleted !",
@@ -300,6 +318,63 @@ class Home extends Component {
                     if (this.state.isPublic && (channelCreator !== fire.auth().currentUser.uid)) {
                         this.addJoinedChannel(doc.id);
                     }
+                } else {
+                    this.channelNotActiveAlert(startDate, endDate, startTime, endTime);
+                }
+            }).catch(error => {
+            console.log(`error is ${error}`);
+        });
+    };
+
+
+
+    getChannnelDatesandTimesForPrivateChannels = (chid) => {
+
+        // console.log(role);
+        console.log(chid);
+        var channelCreator;
+        var startDate;
+        var endDate;
+        var startTime;
+        var endTime;
+        var time;
+        var today = new Date(),
+            date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        time = Moment(today).format('HH:mm:ss').toString();
+        console.log(date);
+        console.log(time);
+        db.collection("privateChannels").doc(chid)
+            .get()
+            .then(doc => {
+                channelCreator = doc.get("channelCreator");
+                startDate = doc.get("channelStartDate");
+                endDate = doc.get("channelEndDate");
+                startTime = doc.get("channelStartTime");
+                endTime = doc.get("channelEndTime");
+                var nextDay = false;
+                var dt = new Date();
+                var s = startTime.split(':');
+                var e = endTime.split(':');
+                var dt2;
+                if (parseInt(e[0]) - parseInt(s[0]) < 0) {
+                    nextDay = true;
+                }
+                var dt1 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), parseInt(s[0]), parseInt(s[1]), parseInt(s[2]));
+                if (nextDay) {
+                    dt2 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate() + 1, parseInt(e[0]), parseInt(e[1]), parseInt(e[2]));
+                } else {
+                    dt2 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), parseInt(e[0]), parseInt(e[1]), parseInt(e[2]));
+                }
+                var validTime = Moment(dt).isBetween(dt1, dt2);
+                var validDate = Moment(date).isSameOrAfter(startDate) && Moment(date).isSameOrBefore(endDate);
+                if (validDate && validTime) {
+                    this.setState({isChatEnable: true})
+                } else {
+                    this.setState({isChatEnable: false})
+                }
+                console.log("valid state" + this.state.isChatEnable);
+                if (this.state.isChatEnable) {
+                    this.routeTo("/channel/" + doc.id);
                 } else {
                     this.channelNotActiveAlert(startDate, endDate, startTime, endTime);
                 }
@@ -450,6 +525,7 @@ class Home extends Component {
             });
         let filtered_list = this.state.userCreatedChannels.filter(ele => ele != channelTitle)
         let filteredData = this.state.filteredData.filter(ele => ele != channelTitle)
+        let channelsForSearch = this.state.channelsForSearch.filter(ele => ele != channelTitle)
         let data = this.state.data.filter(ele => ele != channelTitle)
         console.log("Original List: ", this.state.userCreatedChannels)
         console.log("Filtered List: ", filtered_list)
@@ -457,7 +533,23 @@ class Home extends Component {
             userCreatedChannels: filtered_list,
             filtered: filtered_list,
             data: data,
-            filteredData: filteredData
+            filteredData: filteredData,
+            channelsForSearch: channelsForSearch
+
+        });
+    };
+
+
+    leaveChannelClicked = (channelTitle) => {
+
+        let userParticipatedChannels = this.state.userParticipatedChannels.filter(ele => ele != channelTitle)
+        let filteredParticipated = this.state.filteredParticipated.filter(ele => ele != channelTitle)
+        
+        console.log("Original List: ", this.state.userParticipatedChannels)
+        console.log("Filtered List: ", filteredParticipated)
+        this.setState({
+            userParticipatedChannels: userParticipatedChannels,
+            filteredParticipated: filteredParticipated
         });
     };
 
@@ -511,7 +603,12 @@ class Home extends Component {
             return (
                 <ListItem button onClick={() => this.participatedChannelListItemClick(channelTitle)}>
                     <ListItemText primary={channelTitle}/>
-                    <Divider/>
+                    
+                    <ListItemSecondaryAction>
+                        <IconButton edge="end" aria-label="delete">
+                            <DeleteIcon button onClick={() => this.leaveChannelAlert(channelTitle)}/>
+                        </IconButton>
+                    </ListItemSecondaryAction>
                 </ListItem>
             )
         })
@@ -552,7 +649,11 @@ class Home extends Component {
                     // alert('Invalid passcode');
                     this.showAlert();
                 } else {
-                    this.routeTo("/channel/" + r.val());
+
+                    this.setState({isPublic: false});
+                    this.getChannnelDatesandTimesForPrivateChannels(r.val());
+                    // console.log(r.val());
+                    // this.routeTo("/channel/" + r.val());
                 }
             });
         } else {
@@ -744,7 +845,7 @@ class Home extends Component {
                         </div>
                     </div>
                     <div className="HomeCreateModal">
-                        <CreateChannel
+                        <CreatePublicChannel
                             show={this.state.showPublic}
                             closePublicModal={this.showPublicModal}
                         />

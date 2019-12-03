@@ -1,32 +1,31 @@
 /*
-Description: Create Channel Page
-Authors: Darshan Prakash, Muhammad Sami
+Description: Create Private Channel Page
+Authors: Darshan Prakash, Sami
 Date: 11/14/2019
 */
 
 import React, {Component} from 'react';
 import './CreateChannel.css'
 import * as ROUTES from "../../constants/routes";
-import ChannelCreator from "../../services/ChannelCreator";
+import PrivateChannelCreator from "../../services/PrivateChannelCreator";
 import 'react-dates/initialize';
-import {DateRangePicker} from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
-import Moment from 'moment';
 import 'date-fns';
-import Grid from '@material-ui/core/Grid';
-import DateFnsUtils from '@date-io/date-fns';
-import {MuiPickersUtilsProvider, KeyboardTimePicker} from '@material-ui/pickers';
 import firebase from "firebase";
+import {DateRangePicker} from 'react-dates';
+import Moment from 'moment';
+import {MuiPickersUtilsProvider, KeyboardTimePicker} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import Grid from '@material-ui/core/Grid';
 import swal from 'sweetalert';
 
 
-let channelStartDate = null;
-let channelEndDate = null;
 let channelStartTime = null;
 let channelEndTime = null;
+let channelStartDate = null;
+let channelEndDate = null;
 
-
-class CreateChannel extends Component {
+class CreatePrivateChannel extends Component {
 
     constructor(props) {
         super(props);
@@ -34,11 +33,9 @@ class CreateChannel extends Component {
         this.handlechannelChange = this.handlechannelChange.bind(this);
         this.state = {
             channelTitle: null,
-            channelPassword: null,
             alert: null,
             errors: {
                 channelTitle: "",
-                channelPassword: "",
             }
         }
     }
@@ -69,14 +66,13 @@ class CreateChannel extends Component {
         switch (name) {
             case 'channelTitle':
                 break;
-            case 'channelPassword':
-                formErrors.channelPassword = value.length < 10 || value.length > 16 ? 'password length should be between 10 and 16 characters' : '';
-                break;
             default:
                 break;
         }
         this.setState({formErrors, [name]: value}, () => console.log(this.state));
     };
+
+
 
     showAlert() {
         swal({
@@ -94,6 +90,9 @@ class CreateChannel extends Component {
     }
 
     createChannel(e) {
+
+
+
         e.preventDefault();
         console.log(channelStartTime);
         console.log(channelEndTime);
@@ -103,10 +102,9 @@ class CreateChannel extends Component {
         }
         if (channelEndTime > channelStartTime && sameDay) {
             // alert('channel created');
-            const channelCreator = new ChannelCreator();
-            channelCreator.creatNewChannel(
+            const privateChannelCreator = new PrivateChannelCreator();
+            privateChannelCreator.creatNewPrivateChannel(
                 this.state.channelTitle,
-                this.state.channelPassword,
                 channelStartDate,
                 channelEndDate,
                 channelStartTime,
@@ -114,10 +112,9 @@ class CreateChannel extends Component {
                 this.state.UUID);
             this.showAlert();
         } else if (!sameDay) {
-            const channelCreator = new ChannelCreator();
-            channelCreator.creatNewChannel(
+            const privateChannelCreator = new PrivateChannelCreator();
+            privateChannelCreator.creatNewPrivateChannel(
                 this.state.channelTitle,
-                this.state.channelPassword,
                 channelStartDate,
                 channelEndDate,
                 channelStartTime,
@@ -127,20 +124,23 @@ class CreateChannel extends Component {
         } else {
             this.showTimeAlert();
         }
+
     }
 
     routeTo = (path) => this.props.history.push(path);
 
     render() {
-        if (!this.props.show) {
+        if (!this.props.show){
             return null;
         }
+
         channelStartDate = Moment(this.state.startDate).format('MM/DD/YYYY').toString();
         channelEndDate = Moment(this.state.endDate).format('MM/DD/YYYY').toString();
+
         return (
             <div className="CreateChannelForm">
                 <form onSubmit={this.createChannel}>
-                    <div className="ModalArrowLeft">
+                    <div className="ModalArrowRight">
                         &#11014;
                     </div>
                     <div className="channelTitle">
@@ -153,20 +153,7 @@ class CreateChannel extends Component {
                             onChange={this.handlechannelChange}
                         ></input>
                     </div>
-                    <div className="channelPassword">
-                        <input
-                            type="text"
-                            pattern=".{10,16}"
-                            id="channelPassword"
-                            placeholder="Passcode"
-                            name="channelPassword"
-                            required
-                            onChange={this.handlechannelChange}
-                        ></input>
-                        {this.state.errors.channelPassword.length > 0 && (
-                            <span className="errorMessage">{this.state.errors.channelPassword}</span>
-                        )}
-                    </div>
+
                     <div className="datePicker">
                         <DateRangePicker
                             startDate={this.state.startDate}
@@ -195,12 +182,13 @@ class CreateChannel extends Component {
                         </text>
                         <MaterialUIPickersEndTime/>
                     </div>
+
                     <div className="createChannel">
                         <button
                             type="button"
                             id="cancelButton"
                             className="leaveButton"
-                            onClick={()=>{this.props.closePublicModal()}}
+                            onClick={() => {this.props.closePrivateModal()}}
                         >Close
                         </button>
                         <button
@@ -209,15 +197,15 @@ class CreateChannel extends Component {
                             className="createButton"
                         >Create
                         </button>
-                        {this.state.alert}
                     </div>
+                    <hr/>
                 </form>
             </div>
         );
     }
 }
 
-export default CreateChannel;
+export default CreatePrivateChannel;
 
 
 function MaterialUIPickersStartTime() {
