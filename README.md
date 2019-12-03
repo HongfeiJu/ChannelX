@@ -1,16 +1,21 @@
 # ChannelX
+
 SER517 Fall 2019 Group 4 project
 
-Team Members:
-Darshan Prakash
-Hongfei Ju
-Manisha Miriyala
-Muhammed Sami
-Subhradeep Biswas
+A react based Web application developed using Firebase.
+
+ChannelX will make it possible to create, share, and destroy transient communication channels. These channels should be tied to users existing communication streams (e-mail, Social accounts etc.) without exposing the users actual phone number or e-mail address.
+
+The application is developed by:
+1. Darshan Prakash
+2. Hongfei Ju
+3. Manisha Miriyala
+4. Muhammed Sami
+5. Subhradeep Biswas
 
 Instructions to run the application
-1. After cloning the project, open command prompt in our source directory, channelx in the Frontend folder.
-2. Make sure npm is installed and make sure you are using version 9.x.x.
+1. After cloning the project, open command prompt in our source directory.
+2. Make sure npm is installed and make sure you are using version 11.x.x.
 3. Clone the repository and run ```npm install``` to install node modules in Frontend/channelx/ which is the project root directory.
 4. Run ```npm install --save firebase``` to save firebase modules.
 5. Run ```npm install --save @material-ui/core``` to save modal modules.
