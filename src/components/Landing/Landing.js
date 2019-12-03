@@ -76,9 +76,9 @@ class Landing extends React.Component {
                         <div className="landing_left_description">
                             <p> ChannelX will make it possible to create, share, and destroy transient communication
                                 channels. </p>
-                            <p> These channels should be tied to users existing communication streams (e-mail, Social accounts
+                            <p> These channels are tied to your existing communication streams (e-mail, Social accounts,
                                 etc.)
-                                without exposing the users actual phone number or e-mail address.</p>
+                                without exposing your personal information.</p>
                         </div>
                     </div>
                     <div className="landing_right">
