@@ -1,5 +1,5 @@
 /*
-Description: Basic routing for landing page and register page
+Description: Root js for react application
 Author: Hongfei Ju, Darshan Prakash, Manisha, Sami
 Date: 10/02/2019
 */

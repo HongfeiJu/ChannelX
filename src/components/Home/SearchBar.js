@@ -1,3 +1,10 @@
+/*
+Description: Search bar in home page
+Authors: Darshan Prakash
+Date: 11/12/2019
+*/
+
+
 import React from 'react';
 import './SearchBar.css'
 

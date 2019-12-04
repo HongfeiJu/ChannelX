@@ -1,3 +1,9 @@
+/*
+Description: About us page from Landing page
+Authors: Subhradeep Biswas
+Date: 11/17/2019
+*/
+
 import React from 'react';
 import './AboutUs.css';
 
@@ -44,7 +50,7 @@ class AboutUs extends React.Component {
                                 <div className="col-xs-6 col-md-4">
                                     <div className="company-icons-white">
                                         <i className="fa fa-clock-o" aria-hidden="true"></i>
-                                        <p><b><u>Manisha</u></b></p>
+                                        <p><b><u>Manisha Miriyala</u></b></p>
                                         <p className="company-icons-subtext hidden-xs"><i>A dedicated developer in both
                                             frontend and backend of ChannelX web app.</i></p>
                                     </div>

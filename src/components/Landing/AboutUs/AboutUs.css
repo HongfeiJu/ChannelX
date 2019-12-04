@@ -1,3 +1,9 @@
+/*
+Description: Beautify About us page from Landing page
+Authors: Subhradeep Biswas
+Date: 11/17/2019
+*/
+
 .separator-type, .title-type, .intro-type, .content-type .intro-type p {
     position: relative;
 }
