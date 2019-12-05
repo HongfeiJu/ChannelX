@@ -3,58 +3,91 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    background: url("Abstract-Envelope.svg");
     background-size: cover;
 }
 
 .home_header {
     width: 100%;
-    height: 5%;
+    height: 10%;
+    background-image: url("https://wallpapertag.com/wallpaper/full/d/f/7/441351-full-size-dark-blue-background-images-1920x1080-windows-xp.jpg");
     display: flex;
-    background-color: red;
-    alignment: right;
-    horiz-align: right;
+    flex-direction: row-reverse;
+    alignment: left;
+    border-bottom: 2px solid black;
+    color: floralwhite;
 }
 
 .home_header_name {
     height: 100%;
     width:15%;
-    background-color: deepskyblue;
-    float:right;
+    font-size: 15px;
+    margin-top: 1%;
 }
 
 .home_header_logout {
     height: 100%;
     width:15%;
-    background-color: lightgrey;
     margin-right: 0px;
-    float:right;
+    margin-top: 1%;
+}
+
+.home_header_logout button{
+    background-color: Transparent;
+    border:0px;
+    color:white;
+    font-size: 15px;
 }
 
 .home_body {
     width:100%;
-    height: 95%;
+    height: 90%;
     display: flex;
     flex-direction: row;
     background-color: white;
 }
 
-.home_create_join {
+.home_body_control {
     height:100%;
-    width:33%;
-    background-color: red;
+    width:25%;
+    background-color: white;
+}
+
+.home_body_control button{
+    width:90%;
+    height:10%;
+    background-color: white;
+    text-align: left;
+    padding: 5%;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 1px solid lightgrey;
+}
+
+.home_body_control button:hover{
+    background-color: lightgrey;
+    outline: none;
+}
+
+.home_body_operate {
+    height:100%;
+    width:75%;
+    background-color: lightyellow;
+}
+
+.home_create_join {
+    padding: 5%;
+    width:100%;
 }
 
 .home_created_channels{
-    height:100%;
-    width:33%;
-    background-color: darkred;
+    padding: 5%;
+    width:100%;
 }
 
 .home_participated_channels{
-    height:100%;
-    width:33%;
-    background-color: indianred;
+    padding: 5%;
+    width:100%;
 }
 /*
 .HomeCreateNew {

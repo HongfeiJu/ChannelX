@@ -33,7 +33,9 @@ import ChannelInfoEditor from "../ChannelModals/ChannelInfoEditor";
 class Home extends Component {
     constructor(props) {
         super(props);
+        this.content = 'participated';
         this.logout = this.logout.bind(this);
+        this.switchContent = this.switchContent.bind(this);
         this.channelIDGetter = new ChannelIDGetter();
         this.passcodeChecker = new PasscodeChecker();
     }
@@ -766,6 +768,111 @@ class Home extends Component {
         }
     };
 
+    switchContent(newContent) {
+        this.setState({content: newContent})
+    }
+
+    showContent(){
+        if(this.state.content === 'mine'){
+            return <div>
+                <div className="home_create_join">
+                    <div className="HomeCreateNew">
+                        <button
+                            type="button"
+                            className="HomeCreatePublicButton"
+                            onClick={this.showPublicModal}
+                        >Create Public
+                        </button>
+                        <button
+                            type="button"
+                            className="HomeCreatePrivateButton"
+                            onClick={this.showPrivateModal}
+                        >Create Private
+                        </button>
+                    </div>
+                    <div className="HomeCreateModal">
+                        <CreatePublicChannel
+                            show={this.state.showPublic}
+                            closePublicModal={this.showPublicModal}
+                        />
+                        <CreatePrivateChannel
+                            show={this.state.showPrivate}
+                            closePrivateModal={this.showPrivateModal}
+                        />
+                        <ChannelInfoEditor
+                            show={this.state.showEditor}
+                            id={this.state.editChannelId}
+                            closeEditModal={this.showEditModal}
+                        />
+                    </div>
+                </div>
+                <div className="home_created_channels">
+                    <div className="CreatedList">
+                        <div className="channelsList">
+                            <div id="SearchCreated">
+                                <input className="searchInput"
+                                       placeholder="Search Created Channels"
+                                       value={this.state.query_participate}
+                                       onChange={this.handleInputChangeCreated}/>
+                            </div>
+                            <div className="searchFormCreated">
+                                <div>
+                                    <List>
+                                        {this.userCreatedChannels()}
+                                    </List>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }else if(this.state.content === 'find'){
+            return <div className="home_body_operate_join">
+                <div className="SearchBarComponent">
+                    <SearchBar items={this.state.channelsForSearch}/>
+                </div>
+                <div className="HomePasscodeInput">
+                    <input
+                        type="text"
+                        name="passcodeText"
+                        id="passcodeText"
+                        placeholder="Enter passcode"
+                    />
+                    <button
+                        type="button"
+                        onClick={() => {
+                            this.checkPasscode()
+                        }}
+                    >Join
+                    </button>
+                </div>
+            </div>
+        }else if(this.state.content === 'new'){
+            return
+        }else{
+            return <div className="home_participated_channels">
+                <div className="ParticipatedList">
+                    <div className="channelsListParticipated">
+                        <div id="SearchParticipated">
+                            <input className="searchInputParticipated"
+                                   placeholder="Search participated Channels"
+                                   value={this.state.query_participate1}
+                                   onChange={this.handleInputChangeParticipated}/>
+                        </div>
+                        <div className="searchFormParticipated">
+                            <div>
+                                <List>
+                                    {this.userParticipatedChannels()}
+                                </List>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
     render() {
         const {filteredData} = this.state;
         let channelList = filteredData.length > 0
@@ -786,9 +893,6 @@ class Home extends Component {
         return (
             <div className="home">
                 <div className="home_header">
-                    <div className="home_header_name">
-                        <p>Hello {this.state.displayName}</p>
-                    </div>
                     <div className="home_header_logout">
                         <button
                             type="button"
@@ -796,95 +900,35 @@ class Home extends Component {
                         >Logout
                         </button>
                     </div>
+                    <div className="home_header_name">
+                        <p>Hello {this.state.displayName}</p>
+                    </div>
                 </div>
                 <div className="home_body">
-                    <div className="home_create_join">
-                        <div className="SearchBarComponent">
-                            <SearchBar items={this.state.channelsForSearch}/>
-                        </div>
-                        <div className="HomePasscodeInput">
-                            <input
-                                type="text"
-                                name="passcodeText"
-                                id="passcodeText"
-                                placeholder="Enter passcode"
-                            />
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    this.checkPasscode()
-                                }}
-                            >Join
-                            </button>
-                        </div>
-                        <div className="HomeCreateNew">
-                            <button
-                                type="button"
-                                className="HomeCreatePublicButton"
-                                onClick={this.showPublicModal}
-                            >Create Public
-                            </button>
-                            <button
-                                type="button"
-                                className="HomeCreatePrivateButton"
-                                onClick={this.showPrivateModal}
-                            >Create Private
-                            </button>
-                        </div>
-                        <div className="HomeCreateModal">
-                            <CreatePublicChannel
-                                show={this.state.showPublic}
-                                closePublicModal={this.showPublicModal}
-                            />
-                            <CreatePrivateChannel
-                                show={this.state.showPrivate}
-                                closePrivateModal={this.showPrivateModal}
-                            />
-                            <ChannelInfoEditor
-                                show={this.state.showEditor}
-                                id={this.state.editChannelId}
-                                closeEditModal={this.showEditModal}
-                            />
-                        </div>
+                    <div className="home_body_control">
+                        <button
+                            type="button"
+                            onClick={()=>this.switchContent('mine')}
+                        >
+                            My Channels
+                        </button>
+                        <button
+                            type="button"
+                            onClick={()=>this.switchContent('participated')}
+                        >
+                            Participated Channels
+                        </button>
+                        <button
+                            type="button"
+                            onClick={()=>this.switchContent('find')}
+                        >
+                            Find a Channel
+                        </button>
                     </div>
-                    <div className="home_created_channels">
-                        <div className="CreatedList">
-                            <div className="channelsList">
-                                <div id="SearchCreated">
-                                    <input className="searchInput"
-                                           placeholder="Search Created Channels"
-                                           value={this.state.query_participate}
-                                           onChange={this.handleInputChangeCreated}/>
-                                </div>
-                                <div className="searchFormCreated">
-                                    <div>
-                                        <List>
-                                            {this.userCreatedChannels()}
-                                        </List>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div className="home_body_operate">
+                        {this.showContent()}
                     </div>
-                    <div className="home_participated_channels">
-                        <div className="ParticipatedList">
-                            <div className="channelsListParticipated">
-                                <div id="SearchParticipated">
-                                    <input className="searchInputParticipated"
-                                           placeholder="Search participated Channels"
-                                           value={this.state.query_participate1}
-                                           onChange={this.handleInputChangeParticipated}/>
-                                </div>
-                                <div className="searchFormParticipated">
-                                    <div>
-                                        <List>
-                                            {this.userParticipatedChannels()}
-                                        </List>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         );
